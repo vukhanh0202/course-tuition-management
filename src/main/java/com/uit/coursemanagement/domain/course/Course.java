@@ -5,6 +5,7 @@ import com.uit.coursemanagement.domain.SqlEntity;
 import com.uit.coursemanagement.domain.calendar.join.CourseCalendarCreation;
 import com.uit.coursemanagement.domain.user.User;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
