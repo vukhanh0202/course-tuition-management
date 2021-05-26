@@ -1,6 +1,6 @@
 package com.uit.coursemanagement.service.auth;
 
-import com.uit.coursemanagement.repository.UserRepository;
+import com.uit.coursemanagement.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

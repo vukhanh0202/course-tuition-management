@@ -2,7 +2,7 @@ package com.uit.coursemanagement.configuration;
 
 import com.uit.coursemanagement.data.UserPrincipal;
 import com.uit.coursemanagement.domain.user.User;
-import com.uit.coursemanagement.repository.UserRepository;
+import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.auth.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
