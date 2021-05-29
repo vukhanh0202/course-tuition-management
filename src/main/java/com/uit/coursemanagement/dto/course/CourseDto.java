@@ -20,6 +20,6 @@ public class CourseDto {
     @JsonProperty("credit_quantity")
     private Long creditQuantity;
 
-    @JsonProperty("credit_quantity")
+    @JsonProperty("type_course")
     private ETypeCourse typeCourse;
 }

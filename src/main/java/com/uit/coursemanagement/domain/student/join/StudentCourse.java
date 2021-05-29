@@ -1,5 +1,6 @@
 package com.uit.coursemanagement.domain.student.join;
 
+import com.uit.coursemanagement.constant.enums.ECourseStudentStatus;
 import com.uit.coursemanagement.constant.enums.EFeeStatus;
 import com.uit.coursemanagement.domain.SqlEntity;
 import com.uit.coursemanagement.domain.calendar.CalendarDetail;
@@ -32,4 +33,7 @@ public class StudentCourse extends SqlEntity {
     @MapsId("courseId")
     @JoinColumn(name = "course_id")
     private Course course;
+
+    @Enumerated(EnumType.STRING)
+    private ECourseStudentStatus status;
 }

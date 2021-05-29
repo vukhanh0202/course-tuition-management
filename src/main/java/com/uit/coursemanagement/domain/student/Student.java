@@ -38,12 +38,14 @@ public class Student extends SqlEntity {
 
     private Long creditQuantityPresent;
 
+    private Long creditQuantityDebt;
+
     @Enumerated(EnumType.STRING)
     private EFeeStatus feeStatus;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
-    private List<CourseCalendarCreation> courseCalendarCreations;
+    private List<CourseCalendarCreation> courseCalendarCreations = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
-    private List<StudentCourse> studentCourses;
+    private List<StudentCourse> studentCourses = new ArrayList<>();
 }

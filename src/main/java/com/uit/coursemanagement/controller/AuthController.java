@@ -64,7 +64,7 @@ public class AuthController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException | BadCredentialsException e) {
-            throw new ForbiddenException(messageHelper.getMessage(MessageCode.User.USER_NOT_FOUND,username));
+            throw new ForbiddenException(messageHelper.getMessage(MessageCode.User.NOT_FOUND,username));
         }
     }
 }

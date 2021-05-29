@@ -2,6 +2,7 @@ package com.uit.coursemanagement.service.student.impl;
 
 import com.uit.coursemanagement.service.student.ICountAllUserStudentService;
 import com.uit.coursemanagement.service.student.IFindAllUserStudentService;
+import com.uit.coursemanagement.service.student.IFindDetailStudentService;
 import com.uit.coursemanagement.service.student.IStudentService;
 import com.uit.coursemanagement.service.user.IUserService;
 import lombok.Getter;
@@ -19,5 +20,8 @@ public class StudentServiceImpl implements IStudentService {
 
     @Autowired
     private ICountAllUserStudentService countAllUserStudentService;
+
+    @Autowired
+    private IFindDetailStudentService findDetailStudentService;
 
 }

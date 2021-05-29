@@ -1,6 +1,7 @@
 package com.uit.coursemanagement.controller;
 
 import com.uit.coursemanagement.constant.AppConstant;
+import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.dto.response.PaginationResponse;
 import com.uit.coursemanagement.service.student.IFindAllUserStudentService;
 import com.uit.coursemanagement.service.student.IStudentService;
@@ -46,6 +47,7 @@ public class StudentController {
     @ApiOperation(value = "Student Detail", authorizations = { @Authorization(value="JWT") })
     @PostMapping(value = "/student/{id}")
     public ResponseEntity<?> findAllUserStudent(@PathVariable("id") Long id) {
-        return null;
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(studentService.getFindDetailStudentService().execute(id)));
     }
 }
