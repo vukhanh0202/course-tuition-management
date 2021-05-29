@@ -2,6 +2,7 @@ package com.uit.coursemanagement.domain.tuition;
 
 import com.uit.coursemanagement.domain.SqlEntity;
 import com.uit.coursemanagement.domain.calendar.join.CourseCalendarCreation;
+import com.uit.coursemanagement.domain.student.Student;
 import com.uit.coursemanagement.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,19 +20,14 @@ public class TuitionFee extends SqlEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "course_calendar_creation_id")
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "calendar_Detail_id", insertable = false, updatable = false),
+            @JoinColumn(name = "calendar_detail_id", insertable = false, updatable = false),
             @JoinColumn(name = "class_room_id", insertable = false, updatable = false),
-            @JoinColumn(name = "course_id", insertable = false, updatable = false)
+            @JoinColumn(name = "course_id", insertable = false, updatable = false),
+            @JoinColumn(name = "student_id", insertable = false, updatable = false)
     })
     private CourseCalendarCreation courseCalendarCreation;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
 
     private Double priceTuitionFee;
 

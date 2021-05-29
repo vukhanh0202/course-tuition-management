@@ -2,15 +2,15 @@ package com.uit.coursemanagement.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.uit.coursemanagement.constant.enums.EGender;
+import com.uit.coursemanagement.constant.enums.EUserType;
 import com.uit.coursemanagement.domain.SqlEntity;
-import com.uit.coursemanagement.domain.course.Course;
+import com.uit.coursemanagement.domain.lecturer.Lecturer;
+import com.uit.coursemanagement.domain.student.Student;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -29,21 +29,54 @@ public class User extends SqlEntity {
     @Column(unique = true)
     private String email;
     private String fullName;
-    private String firstName;
-    private String lastName;
     private String avatar;
     @Enumerated(EnumType.STRING)
     private EGender gender;
 
+    @Enumerated(EnumType.STRING)
+    private EUserType userType;
+
+    @OneToOne(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private Student student;
+
+    public void setStudent(Student student) {
+        if (student == null) {
+            if (this.student != null) {
+                this.student.setUser(null);
+            }
+        } else {
+            student.setUser(this);
+        }
+        this.student = student;
+    }
+
+    @OneToOne(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private Lecturer lecturer;
+
+    public void setLecturer(Lecturer lecturer) {
+        if (lecturer == null) {
+            if (this.lecturer != null) {
+                this.lecturer.setUser(null);
+            }
+        } else {
+            lecturer.setUser(this);
+        }
+        this.lecturer = lecturer;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "instructor")
-    private Set<Course> courseInstructors = new HashSet<>();
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-//    private Set<TuitionFee> tuitionFees = new HashSet<>();
 
     public User(Long id) {
         this.id = id;

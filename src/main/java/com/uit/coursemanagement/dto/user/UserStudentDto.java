@@ -10,16 +10,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserFullDto {
+public class UserStudentDto {
 
     private Long id;
 
-    private String username;
+    private String code;
 
     @JsonProperty("full_name")
     private String fullName;
 
-    private String email;
+    @JsonProperty("school_year")
+    private String schoolYear;
 
-    private String phone;
+    @JsonProperty("credit_quantity_experienced")
+    private String creditQuantityExperienced;
+
+    @JsonProperty("credit_quantity_present")
+    private Long creditQuantityPresent;
+
+    @JsonProperty("fee_status")
+    private String feeStatus;
 }

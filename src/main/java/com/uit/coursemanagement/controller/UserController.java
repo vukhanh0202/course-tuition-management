@@ -23,15 +23,15 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @ApiOperation(value = "Search user", authorizations = { @Authorization(value="JWT") })
-    @PostMapping(value = "/user/search")
-    public ResponseEntity<?> findAllUser(@RequestParam(value = "page", defaultValue = AppConstant.PAGE_NUMBER_DEFAULT) Integer page,
+    @ApiOperation(value = "Search student", authorizations = { @Authorization(value="JWT") })
+    @PostMapping(value = "/student/search")
+    public ResponseEntity<?> findAllUserStudent(@RequestParam(value = "page", defaultValue = AppConstant.PAGE_NUMBER_DEFAULT) Integer page,
                                            @RequestParam(value = "size", defaultValue = AppConstant.PAGE_SIZE_DEFAULT) Integer size,
                                            @RequestParam(value = "sort_by", defaultValue = "CREATED") String sortBy,
                                            @RequestParam(value = "sort_direction", defaultValue = "DESC") Sort.Direction sortDirection
     ) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(userService.getFindAllUserService()
+                .body(new ApiResponse(userService.getFindAllUserStudentService()
                         .execute()));
     }
 }

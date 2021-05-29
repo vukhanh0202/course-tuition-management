@@ -1,11 +1,14 @@
 package com.uit.coursemanagement.configuration;
 
 import com.uit.coursemanagement.constant.MessageCode;
+import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.exception.BadRequestException;
+import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.utils.MessageHelper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -27,6 +30,9 @@ public class JwtTokenUtil implements Serializable {
 
     @Value("${jwt.secret}")
     private String secret;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public JwtTokenUtil(MessageHelper messageHelper) {
         this.messageHelper = messageHelper;
@@ -64,6 +70,8 @@ public class JwtTokenUtil implements Serializable {
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        User user = userRepository.findByUsername(userDetails.getUsername()).get();
+        claims.put("role", user.getRole().getId());
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

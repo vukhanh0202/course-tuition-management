@@ -5,5 +5,6 @@ public enum ERoleType {
     GUEST,
     MEMBER,
     MANAGER,
-    CONTENT_MANAGER
+    CONTENT_MANAGER,
+    USER
 }

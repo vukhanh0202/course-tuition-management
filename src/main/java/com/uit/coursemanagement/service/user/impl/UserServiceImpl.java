@@ -1,8 +1,6 @@
 package com.uit.coursemanagement.service.user.impl;
 
-import com.uit.coursemanagement.service.course.ICourseService;
-import com.uit.coursemanagement.service.course.IFindAllCourseService;
-import com.uit.coursemanagement.service.user.IFindAllUserService;
+import com.uit.coursemanagement.service.user.IFindAllUserStudentService;
 import com.uit.coursemanagement.service.user.IUserService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +13,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements IUserService {
 
     @Autowired
-    private IFindAllUserService findAllUserService;
+    private IFindAllUserStudentService findAllUserStudentService;
 
 }

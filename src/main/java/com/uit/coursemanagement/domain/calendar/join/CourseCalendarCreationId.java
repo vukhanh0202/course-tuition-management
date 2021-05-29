@@ -15,6 +15,7 @@ public class CourseCalendarCreationId implements Serializable {
     private Long calendarDetailId;
     private Long classRoomId;
     private Long courseId;
+    private Long studentId;
 
     @Override
     public boolean equals(Object o) {

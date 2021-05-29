@@ -5,7 +5,9 @@ import com.uit.coursemanagement.domain.SqlEntity;
 import com.uit.coursemanagement.domain.calendar.CalendarDetail;
 import com.uit.coursemanagement.domain.classes.ClassRoom;
 import com.uit.coursemanagement.domain.course.Course;
+import com.uit.coursemanagement.domain.student.Student;
 import com.uit.coursemanagement.domain.tuition.TuitionFee;
+import com.uit.coursemanagement.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +39,11 @@ public class CourseCalendarCreation extends SqlEntity {
     @MapsId("courseId")
     @JoinColumn(name = "course_id")
     private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("studentId")
+    @JoinColumn(name = "student_id")
+    private Student student;
 
     @Enumerated(EnumType.STRING)
     private ETypeCourse typeCourse;

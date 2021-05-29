@@ -3,6 +3,8 @@ package com.uit.coursemanagement.domain.course;
 import com.uit.coursemanagement.constant.enums.ETypeCourse;
 import com.uit.coursemanagement.domain.SqlEntity;
 import com.uit.coursemanagement.domain.calendar.join.CourseCalendarCreation;
+import com.uit.coursemanagement.domain.lecturer.Lecturer;
+import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.user.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,9 +37,12 @@ public class Course extends SqlEntity {
     private Double priceAdvanced;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User instructor;
+    @JoinColumn(name = "lecturer_id")
+    private Lecturer instructor;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
     private List<CourseCalendarCreation> courseCalendarCreations;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
+    private List<StudentCourse> studentCourses;
 }
