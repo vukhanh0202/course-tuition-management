@@ -41,6 +41,8 @@ public abstract class StudentMapper implements MapperBase {
     @Mapping(source = "student.schoolYear", target = "schoolYear")
     @Mapping(source = "student.creditQuantityPresent", target = "creditQuantityPresent")
     @Mapping(source = "student.feeStatus", target = "feeStatus")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "student.dateOfBirth", target = "dateOfBirth")
     public abstract StudentDto toStudentDto(User user);
 
     @BeanMapping(ignoreByDefault = true)

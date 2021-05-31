@@ -2,15 +2,14 @@ package com.uit.coursemanagement.domain.student;
 
 import com.uit.coursemanagement.constant.enums.EFeeStatus;
 import com.uit.coursemanagement.domain.SqlEntity;
-import com.uit.coursemanagement.domain.calendar.join.CourseCalendarCreation;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
-import com.uit.coursemanagement.domain.tuition.TuitionFee;
 import com.uit.coursemanagement.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -30,6 +29,8 @@ public class Student extends SqlEntity {
 
     private String code;
 
+    private Date dateOfBirth;
+
     private String schoolYear;
 
     private Long totalCreditQuantity;
@@ -42,9 +43,9 @@ public class Student extends SqlEntity {
 
     @Enumerated(EnumType.STRING)
     private EFeeStatus feeStatus;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
-    private List<CourseCalendarCreation> courseCalendarCreations = new ArrayList<>();
+//
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+//    private List<CourseCalendarCreation> courseCalendarCreations = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     private List<StudentCourse> studentCourses = new ArrayList<>();

@@ -1,7 +1,9 @@
 package com.uit.coursemanagement.controller;
 
+import com.uit.coursemanagement.data.UserPrincipal;
 import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
+import com.uit.coursemanagement.payload.course.LecturerRegisterCourseRequest;
 import com.uit.coursemanagement.service.course.ICourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,10 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -36,5 +36,22 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(courseService.getAddNewCourseService()
                         .execute(addNewCourseRequest)));
+    }
+
+//    @ApiOperation(value = "Add new course" , authorizations = { @Authorization(value="JWT") })
+//    @PostMapping(value = "/register-course/{id}")
+//    public ResponseEntity<?> registerCourse(@PathVariable("id") Long courseId) {
+//        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(new ApiResponse(courseService.getAddNewCourseService()
+//                        .execute(addNewCourseRequest)));
+//    }
+
+    @ApiOperation(value = "Lecture register course" , authorizations = { @Authorization(value="JWT") })
+    @PostMapping(value = "/lecturer/register-course")
+    public ResponseEntity<?> registerCourse(@RequestBody LecturerRegisterCourseRequest lecturerRegisterCourseRequest) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(courseService.getLecturerRegisterCourseService()
+                        .execute(lecturerRegisterCourseRequest)));
     }
 }

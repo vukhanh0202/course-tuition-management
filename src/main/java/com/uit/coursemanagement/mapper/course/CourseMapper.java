@@ -26,7 +26,6 @@ public abstract class CourseMapper implements MapperBase {
     @Mapping(source = "typeCourse", target = "typeCourse")
     @Mapping(source = "priceBasic", target = "priceBasic")
     @Mapping(source = "priceAdvanced", target = "priceAdvanced")
-    @Mapping(source = "instructor.user.fullName", target = "instructor")
     public abstract CourseDto toCourseDto(Course course);
 
     @BeanMapping(ignoreByDefault = true)
@@ -45,7 +44,6 @@ public abstract class CourseMapper implements MapperBase {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "priceBasic", target = "priceBasic")
     @Mapping(source = "priceAdvanced", target = "priceAdvanced")
-    @Mapping(source = "instructor", target = "instructor.id")
     public abstract Course toCourse(AddNewCourseRequest addNewCourseRequest);
 
 }

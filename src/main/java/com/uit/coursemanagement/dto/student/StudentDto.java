@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -18,6 +23,12 @@ public class StudentDto {
 
     @JsonProperty("full_name")
     private String fullName;
+
+    private String email;
+
+    @JsonProperty("date_of_birth")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateOfBirth;
 
     @JsonProperty("school_year")
     private String schoolYear;

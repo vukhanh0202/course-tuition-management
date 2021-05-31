@@ -27,5 +27,4 @@ public class AddNewCourseRequest {
     @JsonProperty("price_advanced")
     private Double priceAdvanced;
 
-    private Long instructor;
 }
