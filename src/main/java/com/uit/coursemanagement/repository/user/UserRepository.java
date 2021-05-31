@@ -2,6 +2,7 @@ package com.uit.coursemanagement.repository.user;
 
 import com.uit.coursemanagement.constant.enums.EUserType;
 import com.uit.coursemanagement.domain.user.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,8 +13,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    List<User> findAllByUserType(EUserType userType, Pageable pageable);
+//    List<User> findAllByUserType(EUserType userType, Pageable pageable);
     Long countAllByUserType(EUserType userType);
+
+    Page<User> findAllByUserType(EUserType userType, Pageable pageable);
+
 }
 
 
