@@ -3,6 +3,7 @@ package com.uit.coursemanagement.mapper.course;
 import com.uit.coursemanagement.domain.course.Course;
 import com.uit.coursemanagement.dto.course.CourseDto;
 import com.uit.coursemanagement.mapper.MapperBase;
+import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
 import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
@@ -23,11 +24,28 @@ public abstract class CourseMapper implements MapperBase {
     @Mapping(source = "name", target = "name")
     @Mapping(source = "creditQuantity", target = "creditQuantity")
     @Mapping(source = "typeCourse", target = "typeCourse")
+    @Mapping(source = "priceBasic", target = "priceBasic")
+    @Mapping(source = "priceAdvanced", target = "priceAdvanced")
+    @Mapping(source = "instructor.user.fullName", target = "instructor")
     public abstract CourseDto toCourseDto(Course course);
 
     @BeanMapping(ignoreByDefault = true)
     @IterableMapping(qualifiedByName = "toCourseDtoList")
     public abstract List<CourseDto> toCourseDtoList(List<Course> courseList);
 
+
+    //*************************************************
+    //********** Mapper AddNewCourseRequest To Course (Add New Course) **********
+    //*************************************************
+
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "creditQuantity", target = "creditQuantity")
+    @Mapping(source = "typeCourse", target = "typeCourse")
+    @Mapping(source = "description", target = "description")
+    @Mapping(source = "priceBasic", target = "priceBasic")
+    @Mapping(source = "priceAdvanced", target = "priceAdvanced")
+    @Mapping(source = "instructor", target = "instructor.id")
+    public abstract Course toCourse(AddNewCourseRequest addNewCourseRequest);
 
 }

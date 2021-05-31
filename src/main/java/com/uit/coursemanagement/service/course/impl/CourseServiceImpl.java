@@ -1,5 +1,6 @@
 package com.uit.coursemanagement.service.course.impl;
 
+import com.uit.coursemanagement.service.course.IAddNewCourseService;
 import com.uit.coursemanagement.service.course.ICourseService;
 import com.uit.coursemanagement.service.course.IFindAllCourseService;
 import lombok.Getter;
@@ -14,5 +15,8 @@ public class CourseServiceImpl implements ICourseService {
 
     @Autowired
     private IFindAllCourseService findAllCourseService;
+
+    @Autowired
+    private IAddNewCourseService addNewCourseService;
 
 }

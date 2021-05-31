@@ -1,19 +1,14 @@
-package com.uit.coursemanagement.dto.course;
+package com.uit.coursemanagement.payload.course;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.uit.coursemanagement.constant.enums.ETypeCourse;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Data
-@NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class CourseDto {
-
-    private Long id;
+public class AddNewCourseRequest {
 
     private String name;
 
@@ -21,7 +16,10 @@ public class CourseDto {
     private Long creditQuantity;
 
     @JsonProperty("type_course")
+    @Enumerated(EnumType.STRING)
     private ETypeCourse typeCourse;
+
+    private String description;
 
     @JsonProperty("price_basic")
     private Double priceBasic;
@@ -29,5 +27,5 @@ public class CourseDto {
     @JsonProperty("price_advanced")
     private Double priceAdvanced;
 
-    private String instructor;
+    private Long instructor;
 }

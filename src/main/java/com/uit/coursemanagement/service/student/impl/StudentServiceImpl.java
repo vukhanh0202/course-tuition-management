@@ -17,9 +17,6 @@ public class StudentServiceImpl implements IStudentService {
     private IFindAllUserStudentService findAllUserStudentService;
 
     @Autowired
-    private ICountAllUserStudentService countAllUserStudentService;
-
-    @Autowired
     private IFindDetailStudentService findDetailStudentService;
 
 }
