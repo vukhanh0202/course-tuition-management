@@ -3,7 +3,7 @@ package com.uit.coursemanagement.service.course;
 
 import com.uit.coursemanagement.dto.course.CourseDto;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
-import com.uit.coursemanagement.payload.course.LecturerRegisterCourseRequest;
+import com.uit.coursemanagement.payload.course.OpenCourseRequest;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ public interface ICourseService{
 
     IAddNewCourseService<AddNewCourseRequest, Boolean> getAddNewCourseService();
 
-    ILecturerRegisterCourseService<LecturerRegisterCourseRequest, Boolean> getLecturerRegisterCourseService();
+    IOpenCourseService<OpenCourseRequest, Boolean> getOpenCourseService();
 }

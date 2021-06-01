@@ -2,6 +2,7 @@ package com.uit.coursemanagement.domain.calendar;
 
 import com.uit.coursemanagement.constant.enums.ECalendarShift;
 import com.uit.coursemanagement.domain.SqlEntity;
+import com.uit.coursemanagement.domain.semester.Semester;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,8 +26,9 @@ public class Calendar extends SqlEntity {
     @Enumerated(EnumType.STRING)
     private ECalendarShift calendarShift;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "calendar")
-    private List<LecturerCalendar> lecturerCalendars = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "semester_id")
+    private Semester semester;
 
 //    @OneToOne(fetch = FetchType.LAZY)
 //    @MapsId

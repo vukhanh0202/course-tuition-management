@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -31,6 +32,9 @@ public class Course extends SqlEntity {
     private Double priceBasic;
 
     private Double priceAdvanced;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
+    private List<OpenCourse> openCourses = new ArrayList<>();
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
 //    private List<CourseCalendarCreation> courseCalendarCreations;

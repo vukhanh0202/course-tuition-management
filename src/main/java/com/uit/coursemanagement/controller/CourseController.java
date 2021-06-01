@@ -1,9 +1,8 @@
 package com.uit.coursemanagement.controller;
 
-import com.uit.coursemanagement.data.UserPrincipal;
 import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
-import com.uit.coursemanagement.payload.course.LecturerRegisterCourseRequest;
+import com.uit.coursemanagement.payload.course.OpenCourseRequest;
 import com.uit.coursemanagement.service.course.ICourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -47,11 +45,11 @@ public class CourseController {
 //                        .execute(addNewCourseRequest)));
 //    }
 
-    @ApiOperation(value = "Lecture register course" , authorizations = { @Authorization(value="JWT") })
-    @PostMapping(value = "/lecturer/register-course")
-    public ResponseEntity<?> registerCourse(@RequestBody LecturerRegisterCourseRequest lecturerRegisterCourseRequest) {
+    @ApiOperation(value = "Open course" , authorizations = { @Authorization(value="JWT") })
+    @PostMapping(value = "/open-course")
+    public ResponseEntity<?> openCourse(@RequestBody OpenCourseRequest openCourseRequest) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(courseService.getLecturerRegisterCourseService()
-                        .execute(lecturerRegisterCourseRequest)));
+                .body(new ApiResponse(courseService.getOpenCourseService()
+                        .execute(openCourseRequest)));
     }
 }

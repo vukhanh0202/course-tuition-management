@@ -11,5 +11,10 @@ public interface MessageCode {
     }
     interface Course {
         String EXIST = "message.course.exists";
+        String NOT_FOUND = "message.course.NotFound";
+    }
+    interface Semester {
+        String NOT_FOUND = "message.semester.NotFound";
+        String INVALID = "message.semester.Invalid";
     }
 }

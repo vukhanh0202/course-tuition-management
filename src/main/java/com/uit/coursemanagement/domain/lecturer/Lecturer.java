@@ -1,17 +1,14 @@
 package com.uit.coursemanagement.domain.lecturer;
 
 import com.uit.coursemanagement.domain.SqlEntity;
-import com.uit.coursemanagement.domain.calendar.LecturerCalendar;
-import com.uit.coursemanagement.domain.course.Course;
+import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -29,5 +26,5 @@ public class Lecturer extends SqlEntity {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "lecturer")
-    private List<LecturerCalendar> lecturerCalendars = new ArrayList<>();
+    private List<OpenCourse> openCourses = new ArrayList<>();
 }

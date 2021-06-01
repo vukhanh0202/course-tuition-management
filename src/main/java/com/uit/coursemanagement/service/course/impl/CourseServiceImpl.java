@@ -3,7 +3,7 @@ package com.uit.coursemanagement.service.course.impl;
 import com.uit.coursemanagement.service.course.IAddNewCourseService;
 import com.uit.coursemanagement.service.course.ICourseService;
 import com.uit.coursemanagement.service.course.IFindAllCourseService;
-import com.uit.coursemanagement.service.course.ILecturerRegisterCourseService;
+import com.uit.coursemanagement.service.course.IOpenCourseService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,6 @@ public class CourseServiceImpl implements ICourseService {
     private IAddNewCourseService addNewCourseService;
 
     @Autowired
-    private ILecturerRegisterCourseService lecturerRegisterCourseService;
+    private IOpenCourseService openCourseService;
 
 }

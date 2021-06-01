@@ -1,8 +1,11 @@
-package com.uit.coursemanagement.domain.calendar;
+package com.uit.coursemanagement.domain.course;
 
 import com.uit.coursemanagement.constant.enums.ECalendarShift;
+import com.uit.coursemanagement.constant.enums.EDayOfWeek;
 import com.uit.coursemanagement.domain.SqlEntity;
+import com.uit.coursemanagement.domain.course.Course;
 import com.uit.coursemanagement.domain.lecturer.Lecturer;
+import com.uit.coursemanagement.domain.semester.Semester;
 import com.uit.coursemanagement.utils.ECalendarShiftConverter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +17,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "lecturer_calendar")
-public class LecturerCalendar extends SqlEntity {
+@Table(name = "open_course")
+public class OpenCourse extends SqlEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,8 +29,15 @@ public class LecturerCalendar extends SqlEntity {
     private Lecturer lecturer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "calendar_id")
-    private Calendar calendar;
+    @JoinColumn(name = "semester_id")
+    private Semester semester;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    @Enumerated(EnumType.STRING)
+    private EDayOfWeek dayOfWeek;
 
     @Convert(converter = ECalendarShiftConverter.class)
     private List<ECalendarShift> calendarShifts;
