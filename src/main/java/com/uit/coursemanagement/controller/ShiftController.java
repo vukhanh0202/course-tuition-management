@@ -1,10 +1,9 @@
 package com.uit.coursemanagement.controller;
 
+import com.uit.coursemanagement.constant.enums.ECalendarShift;
 import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.payload.classes.AddClassRequest;
-import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
 import com.uit.coursemanagement.service.classes.IClassService;
-import com.uit.coursemanagement.service.course.ICourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -17,26 +16,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @Slf4j
 @RestController
-@Api(value = "Class APIs")
-public class ClassesController {
+@Api(value = "Shift APIs")
+public class ShiftController {
 
-    @Autowired
-    private IClassService classService;
 
-    @ApiOperation(value = "Search class", authorizations = { @Authorization(value="JWT") })
-    @GetMapping(value = "/class/search")
+    @ApiOperation(value = "Shift class", authorizations = { @Authorization(value="JWT") })
+    @GetMapping(value = "/shift/all")
     public ResponseEntity<?> findAllClass() {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(classService.getFindAllClassService().execute()));
-    }
-
-    @ApiOperation(value = "Add new class" , authorizations = { @Authorization(value="JWT") })
-    @PostMapping(value = "/add-new-class")
-    public ResponseEntity<?> addNewClass(@RequestBody AddClassRequest addClassRequest) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(classService.getAddClassService()
-                        .execute(addClassRequest)));
+                .body(new ApiResponse(Stream.of(ECalendarShift.values())
+                        .map(ECalendarShift::getValueString).collect(Collectors.toList())));
     }
 }

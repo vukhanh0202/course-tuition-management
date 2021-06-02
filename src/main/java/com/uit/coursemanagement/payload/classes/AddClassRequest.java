@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class AddClassRequest {
 
-    private Long id;
-
     private String name;
 
     private String description;
