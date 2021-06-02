@@ -18,4 +18,10 @@ public interface MessageCode {
         String NOT_FOUND = "message.semester.NotFound";
         String INVALID = "message.semester.Invalid";
     }
+
+    interface ClassRoom {
+        String EXIST = "message.class.exists";
+        String NOT_FOUND = "message.class.NotFound";
+        String INVALID = "message.class.Invalid";
+    }
 }

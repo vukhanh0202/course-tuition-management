@@ -25,6 +25,9 @@ public class OpenCourseRequest {
     @Enumerated(EnumType.STRING)
     private EDayOfWeek dayOfWeek;
 
+    @JsonProperty("class_id")
+    private Long classId;
+
     private List<ECalendarShift> shifts;
 
     @JsonProperty("max_quantity_student")

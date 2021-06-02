@@ -1,9 +1,8 @@
 package com.uit.coursemanagement.controller;
 
 import com.uit.coursemanagement.dto.response.ApiResponse;
-import com.uit.coursemanagement.payload.classes.AddClassRequest;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
-import com.uit.coursemanagement.service.classes.IClassService;
+import com.uit.coursemanagement.payload.course.OpenCourseRequest;
 import com.uit.coursemanagement.service.course.ICourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,24 +18,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@Api(value = "Class APIs")
-public class ClassesController {
+@Api(value = "Open Course APIs")
+public class OpenCourseController {
 
     @Autowired
-    private IClassService classService;
+    private ICourseService courseService;
 
-    @ApiOperation(value = "Search class")
-    @GetMapping(value = "/class/search")
-    public ResponseEntity<?> findAllClass() {
+    @ApiOperation(value = "Open course search" , authorizations = { @Authorization(value="JWT") })
+    @GetMapping(value = "/open-course/search")
+    public ResponseEntity<?> openCourseSearch() {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(classService.getFindAllClassService().execute()));
+                .body(new ApiResponse(courseService.getFindAllOpenCourseService()
+                        .execute()));
     }
 
-    @ApiOperation(value = "Add new class" , authorizations = { @Authorization(value="JWT") })
-    @PostMapping(value = "/add-new-class")
-    public ResponseEntity<?> addNewClass(@RequestBody AddClassRequest addClassRequest) {
+    @ApiOperation(value = "Open course" , authorizations = { @Authorization(value="JWT") })
+    @PostMapping(value = "/open-course")
+    public ResponseEntity<?> openCourse(@RequestBody OpenCourseRequest openCourseRequest) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(classService.getAddClassService()
-                        .execute(addClassRequest)));
+                .body(new ApiResponse(courseService.getOpenCourseService()
+                        .execute(openCourseRequest)));
     }
 }

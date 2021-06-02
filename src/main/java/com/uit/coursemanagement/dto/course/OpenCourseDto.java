@@ -30,6 +30,9 @@ public class OpenCourseDto {
     @JsonProperty("day_of_week")
     private String dayOfWeek;
 
+    @JsonProperty("class_name")
+    private String className;
+
     List<String> shifts;
 
     @JsonProperty("max_quantity_student")

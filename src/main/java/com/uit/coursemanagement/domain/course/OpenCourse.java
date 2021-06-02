@@ -3,6 +3,7 @@ package com.uit.coursemanagement.domain.course;
 import com.uit.coursemanagement.constant.enums.ECalendarShift;
 import com.uit.coursemanagement.constant.enums.EDayOfWeek;
 import com.uit.coursemanagement.domain.SqlEntity;
+import com.uit.coursemanagement.domain.classes.ClassRoom;
 import com.uit.coursemanagement.domain.course.Course;
 import com.uit.coursemanagement.domain.lecturer.Lecturer;
 import com.uit.coursemanagement.domain.semester.Semester;
@@ -35,6 +36,10 @@ public class OpenCourse extends SqlEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_id")
+    private ClassRoom classRoom;
 
     @Enumerated(EnumType.STRING)
     private EDayOfWeek dayOfWeek;

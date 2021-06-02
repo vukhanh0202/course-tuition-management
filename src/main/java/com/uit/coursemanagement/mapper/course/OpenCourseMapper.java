@@ -28,6 +28,7 @@ public abstract class OpenCourseMapper implements MapperBase {
     @Mapping(source = "dayOfWeek", target = "dayOfWeek")
     @Mapping(source = "maxQuantityStudent", target = "maxQuantityStudent")
     @Mapping(source = "shifts", target = "calendarShifts")
+    @Mapping(source = "classId", target = "classRoom.id")
     public abstract OpenCourse toOpenCourse(OpenCourseRequest openCourseRequest);
 
 
@@ -46,6 +47,7 @@ public abstract class OpenCourseMapper implements MapperBase {
     @Mapping(source = "course.name", target = "courseName")
     @Mapping(source = "dayOfWeek", target = "dayOfWeek")
     @Mapping(source = "maxQuantityStudent", target = "maxQuantityStudent")
+    @Mapping(source = "classRoom.name", target = "className")
     public abstract OpenCourseDto toOpenCourseDto(OpenCourse openCourse);
 
     @BeanMapping(ignoreByDefault = true)

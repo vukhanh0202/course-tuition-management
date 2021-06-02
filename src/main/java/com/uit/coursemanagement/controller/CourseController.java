@@ -45,19 +45,4 @@ public class CourseController {
 //                        .execute(addNewCourseRequest)));
 //    }
 
-    @ApiOperation(value = "Open course" , authorizations = { @Authorization(value="JWT") })
-    @GetMapping(value = "/open-course/search")
-    public ResponseEntity<?> openCourseSearch() {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(courseService.getFindAllOpenCourseService()
-                        .execute()));
-    }
-
-    @ApiOperation(value = "Open course" , authorizations = { @Authorization(value="JWT") })
-    @PostMapping(value = "/open-course")
-    public ResponseEntity<?> openCourse(@RequestBody OpenCourseRequest openCourseRequest) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(courseService.getOpenCourseService()
-                        .execute(openCourseRequest)));
-    }
 }
