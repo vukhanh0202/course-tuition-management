@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,4 +38,10 @@ public class Semester extends SqlEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "semester")
     private List<Calendar> calendars = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return name + "(" + dateFormat.format(fromDate) + " - " + dateFormat.format(toDate) + ")";
+    }
 }

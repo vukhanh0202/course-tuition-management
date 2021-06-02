@@ -16,15 +16,18 @@ public class ECalendarShiftConverter implements AttributeConverter<List<ECalenda
 
     @Override
     public String convertToDatabaseColumn(List<ECalendarShift> stringList) {
-//        return stringList != null ? String.join(SPLIT_CHAR, stringList) : "";
-        return stringList != null ? Stream.of(ECalendarShift.values())
+        if (stringList == null){
+            return "";
+        }
+        ECalendarShift[] array = new ECalendarShift[stringList.size()];
+        stringList.toArray(array);
+        return  Stream.of(array)
                 .map(Enum::name)
-                .collect(Collectors.joining(SPLIT_CHAR)) : "";
+                .collect(Collectors.joining(SPLIT_CHAR));
     }
 
     @Override
     public List<ECalendarShift> convertToEntityAttribute(String string) {
-//        return string != null ? Arrays.asList(string.split(SPLIT_CHAR)) : emptyList();
         return string != null ? Arrays.stream(string.split(SPLIT_CHAR))
                 .map(ECalendarShift::valueOf)
                 .collect(Collectors.toList()) : Collections.emptyList();

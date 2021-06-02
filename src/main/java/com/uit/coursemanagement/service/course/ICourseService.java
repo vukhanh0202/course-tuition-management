@@ -2,6 +2,7 @@ package com.uit.coursemanagement.service.course;
 
 
 import com.uit.coursemanagement.dto.course.CourseDto;
+import com.uit.coursemanagement.dto.course.OpenCourseDto;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
 import com.uit.coursemanagement.payload.course.OpenCourseRequest;
 
@@ -14,4 +15,7 @@ public interface ICourseService{
     IAddNewCourseService<AddNewCourseRequest, Boolean> getAddNewCourseService();
 
     IOpenCourseService<OpenCourseRequest, Boolean> getOpenCourseService();
+
+    IFindAllOpenCourseService<Void, List<OpenCourseDto>> getFindAllOpenCourseService();
+
 }
