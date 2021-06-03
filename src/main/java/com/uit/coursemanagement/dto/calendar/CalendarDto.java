@@ -2,6 +2,7 @@ package com.uit.coursemanagement.dto.calendar;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,10 +27,17 @@ public class CalendarDto {
 
     private Date end;
 
-    public CalendarDto(Long id, String shifts, LocalDate start, LocalDate end) {
+    private String course;
+
+    @JsonProperty("class_room")
+    private String classRoom;
+
+    public CalendarDto(Long id, String shifts, LocalDate start, LocalDate end, String course, String classRoom) {
         this.id = id;
         this.shifts = shifts;
         this.start = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
         this.end = Date.from(end.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        this.course = course;
+        this.classRoom = classRoom;
     }
 }
