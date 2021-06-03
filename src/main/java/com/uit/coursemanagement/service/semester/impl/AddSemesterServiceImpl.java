@@ -27,8 +27,8 @@ public class AddSemesterServiceImpl extends AbstractBaseService<AddSemesterReque
         if (addSemesterRequest.getFromDate().after(addSemesterRequest.getToDate())){
             throw new InvalidException(messageHelper.getMessage(MessageCode.Semester.INVALID));
         }
-        if (semesterRepository.findByFromDateBetweenOrToDateBetween(addSemesterRequest.getFromDate(), addSemesterRequest.getToDate(),
-                addSemesterRequest.getFromDate(), addSemesterRequest.getToDate()).isPresent()){
+        if (semesterRepository.findAllByFromDateAndToDate(addSemesterRequest.getFromDate(),
+                addSemesterRequest.getToDate()).size() > 0){
             throw new InvalidException(messageHelper.getMessage(MessageCode.Semester.EXIST, addSemesterRequest.getName()));
         }
     }
