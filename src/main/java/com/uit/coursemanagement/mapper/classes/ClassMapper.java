@@ -6,10 +6,9 @@ import com.uit.coursemanagement.dto.classes.ClassDto;
 import com.uit.coursemanagement.dto.semester.SemesterDto;
 import com.uit.coursemanagement.mapper.MapperBase;
 import com.uit.coursemanagement.payload.classes.AddClassRequest;
+import com.uit.coursemanagement.payload.classes.UpdateClassRequest;
 import com.uit.coursemanagement.payload.semester.AddSemesterRequest;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -32,4 +31,6 @@ public abstract class ClassMapper implements MapperBase {
     @BeanMapping(ignoreByDefault = true)
     public abstract List<ClassDto> toClassDtoList(List<ClassRoom> classRooms);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    public abstract void updateClassRoom(UpdateClassRequest dto, @MappingTarget ClassRoom entity);
 }

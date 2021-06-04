@@ -1,8 +1,6 @@
 package com.uit.coursemanagement.service.classes.impl;
 
-import com.uit.coursemanagement.service.classes.IAddClassService;
-import com.uit.coursemanagement.service.classes.IClassService;
-import com.uit.coursemanagement.service.classes.IFindAllClassService;
+import com.uit.coursemanagement.service.classes.*;
 import com.uit.coursemanagement.service.semester.IAddSemesterService;
 import com.uit.coursemanagement.service.semester.IFindAllSemesterService;
 import com.uit.coursemanagement.service.semester.ISemesterService;
@@ -21,4 +19,10 @@ public class ClassServiceImpl implements IClassService {
 
     @Autowired
     private IAddClassService addClassService;
+
+    @Autowired
+    private IUpdateClassService updateClassService;
+
+    @Autowired
+    private IDeleteClassService deleteClassService;
 }
