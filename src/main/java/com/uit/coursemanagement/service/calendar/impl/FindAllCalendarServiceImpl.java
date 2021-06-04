@@ -44,12 +44,12 @@ public class FindAllCalendarServiceImpl extends AbstractBaseService<IFindAllCale
                             String course = openCourse.getCourse().getName();
                             String classRoom = openCourse.getClassRoom().getName();
                             openCourse.getCalendarShifts().forEach(eCalendarShift -> {
-                                Date.from(startTime.atStartOfDay(ZoneId.systemDefault()).toInstant()).setTime(eCalendarShift.getTimeStart());
-                                Date.from(endTime.atStartOfDay(ZoneId.systemDefault()).toInstant()).setTime(eCalendarShift.getTimeEnd());
+                                Date a = java.sql.Date.valueOf(startTime);
+                                Date b = java.sql.Date.valueOf(endTime);
                                 result.add(new CalendarDto(openCourse.getId(),
                                         eCalendarShift.getValueString(),
-                                        startTime,
-                                        endTime,
+                                        a,
+                                        b,
                                         course,
                                         classRoom));
                             });

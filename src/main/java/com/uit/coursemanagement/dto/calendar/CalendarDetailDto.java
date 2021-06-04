@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,30 +16,18 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CalendarDto {
-
+public class CalendarDetailDto {
 
     private Long id; // id open course
 
-    private String shifts;
+    private String start;
 
-    private Date start;
-
-    private Date end;
+    private String end;
 
     private String course;
 
     @JsonProperty("class_room")
     private String classRoom;
 
-    public CalendarDto(Long id, String shifts, Date start, Date end, String course, String classRoom) {
-        this.id = id;
-        this.shifts = shifts;
-//        this.start = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
-//        this.end = Date.from(end.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        this.start = start;
-        this.end = end;
-        this.course = course;
-        this.classRoom = classRoom;
-    }
+    private List<String> students = new ArrayList<>();
 }

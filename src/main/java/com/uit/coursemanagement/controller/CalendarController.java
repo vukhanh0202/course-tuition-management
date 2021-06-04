@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,5 +37,12 @@ public class CalendarController {
         IFindAllCalendarService.Input input = new IFindAllCalendarService.Input(fromDate,toDate);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(calendarService.getFindAllCalendarService().execute(input)));
+    }
+
+    @ApiOperation(value = "Detail calendar", authorizations = { @Authorization(value="JWT") })
+    @GetMapping(value = "/calendar/{id}")
+    public ResponseEntity<?> findDetailCalendar(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(calendarService.getFindDetailCalendarService().execute(id)));
     }
 }
