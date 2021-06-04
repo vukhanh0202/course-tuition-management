@@ -23,7 +23,9 @@ public abstract class CalendarMapper implements MapperBase {
             @Override
             public int compare(ECalendarShift o1, ECalendarShift o2) {
                 // sort ASC
-                return o1.getTimeStart().compareTo(o2.getTimeStart());
+                Integer time1 = o1.getHourFrom() * 60 + o1.getMinuteFrom();
+                Integer time2 = o2.getHourFrom() * 60 + o2.getMinuteFrom();
+                return time1.compareTo(time2);
             }
         });
 //        openCourse.getCalendarShifts()

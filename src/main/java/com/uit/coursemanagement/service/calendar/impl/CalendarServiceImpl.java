@@ -3,6 +3,7 @@ package com.uit.coursemanagement.service.calendar.impl;
 import com.uit.coursemanagement.service.calendar.ICalendarService;
 import com.uit.coursemanagement.service.calendar.IFindAllCalendarService;
 import com.uit.coursemanagement.service.calendar.IFindDetailCalendarService;
+import com.uit.coursemanagement.service.calendar.IFindDetailShiftService;
 import com.uit.coursemanagement.service.classes.IAddClassService;
 import com.uit.coursemanagement.service.classes.IClassService;
 import com.uit.coursemanagement.service.classes.IFindAllClassService;
@@ -21,4 +22,7 @@ public class CalendarServiceImpl implements ICalendarService {
 
     @Autowired
     IFindDetailCalendarService findDetailCalendarService;
+
+    @Autowired
+    IFindDetailShiftService findDetailShiftService;
 }

@@ -1,8 +1,10 @@
 package com.uit.coursemanagement.controller;
 
+import com.uit.coursemanagement.constant.enums.ECalendarShift;
 import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.service.calendar.ICalendarService;
 import com.uit.coursemanagement.service.calendar.IFindAllCalendarService;
+import com.uit.coursemanagement.service.calendar.IFindDetailShiftService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -44,5 +46,15 @@ public class CalendarController {
     public ResponseEntity<?> findDetailCalendar(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(calendarService.getFindDetailCalendarService().execute(id)));
+    }
+
+    @ApiOperation(value = "Get detail shift", authorizations = { @Authorization(value="JWT") })
+    @GetMapping(value = "/calendar/shift")
+    public ResponseEntity<?> getDetailShift(@ApiParam(value = "Example", defaultValue = "2021-10-02T00:00:00.00Z")
+                                                @RequestParam(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,
+                                            @RequestParam(value = "shift") ECalendarShift shift) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(calendarService.getFindDetailShiftService()
+                        .execute(new IFindDetailShiftService.Input(date, shift))));
     }
 }

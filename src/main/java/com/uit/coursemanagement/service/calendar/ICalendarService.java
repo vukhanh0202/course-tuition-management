@@ -2,6 +2,7 @@ package com.uit.coursemanagement.service.calendar;
 
 import com.uit.coursemanagement.dto.calendar.CalendarDetailDto;
 import com.uit.coursemanagement.dto.calendar.CalendarDto;
+import com.uit.coursemanagement.dto.calendar.ShiftDetailDto;
 import com.uit.coursemanagement.dto.classes.ClassDto;
 import com.uit.coursemanagement.payload.classes.AddClassRequest;
 import com.uit.coursemanagement.service.classes.IAddClassService;
@@ -14,4 +15,6 @@ public interface ICalendarService {
     IFindAllCalendarService<IFindAllCalendarService.Input, List<CalendarDto>> getFindAllCalendarService();
 
     IFindDetailCalendarService<Long, CalendarDetailDto> getFindDetailCalendarService();
+
+    IFindDetailShiftService<IFindDetailShiftService.Input, ShiftDetailDto> getFindDetailShiftService();
 }

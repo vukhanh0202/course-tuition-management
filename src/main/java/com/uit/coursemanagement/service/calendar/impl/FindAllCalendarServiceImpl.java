@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -44,12 +45,19 @@ public class FindAllCalendarServiceImpl extends AbstractBaseService<IFindAllCale
                             String course = openCourse.getCourse().getName();
                             String classRoom = openCourse.getClassRoom().getName();
                             openCourse.getCalendarShifts().forEach(eCalendarShift -> {
-                                Date a = java.sql.Date.valueOf(startTime);
-                                Date b = java.sql.Date.valueOf(endTime);
+                                Calendar a = Calendar.getInstance();
+                                a.setTime(java.sql.Date.valueOf(startTime));
+                                a.set(Calendar.HOUR_OF_DAY,eCalendarShift.getHourFrom());
+                                a.set(Calendar.MINUTE,eCalendarShift.getMinuteFrom());
+
+                                Calendar b = Calendar.getInstance();
+                                b.setTime(java.sql.Date.valueOf(endTime));
+                                b.set(Calendar.HOUR_OF_DAY,eCalendarShift.getHourTo());
+                                b.set(Calendar.MINUTE,eCalendarShift.getMinuteTo());
                                 result.add(new CalendarDto(openCourse.getId(),
                                         eCalendarShift.getValueString(),
-                                        a,
-                                        b,
+                                        a.getTime(),
+                                        b.getTime(),
                                         course,
                                         classRoom));
                             });

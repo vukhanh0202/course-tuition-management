@@ -1,6 +1,7 @@
 package com.uit.coursemanagement.configuration;
 
 import com.uit.coursemanagement.constant.MessageCode;
+import com.uit.coursemanagement.constant.enums.EUserType;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.exception.BadRequestException;
 import com.uit.coursemanagement.repository.user.UserRepository;
@@ -40,9 +41,9 @@ public class JwtTokenUtil implements Serializable {
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
-        try{
+        try {
             return getClaimFromToken(token, Claims::getSubject);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new BadRequestException(messageHelper.getMessage(MessageCode.Token.INVALID_TOKEN));
         }
     }
@@ -56,6 +57,7 @@ public class JwtTokenUtil implements Serializable {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
+
     //for retrieveing any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
@@ -72,6 +74,13 @@ public class JwtTokenUtil implements Serializable {
         Map<String, Object> claims = new HashMap<>();
         User user = userRepository.findByUsername(userDetails.getUsername()).get();
         claims.put("role", user.getRole().getId());
+        claims.put("username", user.getUsername());
+        claims.put("full_name", user.getFullName());
+        claims.put("gender", user.getGender().getValue());
+        if (user.getUserType() == EUserType.STUDENT){
+            claims.put("date_of_birth", user.getStudent().getDateOfBirth());
+            claims.put("code", user.getStudent().getCode());
+        }
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

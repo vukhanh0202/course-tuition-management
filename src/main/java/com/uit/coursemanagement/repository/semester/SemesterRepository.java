@@ -22,6 +22,10 @@ public interface SemesterRepository extends JpaRepository<Semester, Long> {
             nativeQuery = true)
     List<Semester> findAllByFromDateAndToDate(Date fromDate, Date toDate);
 
+    @Query(value = "select * from semester " +
+            " where from_date <= :date AND to_date > :date",
+            nativeQuery = true)
+    Optional<Semester> findByDate(Date date);
 
 }
 
