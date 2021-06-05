@@ -1,9 +1,12 @@
 package com.uit.coursemanagement.mapper.course;
 
+import com.uit.coursemanagement.domain.classes.ClassRoom;
 import com.uit.coursemanagement.domain.course.Course;
 import com.uit.coursemanagement.dto.course.CourseDto;
 import com.uit.coursemanagement.mapper.MapperBase;
+import com.uit.coursemanagement.payload.classes.UpdateClassRequest;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
+import com.uit.coursemanagement.payload.course.UpdateCourseRequest;
 import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
@@ -46,4 +49,13 @@ public abstract class CourseMapper implements MapperBase {
     @Mapping(source = "priceAdvanced", target = "priceAdvanced")
     public abstract Course toCourse(AddNewCourseRequest addNewCourseRequest);
 
+
+    @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "creditQuantity", target = "creditQuantity")
+    @Mapping(source = "typeCourse", target = "typeCourse")
+    @Mapping(source = "description", target = "description")
+    @Mapping(source = "priceBasic", target = "priceBasic")
+    @Mapping(source = "priceAdvanced", target = "priceAdvanced")
+    public abstract void updateCourse(UpdateCourseRequest dto, @MappingTarget Course entity);
 }

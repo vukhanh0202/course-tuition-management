@@ -1,38 +1,36 @@
-package com.uit.coursemanagement.service.classes.impl;
+package com.uit.coursemanagement.service.course.impl;
 
 import com.uit.coursemanagement.constant.MessageCode;
-import com.uit.coursemanagement.domain.classes.ClassRoom;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.classes.ClassMapper;
-import com.uit.coursemanagement.payload.classes.UpdateClassRequest;
 import com.uit.coursemanagement.repository.classes.ClassRepository;
+import com.uit.coursemanagement.repository.course.CourseRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.classes.IDeleteClassService;
-import com.uit.coursemanagement.service.classes.IUpdateClassService;
+import com.uit.coursemanagement.service.course.IDeleteCourseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class DeleteClassServiceImpl extends AbstractBaseService<Long, Boolean>
-        implements IDeleteClassService<Long, Boolean> {
+public class DeleteCourseServiceImpl extends AbstractBaseService<Long, Boolean>
+        implements IDeleteCourseService<Long, Boolean> {
 
     @Autowired
-    private ClassRepository classRepository;
+    private CourseRepository courseRepository;
 
     @Override
     public void preExecute(Long id) {
-        if (classRepository.findById(id).isEmpty()) {
-            throw new NotFoundException(messageHelper.getMessage(MessageCode.ClassRoom.NOT_FOUND));
+        if (courseRepository.findById(id).isEmpty()) {
+            throw new NotFoundException(messageHelper.getMessage(MessageCode.Course.NOT_FOUND));
         }
-
     }
 
     @Override
     public Boolean doing(Long id) {
-        classRepository.deleteById(id);
+        courseRepository.deleteById(id);
         return true;
     }
 

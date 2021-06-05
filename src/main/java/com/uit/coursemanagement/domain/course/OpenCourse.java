@@ -2,6 +2,7 @@ package com.uit.coursemanagement.domain.course;
 
 import com.uit.coursemanagement.constant.enums.ECalendarShift;
 import com.uit.coursemanagement.constant.enums.EDayOfWeek;
+import com.uit.coursemanagement.constant.enums.EStatus;
 import com.uit.coursemanagement.domain.SqlEntity;
 import com.uit.coursemanagement.domain.classes.ClassRoom;
 import com.uit.coursemanagement.domain.course.Course;
@@ -43,6 +44,8 @@ public class OpenCourse extends SqlEntity {
 
     @Enumerated(EnumType.STRING)
     private EDayOfWeek dayOfWeek;
+
+    private EStatus status = EStatus.PENDING;
 
     @Convert(converter = ECalendarShiftConverter.class)
     private List<ECalendarShift> calendarShifts;
