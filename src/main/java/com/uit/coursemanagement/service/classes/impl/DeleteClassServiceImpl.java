@@ -24,10 +24,11 @@ public class DeleteClassServiceImpl extends AbstractBaseService<Long, Boolean>
 
     @Override
     public void preExecute(Long id) {
-        if (classRepository.findById(id).isEmpty()) {
-            throw new NotFoundException(messageHelper.getMessage(MessageCode.ClassRoom.NOT_FOUND));
+        ClassRoom classRoom = classRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.ClassRoom.NOT_FOUND)));
+        if (classRoom.getOpenCourses().size() > 0 ) {
+            throw new InvalidException(messageHelper.getMessage(MessageCode.ClassRoom.NOT_DELETED));
         }
-
     }
 
     @Override

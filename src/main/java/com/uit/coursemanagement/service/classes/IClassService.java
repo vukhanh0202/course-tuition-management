@@ -15,7 +15,7 @@ public interface IClassService {
 
     IAddClassService<AddClassRequest, Boolean> getAddClassService();
 
-    IFindAllClassService<Void, List<ClassDto>> getFindAllClassService();
+    IFindAllClassService<String, List<ClassDto>> getFindAllClassService();
 
     IUpdateClassService<UpdateClassRequest, Boolean> getUpdateClassService();
 

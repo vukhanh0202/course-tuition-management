@@ -23,5 +23,6 @@ public interface MessageCode {
         String EXIST = "message.class.exists";
         String NOT_FOUND = "message.class.NotFound";
         String INVALID = "message.class.Invalid";
+        String NOT_DELETED = "message.class.notDeleted";
     }
 }

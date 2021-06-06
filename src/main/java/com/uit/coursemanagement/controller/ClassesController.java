@@ -25,9 +25,9 @@ public class ClassesController {
 
     @ApiOperation(value = "Search class", authorizations = { @Authorization(value="JWT") })
     @GetMapping(value = "/class/search")
-    public ResponseEntity<?> findAllClass() {
+    public ResponseEntity<?> findAllClass(@RequestParam(value = "class_name", defaultValue = "") String className) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(classService.getFindAllClassService().execute()));
+                .body(new ApiResponse(classService.getFindAllClassService().execute(className)));
     }
 
     @ApiOperation(value = "Add new class" , authorizations = { @Authorization(value="JWT") })

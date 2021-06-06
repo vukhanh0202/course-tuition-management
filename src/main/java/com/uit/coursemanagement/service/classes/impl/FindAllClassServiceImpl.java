@@ -18,8 +18,8 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class FindAllClassServiceImpl extends AbstractBaseService<Void, List<ClassDto>>
-        implements IFindAllClassService<Void, List<ClassDto>> {
+public class FindAllClassServiceImpl extends AbstractBaseService<String, List<ClassDto>>
+        implements IFindAllClassService<String, List<ClassDto>> {
 
     @Autowired
     private ClassMapper classMapper;
@@ -28,8 +28,8 @@ public class FindAllClassServiceImpl extends AbstractBaseService<Void, List<Clas
     private ClassRepository classRepository;
 
     @Override
-    public List<ClassDto> doing(Void unused) {
-        return classMapper.toClassDtoList(classRepository.findAll());
+    public List<ClassDto> doing(String className) {
+        return classMapper.toClassDtoList(classRepository.findAllByNameContaining(className));
     }
 
 }
