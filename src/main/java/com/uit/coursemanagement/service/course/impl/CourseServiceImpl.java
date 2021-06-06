@@ -29,4 +29,6 @@ public class CourseServiceImpl implements ICourseService {
     @Autowired
     private IDeleteCourseService deleteCourseService;
 
+    @Autowired
+    private IFindAllOpenCourseCurrentService findAllOpenCourseCurrentService;
 }

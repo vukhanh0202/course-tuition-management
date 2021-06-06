@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface OpenCourseRepository extends JpaRepository<OpenCourse, Long> {
 
+    List<OpenCourse> findBySemester(Semester semester);
 //    Optional<OpenCourse> findBySemesterAndDayOfWeekAndCalendarShiftsIn(Semester semester, EDayOfWeek dayOfWeek, List<ECalendarShift> calendarShifts);
 }
 

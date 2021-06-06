@@ -32,6 +32,15 @@ public class OpenCourseController {
                         .execute()));
     }
 
+
+    @ApiOperation(value = "Open course current search" , authorizations = { @Authorization(value="JWT") })
+    @GetMapping(value = "/open-course/current/search")
+    public ResponseEntity<?> openCourseCurrentSearch() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(courseService.getFindAllOpenCourseCurrentService()
+                        .execute()));
+    }
+
     @ApiOperation(value = "Open course" , authorizations = { @Authorization(value="JWT") })
     @PostMapping(value = "/open-course")
     public ResponseEntity<?> openCourse(@RequestBody OpenCourseRequest openCourseRequest) {
