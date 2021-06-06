@@ -29,12 +29,17 @@ public class FindAllCalendarServiceImpl extends AbstractBaseService<IFindAllCale
     @Override
     public List<CalendarDto> doing(Input input) {
         List<CalendarDto> result = new ArrayList<>();
-        List<Semester> semesters = semesterRepository.findAllByFromDateAndToDate(input.getFromDate(),input.getToDate());
+        List<Semester> semesters = semesterRepository.findAllByFromDateAndToDate(input.getFromDate(), input.getToDate());
         LocalDate start = input.getFromDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate end = input.getToDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         semesters.forEach(semester -> {
             List<OpenCourse> openCourses = semester.getOpenCourses();
+
             openCourses.forEach(openCourse -> {
+                if (!((input.getClassRoom() == null || openCourse.getClassRoom().getName().contains(input.getClassRoom()))
+                        && (input.getCourseName() == null || openCourse.getCourse().getName().contains(input.getCourseName())))) {
+                    return;
+                }
                 LocalDate dateSelect;
                 for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
                     if (date.getDayOfWeek().getValue() == openCourse.getDayOfWeek().getNumber()) {
@@ -47,13 +52,13 @@ public class FindAllCalendarServiceImpl extends AbstractBaseService<IFindAllCale
                             openCourse.getCalendarShifts().forEach(eCalendarShift -> {
                                 Calendar a = Calendar.getInstance();
                                 a.setTime(java.sql.Date.valueOf(startTime));
-                                a.set(Calendar.HOUR_OF_DAY,eCalendarShift.getHourFrom());
-                                a.set(Calendar.MINUTE,eCalendarShift.getMinuteFrom());
+                                a.set(Calendar.HOUR_OF_DAY, eCalendarShift.getHourFrom());
+                                a.set(Calendar.MINUTE, eCalendarShift.getMinuteFrom());
 
                                 Calendar b = Calendar.getInstance();
                                 b.setTime(java.sql.Date.valueOf(endTime));
-                                b.set(Calendar.HOUR_OF_DAY,eCalendarShift.getHourTo());
-                                b.set(Calendar.MINUTE,eCalendarShift.getMinuteTo());
+                                b.set(Calendar.HOUR_OF_DAY, eCalendarShift.getHourTo());
+                                b.set(Calendar.MINUTE, eCalendarShift.getMinuteTo());
                                 result.add(new CalendarDto(openCourse.getId(),
                                         eCalendarShift.getValueString(),
                                         a.getTime(),

@@ -12,10 +12,14 @@ public interface IFindAllCalendarService<Input, Output> extends IService<Input, 
     class Input{
         private Date fromDate;
         private Date toDate;
+        private String classRoom;
+        private String courseName;
 
-        public Input(Date fromDate, Date toDate) {
+        public Input(Date fromDate, Date toDate, String classRoom, String courseName) {
             this.fromDate = fromDate;
             this.toDate = toDate;
+            this.classRoom = classRoom;
+            this.courseName = courseName;
         }
     }
 }
