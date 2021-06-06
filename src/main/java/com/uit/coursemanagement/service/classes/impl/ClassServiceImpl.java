@@ -25,4 +25,7 @@ public class ClassServiceImpl implements IClassService {
 
     @Autowired
     private IDeleteClassService deleteClassService;
+
+    @Autowired
+    private IFindClassDetailService findClassDetailService;
 }
