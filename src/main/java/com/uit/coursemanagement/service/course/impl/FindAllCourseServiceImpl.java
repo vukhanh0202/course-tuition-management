@@ -13,8 +13,8 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class FindAllCourseServiceImpl extends AbstractBaseService<Void, List<CourseDto>>
-        implements IFindAllCourseService<Void, List<CourseDto>> {
+public class FindAllCourseServiceImpl extends AbstractBaseService<String, List<CourseDto>>
+        implements IFindAllCourseService<String, List<CourseDto>> {
 
     @Autowired
     private CourseMapper courseMapper;
@@ -23,8 +23,8 @@ public class FindAllCourseServiceImpl extends AbstractBaseService<Void, List<Cou
     private CourseRepository courseRepository;
 
     @Override
-    public List<CourseDto> doing(Void unused) {
-        return courseMapper.toCourseDtoList(courseRepository.findAll());
+    public List<CourseDto> doing(String courseName) {
+        return courseMapper.toCourseDtoList(courseRepository.findAllByNameContainingIgnoreCase(courseName));
     }
 
 }

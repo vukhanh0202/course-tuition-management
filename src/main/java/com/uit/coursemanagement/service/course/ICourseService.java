@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ICourseService{
 
-    IFindAllCourseService<Void, List<CourseDto>> getFindAllCourseService();
+    IFindAllCourseService<String, List<CourseDto>> getFindAllCourseService();
 
     IAddNewCourseService<AddNewCourseRequest, Boolean> getAddNewCourseService();
 

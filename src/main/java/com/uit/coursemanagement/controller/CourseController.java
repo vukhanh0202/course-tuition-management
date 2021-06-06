@@ -25,9 +25,9 @@ public class CourseController {
 
     @ApiOperation(value = "Search course")
     @GetMapping(value = "/public/course/search")
-    public ResponseEntity<?> findAllCourse() {
+    public ResponseEntity<?> findAllCourse(@RequestParam(value = "course_name", defaultValue = "") String courseName) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(courseService.getFindAllCourseService().execute()));
+                .body(new ApiResponse(courseService.getFindAllCourseService().execute(courseName)));
     }
 
     @ApiOperation(value = "Add new course" , authorizations = { @Authorization(value="JWT") })

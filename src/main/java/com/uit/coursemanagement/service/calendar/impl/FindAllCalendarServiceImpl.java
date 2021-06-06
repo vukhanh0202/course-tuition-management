@@ -34,10 +34,9 @@ public class FindAllCalendarServiceImpl extends AbstractBaseService<IFindAllCale
         LocalDate end = input.getToDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         semesters.forEach(semester -> {
             List<OpenCourse> openCourses = semester.getOpenCourses();
-
             openCourses.forEach(openCourse -> {
-                if (!((input.getClassRoom() == null || openCourse.getClassRoom().getName().contains(input.getClassRoom()))
-                        && (input.getCourseName() == null || openCourse.getCourse().getName().contains(input.getCourseName())))) {
+                if (!((input.getClassRoom() == null || openCourse.getClassRoom().getName().toLowerCase().contains(input.getClassRoom().toLowerCase()))
+                        && (input.getCourseName() == null || openCourse.getCourse().getName().toLowerCase().contains(input.getCourseName().toLowerCase())))) {
                     return;
                 }
                 LocalDate dateSelect;

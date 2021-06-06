@@ -29,7 +29,7 @@ public class FindAllClassServiceImpl extends AbstractBaseService<String, List<Cl
 
     @Override
     public List<ClassDto> doing(String className) {
-        return classMapper.toClassDtoList(classRepository.findAllByNameContaining(className));
+        return classMapper.toClassDtoList(classRepository.findAllByNameContainingIgnoreCase(className));
     }
 
 }
