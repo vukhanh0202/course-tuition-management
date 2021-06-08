@@ -23,11 +23,18 @@ public class CourseController {
     @Autowired
     private ICourseService courseService;
 
-    @ApiOperation(value = "Search course")
+    @ApiOperation(value = "Search course", authorizations = { @Authorization(value="JWT") })
     @GetMapping(value = "/course/search")
     public ResponseEntity<?> findAllCourse(@RequestParam(value = "course_name", defaultValue = "") String courseName) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(courseService.getFindAllCourseService().execute(courseName)));
+    }
+
+    @ApiOperation(value = "All course")
+    @GetMapping(value = "/course/all")
+    public ResponseEntity<?> allCourse() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(courseService.getAllCourseService().execute()));
     }
 
     @ApiOperation(value = "Add new course" , authorizations = { @Authorization(value="JWT") })

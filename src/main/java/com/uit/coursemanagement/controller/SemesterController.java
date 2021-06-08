@@ -30,6 +30,13 @@ public class SemesterController {
                 .body(new ApiResponse(semesterService.getFindAllSemesterService().execute(status)));
     }
 
+    @ApiOperation(value = "All semester" , authorizations = { @Authorization(value="JWT") })
+    @GetMapping(value = "/semester/all")
+    public ResponseEntity<?> allSemester() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(semesterService.getAllSemesterService().execute()));
+    }
+
     @ApiOperation(value = "Add new semester" , authorizations = { @Authorization(value="JWT") })
     @PostMapping(value = "/semester/add-new-semester")
     public ResponseEntity<?> addNewSemester(@RequestBody AddSemesterRequest addSemesterRequest) {

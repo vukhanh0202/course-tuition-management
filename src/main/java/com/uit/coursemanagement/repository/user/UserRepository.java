@@ -18,6 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByUserTypeAndFullNameContaining(EUserType userType, String fullName);
 
+    List<User> findAllByUserType(EUserType userType);
+
 }
 
 

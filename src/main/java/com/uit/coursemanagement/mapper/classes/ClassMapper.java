@@ -26,13 +26,25 @@ public abstract class ClassMapper implements MapperBase {
     public abstract ClassRoom toClassRoom(AddClassRequest addClassRequest);
 
     @BeanMapping(ignoreByDefault = true)
+    @Named("toClassDtoList")
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
     public abstract ClassDto toClassDto(ClassRoom classRoom);
 
     @BeanMapping(ignoreByDefault = true)
+    @IterableMapping(qualifiedByName = "toClassDtoList")
     public abstract List<ClassDto> toClassDtoList(List<ClassRoom> classRooms);
+
+    @BeanMapping(ignoreByDefault = true)
+    @Named("toClassBasicDtoList")
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    public abstract ClassDto toClassBasicDto(ClassRoom classRoom);
+
+    @BeanMapping(ignoreByDefault = true)
+    @IterableMapping(qualifiedByName = "toClassBasicDtoList")
+    public abstract List<ClassDto> toClassBasicDtoList(List<ClassRoom> classRooms);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void updateClassRoom(UpdateClassRequest dto, @MappingTarget ClassRoom entity);

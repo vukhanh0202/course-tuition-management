@@ -37,6 +37,16 @@ public abstract class CourseMapper implements MapperBase {
     public abstract List<CourseDto> toCourseDtoList(List<Course> courseList);
 
 
+    @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Named("toCourseBasicDtoList")
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    public abstract CourseDto toCourseBasicDto(Course course);
+
+    @BeanMapping(ignoreByDefault = true)
+    @IterableMapping(qualifiedByName = "toCourseBasicDtoList")
+    public abstract List<CourseDto> toCourseBasicDtoList(List<Course> courseList);
+
     //*************************************************
     //********** Mapper AddNewCourseRequest To Course (Add New Course) **********
     //*************************************************

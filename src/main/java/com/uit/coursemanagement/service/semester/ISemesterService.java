@@ -11,4 +11,6 @@ public interface ISemesterService {
     IFindAllSemesterService<EStatus, List<SemesterDto>> getFindAllSemesterService();
 
     IAddSemesterService<AddSemesterRequest, Boolean> getAddSemesterService();
+
+    IAllSemesterService<Void, List<SemesterDto>> getAllSemesterService();
 }

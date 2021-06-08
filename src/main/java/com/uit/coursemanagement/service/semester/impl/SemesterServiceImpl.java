@@ -1,6 +1,7 @@
 package com.uit.coursemanagement.service.semester.impl;
 
 import com.uit.coursemanagement.service.semester.IAddSemesterService;
+import com.uit.coursemanagement.service.semester.IAllSemesterService;
 import com.uit.coursemanagement.service.semester.IFindAllSemesterService;
 import com.uit.coursemanagement.service.semester.ISemesterService;
 import com.uit.coursemanagement.service.user.IUserService;
@@ -14,9 +15,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SemesterServiceImpl implements ISemesterService {
 
-    @Autowired
-    private IFindAllSemesterService findAllSemesterService;
+    private final IFindAllSemesterService findAllSemesterService;
 
-    @Autowired
-    private IAddSemesterService addSemesterService;
+    private final IAddSemesterService addSemesterService;
+
+    private final IAllSemesterService allSemesterService;
+
+    public SemesterServiceImpl(IFindAllSemesterService findAllSemesterService, IAddSemesterService addSemesterService, IAllSemesterService allSemesterService) {
+        this.findAllSemesterService = findAllSemesterService;
+        this.addSemesterService = addSemesterService;
+        this.allSemesterService = allSemesterService;
+    }
 }

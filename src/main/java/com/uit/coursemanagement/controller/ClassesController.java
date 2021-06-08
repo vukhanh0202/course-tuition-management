@@ -31,6 +31,13 @@ public class ClassesController {
                 .body(new ApiResponse(classService.getFindAllClassService().execute(className)));
     }
 
+    @ApiOperation(value = "All class", authorizations = { @Authorization(value="JWT") })
+    @GetMapping(value = "/class/all")
+    public ResponseEntity<?> allClass() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(classService.getAllClassService().execute()));
+    }
+
     @ApiOperation(value = "Get class detail", authorizations = { @Authorization(value="JWT") })
     @GetMapping(value = "/class/detail/{id}")
     public ResponseEntity<?> findClassDetail(@PathVariable("id") Long id,

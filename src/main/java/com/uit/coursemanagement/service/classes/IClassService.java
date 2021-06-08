@@ -23,4 +23,6 @@ public interface IClassService {
     IDeleteClassService<Long, Boolean> getDeleteClassService();
 
     IFindClassDetailService<IFindClassDetailService.Input, ClassDetailDto> getFindClassDetailService();
+
+    IAllClassService<Void, List<ClassDto>> getAllClassService();
 }

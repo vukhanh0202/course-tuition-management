@@ -2,15 +2,14 @@ package com.uit.coursemanagement.mapper.semester;
 
 import com.uit.coursemanagement.domain.course.Course;
 import com.uit.coursemanagement.domain.semester.Semester;
+import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.dto.course.CourseDto;
 import com.uit.coursemanagement.dto.semester.SemesterDto;
+import com.uit.coursemanagement.dto.student.StudentDto;
 import com.uit.coursemanagement.mapper.MapperBase;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
 import com.uit.coursemanagement.payload.semester.AddSemesterRequest;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,6 +25,7 @@ public abstract class SemesterMapper implements MapperBase {
     public abstract Semester toSemester(AddSemesterRequest addSemesterRequest);
 
     @BeanMapping(ignoreByDefault = true)
+    @Named("toSemesterDtoList")
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "fromDate", target = "fromDate")
@@ -34,6 +34,23 @@ public abstract class SemesterMapper implements MapperBase {
     public abstract SemesterDto toSemesterDto(Semester semester);
 
     @BeanMapping(ignoreByDefault = true)
+    @IterableMapping(qualifiedByName = "toSemesterDtoList")
     public abstract List<SemesterDto> toSemesterDtoList(List<Semester> semesters);
+
+    @Named("toSemesterBasicDto")
+    @BeforeMapping
+    protected void toSemesterBasicDto(Semester semester, @MappingTarget SemesterDto semesterDto) {
+        semesterDto.setName(semester.toString());
+    }
+
+    @BeanMapping(qualifiedByName = "toSemesterBasicDto", ignoreByDefault = true)
+    @Named("toSemesterBasicDtoList")
+    @Mapping(source = "id", target = "id")
+    public abstract SemesterDto toSemesterBasicDto(Semester semester);
+
+    @BeanMapping(ignoreByDefault = true)
+    @IterableMapping(qualifiedByName = "toSemesterBasicDtoList")
+    public abstract List<SemesterDto> toSemesterBasicDtoList(List<Semester> semesters);
+
 
 }

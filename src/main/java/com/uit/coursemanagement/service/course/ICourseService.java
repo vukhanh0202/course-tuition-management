@@ -24,4 +24,6 @@ public interface ICourseService{
     IDeleteCourseService<Long, Boolean> getDeleteCourseService();
 
     IFindAllOpenCourseCurrentService<Void, List<OpenCourseDto>> getFindAllOpenCourseCurrentService();
+
+    IAllCourseService<Void, List<CourseDto>> getAllCourseService();
 }

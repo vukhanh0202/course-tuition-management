@@ -14,18 +14,24 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ClassServiceImpl implements IClassService {
 
-    @Autowired
-    private IFindAllClassService findAllClassService;
+    private final IFindAllClassService findAllClassService;
 
-    @Autowired
-    private IAddClassService addClassService;
+    private final IAddClassService addClassService;
 
-    @Autowired
-    private IUpdateClassService updateClassService;
+    private final IUpdateClassService updateClassService;
 
-    @Autowired
-    private IDeleteClassService deleteClassService;
+    private final IDeleteClassService deleteClassService;
 
-    @Autowired
-    private IFindClassDetailService findClassDetailService;
+    private final IFindClassDetailService findClassDetailService;
+
+    private final IAllClassService allClassService;
+
+    public ClassServiceImpl(IFindAllClassService findAllClassService, IAddClassService addClassService, IUpdateClassService updateClassService, IDeleteClassService deleteClassService, IFindClassDetailService findClassDetailService, IAllClassService allClassService) {
+        this.findAllClassService = findAllClassService;
+        this.addClassService = addClassService;
+        this.updateClassService = updateClassService;
+        this.deleteClassService = deleteClassService;
+        this.findClassDetailService = findClassDetailService;
+        this.allClassService = allClassService;
+    }
 }

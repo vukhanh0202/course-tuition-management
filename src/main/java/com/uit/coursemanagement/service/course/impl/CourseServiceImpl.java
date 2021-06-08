@@ -11,24 +11,30 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class CourseServiceImpl implements ICourseService {
 
-    @Autowired
-    private IFindAllCourseService findAllCourseService;
+    private final IFindAllCourseService findAllCourseService;
 
-    @Autowired
-    private IAddNewCourseService addNewCourseService;
+    private final IAddNewCourseService addNewCourseService;
 
-    @Autowired
-    private IOpenCourseService openCourseService;
+    private final IOpenCourseService openCourseService;
 
-    @Autowired
-    private IFindAllOpenCourseService findAllOpenCourseService;
+    private final IFindAllOpenCourseService findAllOpenCourseService;
 
-    @Autowired
-    private IUpdateCourseService updateCourseService;
+    private final IUpdateCourseService updateCourseService;
 
-    @Autowired
-    private IDeleteCourseService deleteCourseService;
+    private final IDeleteCourseService deleteCourseService;
 
-    @Autowired
-    private IFindAllOpenCourseCurrentService findAllOpenCourseCurrentService;
+    private final IFindAllOpenCourseCurrentService findAllOpenCourseCurrentService;
+
+    private final IAllCourseService allCourseService;
+
+    public CourseServiceImpl(IFindAllCourseService findAllCourseService, IAddNewCourseService addNewCourseService, IOpenCourseService openCourseService, IFindAllOpenCourseService findAllOpenCourseService, IUpdateCourseService updateCourseService, IDeleteCourseService deleteCourseService, IFindAllOpenCourseCurrentService findAllOpenCourseCurrentService, IAllCourseService allCourseService) {
+        this.findAllCourseService = findAllCourseService;
+        this.addNewCourseService = addNewCourseService;
+        this.openCourseService = openCourseService;
+        this.findAllOpenCourseService = findAllOpenCourseService;
+        this.updateCourseService = updateCourseService;
+        this.deleteCourseService = deleteCourseService;
+        this.findAllOpenCourseCurrentService = findAllOpenCourseCurrentService;
+        this.allCourseService = allCourseService;
+    }
 }
