@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
-public class FindAllUserStudentServiceImpl extends AbstractBaseService<IFindAllUserStudentService.Input, PaginationResponse<StudentDto>>
-        implements IFindAllUserStudentService<IFindAllUserStudentService.Input, PaginationResponse<StudentDto>> {
+public class FindAllUserStudentServiceImpl extends AbstractBaseService<Void, List<StudentDto>>
+        implements IFindAllUserStudentService<Void, List<StudentDto>> {
 
     @Autowired
     private StudentMapper studentMapper;
@@ -25,13 +27,9 @@ public class FindAllUserStudentServiceImpl extends AbstractBaseService<IFindAllU
     private UserRepository userRepository;
 
     @Override
-    public PaginationResponse<StudentDto> doing(Input input) {
-        Page<User> result = userRepository.findAllByUserType(EUserType.STUDENT, input.getPageable());
-        return new PaginationResponse(
-                result.getTotalElements()
-                , result.getNumberOfElements()
-                , result.getNumber() + 1
-                , studentMapper.toStudentDtoList(result.getContent()));
+    public List<StudentDto> doing(Void unused) {
+        List<User> result = userRepository.findAllByUserType(EUserType.STUDENT);
+        return studentMapper.toStudentDtoList(result);
     }
 
 }

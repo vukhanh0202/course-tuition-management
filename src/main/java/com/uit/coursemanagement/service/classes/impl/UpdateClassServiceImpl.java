@@ -28,11 +28,12 @@ public class UpdateClassServiceImpl extends AbstractBaseService<UpdateClassReque
 
     @Override
     public void preExecute(UpdateClassRequest updateClassRequest) {
-        if (classRepository.findById(updateClassRequest.getId()).isEmpty()) {
-            throw new NotFoundException(messageHelper.getMessage(MessageCode.ClassRoom.NOT_FOUND));
-        }
-        if (classRepository.findByName(updateClassRequest.getName()).isPresent()) {
-            throw new InvalidException(messageHelper.getMessage(MessageCode.ClassRoom.EXIST, updateClassRequest.getName()));
+        ClassRoom classRoom = classRepository.findById(updateClassRequest.getId())
+                .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.ClassRoom.NOT_FOUND)));
+        if (updateClassRequest.getName() != null && !updateClassRequest.getName().equals(classRoom.getName())) {
+            if (classRepository.findByName(updateClassRequest.getName()).isPresent()) {
+                throw new InvalidException(messageHelper.getMessage(MessageCode.ClassRoom.EXIST, updateClassRequest.getName()));
+            }
         }
     }
 

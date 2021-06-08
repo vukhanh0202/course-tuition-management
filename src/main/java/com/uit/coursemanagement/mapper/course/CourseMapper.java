@@ -29,6 +29,7 @@ public abstract class CourseMapper implements MapperBase {
     @Mapping(source = "typeCourse", target = "typeCourse")
     @Mapping(source = "priceBasic", target = "priceBasic")
     @Mapping(source = "priceAdvanced", target = "priceAdvanced")
+    @Mapping(source = "description", target = "description")
     public abstract CourseDto toCourseDto(Course course);
 
     @BeanMapping(ignoreByDefault = true)

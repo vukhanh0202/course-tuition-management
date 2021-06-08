@@ -30,4 +30,6 @@ public class CourseDto {
     private Double priceAdvanced;
 
     private String instructor;
+
+    private String description;
 }

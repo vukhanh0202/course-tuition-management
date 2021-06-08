@@ -24,7 +24,7 @@ public class CourseController {
     private ICourseService courseService;
 
     @ApiOperation(value = "Search course")
-    @GetMapping(value = "/public/course/search")
+    @GetMapping(value = "/course/search")
     public ResponseEntity<?> findAllCourse(@RequestParam(value = "course_name", defaultValue = "") String courseName) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(courseService.getFindAllCourseService().execute(courseName)));
