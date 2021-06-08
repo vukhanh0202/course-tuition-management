@@ -17,8 +17,8 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class FindAllUserStudentServiceImpl extends AbstractBaseService<Void, List<StudentDto>>
-        implements IFindAllUserStudentService<Void, List<StudentDto>> {
+public class FindAllUserStudentServiceImpl extends AbstractBaseService<String, List<StudentDto>>
+        implements IFindAllUserStudentService<String, List<StudentDto>> {
 
     @Autowired
     private StudentMapper studentMapper;
@@ -27,8 +27,8 @@ public class FindAllUserStudentServiceImpl extends AbstractBaseService<Void, Lis
     private UserRepository userRepository;
 
     @Override
-    public List<StudentDto> doing(Void unused) {
-        List<User> result = userRepository.findAllByUserType(EUserType.STUDENT);
+    public List<StudentDto> doing(String fullName) {
+        List<User> result = userRepository.findAllByUserTypeAndFullNameContaining(EUserType.STUDENT,fullName);
         return studentMapper.toStudentDtoList(result);
     }
 

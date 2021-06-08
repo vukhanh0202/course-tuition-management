@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IStudentService {
 
-    IFindAllUserStudentService<Void, List<StudentDto>> getFindAllUserStudentService();
+    IFindAllUserStudentService<String, List<StudentDto>> getFindAllUserStudentService();
 
     IFindDetailStudentService<Long, StudentDetailDto> getFindDetailStudentService();
 }
