@@ -17,6 +17,7 @@ public interface MessageCode {
         String EXIST = "message.semester.exists";
         String NOT_FOUND = "message.semester.NotFound";
         String INVALID = "message.semester.Invalid";
+        String NOT_DELETED = "message.semester.NotDeleted";
     }
 
     interface ClassRoom {

@@ -17,18 +17,22 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class FindAllOpenCourseServiceImpl extends AbstractBaseService<Void, List<OpenCourseDto>>
-        implements IFindAllOpenCourseService<Void, List<OpenCourseDto>> {
+public class FindAllOpenCourseServiceImpl extends AbstractBaseService<String, List<OpenCourseDto>>
+        implements IFindAllOpenCourseService<String, List<OpenCourseDto>> {
 
-    @Autowired
-    private OpenCourseMapper openCourseMapper;
+    private final OpenCourseMapper openCourseMapper;
 
-    @Autowired
-    private OpenCourseRepository openCourseRepository;
+    private final OpenCourseRepository openCourseRepository;
+
+    public FindAllOpenCourseServiceImpl(OpenCourseMapper openCourseMapper, OpenCourseRepository openCourseRepository) {
+        this.openCourseMapper = openCourseMapper;
+        this.openCourseRepository = openCourseRepository;
+    }
 
     @Override
-    public List<OpenCourseDto> doing(Void unused) {
-        return openCourseMapper.toOpenCourseDtoList(openCourseRepository.findAll());
+    public List<OpenCourseDto> doing(String search) {
+        return openCourseMapper.toOpenCourseDtoList(openCourseRepository
+                .findByLecturerUserFullNameAndClassRoomNameAndCourseName(search, search, search));
     }
 
 }

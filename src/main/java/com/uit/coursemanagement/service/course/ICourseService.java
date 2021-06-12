@@ -17,13 +17,13 @@ public interface ICourseService{
 
     IOpenCourseService<OpenCourseRequest, Boolean> getOpenCourseService();
 
-    IFindAllOpenCourseService<Void, List<OpenCourseDto>> getFindAllOpenCourseService();
+    IFindAllOpenCourseService<String, List<OpenCourseDto>> getFindAllOpenCourseService();
 
     IUpdateCourseService<UpdateCourseRequest, Boolean> getUpdateCourseService();
 
     IDeleteCourseService<Long, Boolean> getDeleteCourseService();
 
-    IFindAllOpenCourseCurrentService<Void, List<OpenCourseDto>> getFindAllOpenCourseCurrentService();
+    IFindAllOpenCourseCurrentService<String, List<OpenCourseDto>> getFindAllOpenCourseCurrentService();
 
     IAllCourseService<Void, List<CourseDto>> getAllCourseService();
 }

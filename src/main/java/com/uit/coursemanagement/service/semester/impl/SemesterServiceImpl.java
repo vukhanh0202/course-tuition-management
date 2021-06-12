@@ -1,9 +1,6 @@
 package com.uit.coursemanagement.service.semester.impl;
 
-import com.uit.coursemanagement.service.semester.IAddSemesterService;
-import com.uit.coursemanagement.service.semester.IAllSemesterService;
-import com.uit.coursemanagement.service.semester.IFindAllSemesterService;
-import com.uit.coursemanagement.service.semester.ISemesterService;
+import com.uit.coursemanagement.service.semester.*;
 import com.uit.coursemanagement.service.user.IUserService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +18,15 @@ public class SemesterServiceImpl implements ISemesterService {
 
     private final IAllSemesterService allSemesterService;
 
-    public SemesterServiceImpl(IFindAllSemesterService findAllSemesterService, IAddSemesterService addSemesterService, IAllSemesterService allSemesterService) {
+    private final IUpdateSemesterService updateSemesterService;
+
+    private final IDeleteSemesterService deleteSemesterService;
+
+    public SemesterServiceImpl(IFindAllSemesterService findAllSemesterService, IAddSemesterService addSemesterService, IAllSemesterService allSemesterService, IUpdateSemesterService updateSemesterService, IDeleteSemesterService deleteSemesterService) {
         this.findAllSemesterService = findAllSemesterService;
         this.addSemesterService = addSemesterService;
         this.allSemesterService = allSemesterService;
+        this.updateSemesterService = updateSemesterService;
+        this.deleteSemesterService = deleteSemesterService;
     }
 }

@@ -8,7 +8,9 @@ import com.uit.coursemanagement.dto.semester.SemesterDto;
 import com.uit.coursemanagement.dto.student.StudentDto;
 import com.uit.coursemanagement.mapper.MapperBase;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
+import com.uit.coursemanagement.payload.course.UpdateCourseRequest;
 import com.uit.coursemanagement.payload.semester.AddSemesterRequest;
+import com.uit.coursemanagement.payload.semester.UpdateSemesterRequest;
 import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
@@ -51,6 +53,10 @@ public abstract class SemesterMapper implements MapperBase {
     @BeanMapping(ignoreByDefault = true)
     @IterableMapping(qualifiedByName = "toSemesterBasicDtoList")
     public abstract List<SemesterDto> toSemesterBasicDtoList(List<Semester> semesters);
+
+    @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "name", target = "name")
+    public abstract void updateSemester(UpdateSemesterRequest dto, @MappingTarget Semester entity);
 
 
 }

@@ -19,24 +19,28 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class FindAllOpenCourseCurrentServiceImpl extends AbstractBaseService<Void, List<OpenCourseDto>>
-        implements IFindAllOpenCourseCurrentService<Void, List<OpenCourseDto>> {
+public class FindAllOpenCourseCurrentServiceImpl extends AbstractBaseService<String, List<OpenCourseDto>>
+        implements IFindAllOpenCourseCurrentService<String, List<OpenCourseDto>> {
 
-    @Autowired
-    private OpenCourseMapper openCourseMapper;
+    private final OpenCourseMapper openCourseMapper;
 
-    @Autowired
-    private OpenCourseRepository openCourseRepository;
+    private final OpenCourseRepository openCourseRepository;
 
-    @Autowired
-    private SemesterRepository semesterRepository;
+    private final SemesterRepository semesterRepository;
+
+    public FindAllOpenCourseCurrentServiceImpl(OpenCourseMapper openCourseMapper, OpenCourseRepository openCourseRepository, SemesterRepository semesterRepository) {
+        this.openCourseMapper = openCourseMapper;
+        this.openCourseRepository = openCourseRepository;
+        this.semesterRepository = semesterRepository;
+    }
 
     @Override
-    public List<OpenCourseDto> doing(Void unused) {
+    public List<OpenCourseDto> doing(String search) {
         Date date = new Date();
         Semester semester = semesterRepository.findByDate(date)
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND)));
-        return openCourseMapper.toOpenCourseDtoList(openCourseRepository.findBySemester(semester));
+        return openCourseMapper.toOpenCourseDtoList(openCourseRepository
+                .findBySemesterAndLecturerUserFullNameAndClassRoomNameAndCourseName(semester,search,search,search));
     }
 
 }

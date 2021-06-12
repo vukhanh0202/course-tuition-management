@@ -2,7 +2,6 @@ package com.uit.coursemanagement.domain.semester;
 
 import com.uit.coursemanagement.constant.enums.EStatus;
 import com.uit.coursemanagement.domain.SqlEntity;
-import com.uit.coursemanagement.domain.calendar.Calendar;
 import com.uit.coursemanagement.domain.course.OpenCourse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,9 +34,6 @@ public class Semester extends SqlEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "semester")
     private List<OpenCourse> openCourses = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "semester")
-    private List<Calendar> calendars = new ArrayList<>();
 
     @Override
     public String toString() {
