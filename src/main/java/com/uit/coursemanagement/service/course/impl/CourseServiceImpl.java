@@ -35,7 +35,21 @@ public class CourseServiceImpl implements ICourseService {
 
     private final IDeleteRegisterOpenCourseService deleteRegisterOpenCourseService;
 
-    public CourseServiceImpl(IFindAllCourseService findAllCourseService, IAddNewCourseService addNewCourseService, IOpenCourseService openCourseService, IFindAllOpenCourseService findAllOpenCourseService, IUpdateCourseService updateCourseService, IDeleteCourseService deleteCourseService, IFindAllOpenCourseCurrentService findAllOpenCourseCurrentService, IAllCourseService allCourseService, IUpdateOpenCourseService updateOpenCourseService, IDeleteOpenCourseService deleteOpenCourseService, IRegisterOpenCourseService registerOpenCourseService, IDeleteRegisterOpenCourseService deleteRegisterOpenCourseService) {
+    private final IFindMyOpenCourseCurrentService findMyOpenCourseCurrentService;
+
+    public CourseServiceImpl(IFindAllCourseService findAllCourseService,
+                             IAddNewCourseService addNewCourseService,
+                             IOpenCourseService openCourseService,
+                             IFindAllOpenCourseService findAllOpenCourseService,
+                             IUpdateCourseService updateCourseService,
+                             IDeleteCourseService deleteCourseService,
+                             IFindAllOpenCourseCurrentService findAllOpenCourseCurrentService,
+                             IAllCourseService allCourseService,
+                             IUpdateOpenCourseService updateOpenCourseService,
+                             IDeleteOpenCourseService deleteOpenCourseService,
+                             IRegisterOpenCourseService registerOpenCourseService,
+                             IDeleteRegisterOpenCourseService deleteRegisterOpenCourseService,
+                             IFindMyOpenCourseCurrentService findMyOpenCourseCurrentService) {
         this.findAllCourseService = findAllCourseService;
         this.addNewCourseService = addNewCourseService;
         this.openCourseService = openCourseService;
@@ -48,5 +62,6 @@ public class CourseServiceImpl implements ICourseService {
         this.deleteOpenCourseService = deleteOpenCourseService;
         this.registerOpenCourseService = registerOpenCourseService;
         this.deleteRegisterOpenCourseService = deleteRegisterOpenCourseService;
+        this.findMyOpenCourseCurrentService = findMyOpenCourseCurrentService;
     }
 }

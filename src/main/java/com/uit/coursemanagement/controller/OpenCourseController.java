@@ -63,6 +63,15 @@ public class OpenCourseController {
                         .execute(deleteOpenCourseRequest)));
     }
 
+    @ApiOperation(value = "Open course current delete" , authorizations = { @Authorization(value="JWT") })
+    @GetMapping(value = "/my-open-course/current/token")
+    public ResponseEntity<?> myOpenCourseCurrent() {
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(courseService.getFindMyOpenCourseCurrentService()
+                        .execute(userPrincipal.getId())));
+    }
+
     @ApiOperation(value = "Open course" , authorizations = { @Authorization(value="JWT") })
     @PostMapping(value = "/open-course")
     public ResponseEntity<?> openCourse(@RequestBody OpenCourseRequest openCourseRequest) {
