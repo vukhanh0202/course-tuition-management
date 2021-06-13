@@ -9,9 +9,7 @@ import com.uit.coursemanagement.repository.course.OpenCourseRepository;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.course.IFindAllOpenCourseCurrentService;
-import com.uit.coursemanagement.service.course.IFindAllOpenCourseService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -40,7 +38,7 @@ public class FindAllOpenCourseCurrentServiceImpl extends AbstractBaseService<Str
         Semester semester = semesterRepository.findByDate(date)
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND)));
         return openCourseMapper.toOpenCourseDtoList(openCourseRepository
-                .findBySemesterAndLecturerUserFullNameAndClassRoomNameAndCourseName(semester,search,search,search));
+                .findBySemesterAndLecturerUserFullNameContainingAndClassRoomNameContainingAndCourseNameContaining(semester,search,search,search));
     }
 
 }

@@ -27,7 +27,11 @@ public class CourseServiceImpl implements ICourseService {
 
     private final IAllCourseService allCourseService;
 
-    public CourseServiceImpl(IFindAllCourseService findAllCourseService, IAddNewCourseService addNewCourseService, IOpenCourseService openCourseService, IFindAllOpenCourseService findAllOpenCourseService, IUpdateCourseService updateCourseService, IDeleteCourseService deleteCourseService, IFindAllOpenCourseCurrentService findAllOpenCourseCurrentService, IAllCourseService allCourseService) {
+    private final IUpdateOpenCourseService updateOpenCourseService;
+
+    private final IDeleteOpenCourseService deleteOpenCourseService;
+
+    public CourseServiceImpl(IFindAllCourseService findAllCourseService, IAddNewCourseService addNewCourseService, IOpenCourseService openCourseService, IFindAllOpenCourseService findAllOpenCourseService, IUpdateCourseService updateCourseService, IDeleteCourseService deleteCourseService, IFindAllOpenCourseCurrentService findAllOpenCourseCurrentService, IAllCourseService allCourseService, IUpdateOpenCourseService updateOpenCourseService, IDeleteOpenCourseService deleteOpenCourseService) {
         this.findAllCourseService = findAllCourseService;
         this.addNewCourseService = addNewCourseService;
         this.openCourseService = openCourseService;
@@ -36,5 +40,7 @@ public class CourseServiceImpl implements ICourseService {
         this.deleteCourseService = deleteCourseService;
         this.findAllOpenCourseCurrentService = findAllOpenCourseCurrentService;
         this.allCourseService = allCourseService;
+        this.updateOpenCourseService = updateOpenCourseService;
+        this.deleteOpenCourseService = deleteOpenCourseService;
     }
 }

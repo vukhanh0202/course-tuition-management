@@ -12,14 +12,14 @@ import java.util.Optional;
 
 public interface OpenCourseRepository extends JpaRepository<OpenCourse, Long> {
 
-    List<OpenCourse> findBySemesterAndLecturerUserFullNameAndClassRoomNameAndCourseName(Semester semester,
-                                                                                        String fullName,
-                                                                                        String className,
-                                                                                        String courseName);
+    List<OpenCourse> findBySemesterAndLecturerUserFullNameContainingAndClassRoomNameContainingAndCourseNameContaining(Semester semester,
+                                                                                                                      String fullName,
+                                                                                                                      String className,
+                                                                                                                      String courseName);
 
-    List<OpenCourse> findByLecturerUserFullNameAndClassRoomNameAndCourseName(String fullName,
-                                                                             String className,
-                                                                             String courseName);
+    List<OpenCourse> findByLecturerUserFullNameContainingAndClassRoomNameContainingAndCourseNameContaining(String fullName,
+                                                                                                           String className,
+                                                                                                           String courseName);
 }
 
 

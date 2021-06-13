@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ISemesterService {
 
-    IFindAllSemesterService<EStatus, List<SemesterDto>> getFindAllSemesterService();
+    IFindAllSemesterService<IFindAllSemesterService.Input, List<SemesterDto>> getFindAllSemesterService();
 
     IAddSemesterService<AddSemesterRequest, Boolean> getAddSemesterService();
 

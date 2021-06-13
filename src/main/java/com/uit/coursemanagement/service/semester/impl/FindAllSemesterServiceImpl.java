@@ -13,6 +13,7 @@ import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.semester.IFindAllSemesterService;
 import com.uit.coursemanagement.service.student.IFindAllUserStudentService;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,8 +23,8 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class FindAllSemesterServiceImpl extends AbstractBaseService<EStatus, List<SemesterDto>>
-        implements IFindAllSemesterService<EStatus, List<SemesterDto>> {
+public class FindAllSemesterServiceImpl extends AbstractBaseService<IFindAllSemesterService.Input, List<SemesterDto>>
+        implements IFindAllSemesterService<IFindAllSemesterService.Input, List<SemesterDto>> {
 
     @Autowired
     private SemesterMapper semesterMapper;
@@ -32,8 +33,8 @@ public class FindAllSemesterServiceImpl extends AbstractBaseService<EStatus, Lis
     private SemesterRepository semesterRepository;
 
     @Override
-    public List<SemesterDto> doing(EStatus status) {
-        return semesterMapper.toSemesterDtoList(semesterRepository.findAllByStatus(status));
+    public List<SemesterDto> doing(Input input) {
+        return semesterMapper.toSemesterDtoList(semesterRepository.findAllByStatusAndAndNameContaining(input.getStatus(), input.getSearch()));
     }
 
 }

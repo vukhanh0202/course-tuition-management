@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface SemesterRepository extends JpaRepository<Semester, Long> {
 
-    List<Semester> findAllByStatus(EStatus status);
+    List<Semester> findAllByStatusAndAndNameContaining(EStatus status, String name);
 
     Optional<Semester> findByName(String name);
 

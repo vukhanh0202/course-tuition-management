@@ -3,6 +3,7 @@ package com.uit.coursemanagement.controller;
 import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
 import com.uit.coursemanagement.payload.course.OpenCourseRequest;
+import com.uit.coursemanagement.payload.course.UpdateOpenCourseRequest;
 import com.uit.coursemanagement.service.course.ICourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,5 +45,23 @@ public class OpenCourseController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(courseService.getOpenCourseService()
                         .execute(openCourseRequest)));
+    }
+
+    @ApiOperation(value = "Update Open course" , authorizations = { @Authorization(value="JWT") })
+    @PutMapping(value = "/open-course/update/{id}")
+    public ResponseEntity<?> updateOpenCourse(@PathVariable("id") Long id,
+                                              @RequestBody UpdateOpenCourseRequest updateOpenCourseRequest) {
+        updateOpenCourseRequest.setId(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(courseService.getUpdateOpenCourseService()
+                        .execute(updateOpenCourseRequest)));
+    }
+
+    @ApiOperation(value = "Delete Open course" , authorizations = { @Authorization(value="JWT") })
+    @DeleteMapping(value = "/open-course/delete/{id}")
+    public ResponseEntity<?> deleteOpenCourse(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(courseService.getDeleteOpenCourseService()
+                        .execute(id)));
     }
 }

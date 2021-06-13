@@ -15,15 +15,18 @@ public interface MessageCode {
     }
     interface Semester {
         String EXIST = "message.semester.exists";
+        String EXIST_TIME = "message.semester.ExistTime";
         String NOT_FOUND = "message.semester.NotFound";
         String INVALID = "message.semester.Invalid";
         String NOT_DELETED = "message.semester.NotDeleted";
     }
-
     interface ClassRoom {
         String EXIST = "message.class.exists";
         String NOT_FOUND = "message.class.NotFound";
         String INVALID = "message.class.Invalid";
         String NOT_DELETED = "message.class.notDeleted";
+    }
+    interface OpenCourse {
+        String NOT_FOUND = "message.openCourse.NotFound";
     }
 }

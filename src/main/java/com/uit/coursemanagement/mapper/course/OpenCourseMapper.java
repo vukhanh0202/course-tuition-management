@@ -1,12 +1,15 @@
 package com.uit.coursemanagement.mapper.course;
 
 import com.uit.coursemanagement.constant.enums.ECalendarShift;
+import com.uit.coursemanagement.domain.course.Course;
 import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.dto.course.OpenCourseDto;
 import com.uit.coursemanagement.dto.student.StudentDto;
 import com.uit.coursemanagement.mapper.MapperBase;
 import com.uit.coursemanagement.payload.course.OpenCourseRequest;
+import com.uit.coursemanagement.payload.course.UpdateCourseRequest;
+import com.uit.coursemanagement.payload.course.UpdateOpenCourseRequest;
 import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +33,16 @@ public abstract class OpenCourseMapper implements MapperBase {
     @Mapping(source = "shifts", target = "calendarShifts")
     @Mapping(source = "classId", target = "classRoom.id")
     public abstract OpenCourse toOpenCourse(OpenCourseRequest openCourseRequest);
+
+    @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "lecturerId", target = "lecturer.id")
+    @Mapping(source = "courseId", target = "course.id")
+    @Mapping(source = "semesterId", target = "semester.id")
+    @Mapping(source = "dayOfWeek", target = "dayOfWeek")
+    @Mapping(source = "maxQuantityStudent", target = "maxQuantityStudent")
+    @Mapping(source = "shifts", target = "calendarShifts")
+    @Mapping(source = "classId", target = "classRoom.id")
+    public abstract void updateOpenCourse(UpdateOpenCourseRequest dto, @MappingTarget OpenCourse entity);
 
 
     @Named("toOpenCourseDto")

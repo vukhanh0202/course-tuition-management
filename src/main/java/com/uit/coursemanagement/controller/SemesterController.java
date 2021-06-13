@@ -6,6 +6,7 @@ import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
 import com.uit.coursemanagement.payload.semester.AddSemesterRequest;
 import com.uit.coursemanagement.payload.semester.UpdateSemesterRequest;
+import com.uit.coursemanagement.service.semester.IFindAllSemesterService;
 import com.uit.coursemanagement.service.semester.ISemesterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,9 +27,10 @@ public class SemesterController {
 
     @ApiOperation(value = "Search semester", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/semester/search")
-    public ResponseEntity<?> findAllSemester(@RequestParam(value = "status") EStatus status) {
+    public ResponseEntity<?> findAllSemester(@RequestParam(value = "search", defaultValue = "") String search,
+                                             @RequestParam(value = "status") EStatus status) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(semesterService.getFindAllSemesterService().execute(status)));
+                .body(new ApiResponse(semesterService.getFindAllSemesterService().execute(new IFindAllSemesterService.Input(status, search))));
     }
 
     @ApiOperation(value = "All semester", authorizations = {@Authorization(value = "JWT")})
@@ -56,7 +58,7 @@ public class SemesterController {
     }
 
     @ApiOperation(value = "Delete semester", authorizations = {@Authorization(value = "JWT")})
-    @DeleteMapping(value = "/semester/update/{id}")
+    @DeleteMapping(value = "/semester/delete/{id}")
     public ResponseEntity<?> deleteSemester(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(semesterService.getDeleteSemesterService()
