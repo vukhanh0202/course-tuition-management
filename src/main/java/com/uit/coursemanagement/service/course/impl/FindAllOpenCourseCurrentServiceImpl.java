@@ -3,6 +3,7 @@ package com.uit.coursemanagement.service.course.impl;
 import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.domain.semester.Semester;
 import com.uit.coursemanagement.dto.course.OpenCourseDto;
+import com.uit.coursemanagement.dto.course.OpenCourseRegisterDto;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.course.OpenCourseMapper;
 import com.uit.coursemanagement.repository.course.OpenCourseRepository;
@@ -17,8 +18,8 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class FindAllOpenCourseCurrentServiceImpl extends AbstractBaseService<String, List<OpenCourseDto>>
-        implements IFindAllOpenCourseCurrentService<String, List<OpenCourseDto>> {
+public class FindAllOpenCourseCurrentServiceImpl extends AbstractBaseService<Long, List<OpenCourseRegisterDto>>
+        implements IFindAllOpenCourseCurrentService<Long, List<OpenCourseRegisterDto>> {
 
     private final OpenCourseMapper openCourseMapper;
 
@@ -33,12 +34,12 @@ public class FindAllOpenCourseCurrentServiceImpl extends AbstractBaseService<Str
     }
 
     @Override
-    public List<OpenCourseDto> doing(String search) {
+    public List<OpenCourseRegisterDto> doing(Long userId) {
         Date date = new Date();
         Semester semester = semesterRepository.findByDate(date)
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND)));
-        return openCourseMapper.toOpenCourseDtoList(openCourseRepository
-                .findBySemesterAndLecturerUserFullNameContainingAndClassRoomNameContainingAndCourseNameContaining(semester,search,search,search));
+        return openCourseMapper.toOpenCourseRegisterDtoList(openCourseRepository
+                .findBySemester(semester), userId);
     }
 
 }

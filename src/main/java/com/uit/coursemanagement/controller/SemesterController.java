@@ -52,6 +52,7 @@ public class SemesterController {
     @PutMapping(value = "/semester/update/{id}")
     public ResponseEntity<?> updateSemester(@PathVariable("id") Long id,
                                             @RequestBody UpdateSemesterRequest updateSemesterRequest) {
+        updateSemesterRequest.setId(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(semesterService.getUpdateSemesterService()
                         .execute(updateSemesterRequest)));

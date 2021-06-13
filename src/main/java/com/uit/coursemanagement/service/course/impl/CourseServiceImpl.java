@@ -31,7 +31,11 @@ public class CourseServiceImpl implements ICourseService {
 
     private final IDeleteOpenCourseService deleteOpenCourseService;
 
-    public CourseServiceImpl(IFindAllCourseService findAllCourseService, IAddNewCourseService addNewCourseService, IOpenCourseService openCourseService, IFindAllOpenCourseService findAllOpenCourseService, IUpdateCourseService updateCourseService, IDeleteCourseService deleteCourseService, IFindAllOpenCourseCurrentService findAllOpenCourseCurrentService, IAllCourseService allCourseService, IUpdateOpenCourseService updateOpenCourseService, IDeleteOpenCourseService deleteOpenCourseService) {
+    private final IRegisterOpenCourseService registerOpenCourseService;
+
+    private final IDeleteRegisterOpenCourseService deleteRegisterOpenCourseService;
+
+    public CourseServiceImpl(IFindAllCourseService findAllCourseService, IAddNewCourseService addNewCourseService, IOpenCourseService openCourseService, IFindAllOpenCourseService findAllOpenCourseService, IUpdateCourseService updateCourseService, IDeleteCourseService deleteCourseService, IFindAllOpenCourseCurrentService findAllOpenCourseCurrentService, IAllCourseService allCourseService, IUpdateOpenCourseService updateOpenCourseService, IDeleteOpenCourseService deleteOpenCourseService, IRegisterOpenCourseService registerOpenCourseService, IDeleteRegisterOpenCourseService deleteRegisterOpenCourseService) {
         this.findAllCourseService = findAllCourseService;
         this.addNewCourseService = addNewCourseService;
         this.openCourseService = openCourseService;
@@ -42,5 +46,7 @@ public class CourseServiceImpl implements ICourseService {
         this.allCourseService = allCourseService;
         this.updateOpenCourseService = updateOpenCourseService;
         this.deleteOpenCourseService = deleteOpenCourseService;
+        this.registerOpenCourseService = registerOpenCourseService;
+        this.deleteRegisterOpenCourseService = deleteRegisterOpenCourseService;
     }
 }

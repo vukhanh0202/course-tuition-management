@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -39,5 +40,19 @@ public class Semester extends SqlEntity {
     public String toString() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return name + "(" + dateFormat.format(fromDate) + " - " + dateFormat.format(toDate) + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Semester semester = (Semester) o;
+        return Objects.equals(id, semester.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id);
     }
 }

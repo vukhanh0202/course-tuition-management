@@ -3,6 +3,7 @@ package com.uit.coursemanagement.domain.student.join;
 import com.uit.coursemanagement.constant.enums.ECourseStudentStatus;
 import com.uit.coursemanagement.domain.SqlEntity;
 import com.uit.coursemanagement.domain.course.Course;
+import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.student.Student;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,10 +25,15 @@ public class StudentCourse extends SqlEntity {
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("courseId")
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @MapsId("openCourseId")
+    @JoinColumn(name = "open_course_id")
+    private OpenCourse openCourse;
 
     @Enumerated(EnumType.STRING)
-    private ECourseStudentStatus status;
+    private ECourseStudentStatus status = ECourseStudentStatus.PENDING;
+
+    public StudentCourse(Student student, OpenCourse openCourse) {
+        this.student = student;
+        this.openCourse = openCourse;
+    }
 }

@@ -8,6 +8,7 @@ import com.uit.coursemanagement.domain.classes.ClassRoom;
 import com.uit.coursemanagement.domain.course.Course;
 import com.uit.coursemanagement.domain.lecturer.Lecturer;
 import com.uit.coursemanagement.domain.semester.Semester;
+import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.utils.ECalendarShiftConverter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,4 +52,8 @@ public class OpenCourse extends SqlEntity {
     private List<ECalendarShift> calendarShifts;
 
     private Long maxQuantityStudent;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "openCourse", cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<StudentCourse> studentCourses;
 }

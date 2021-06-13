@@ -13,18 +13,18 @@ public class StudentCourseId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long studentId;
-    private Long courseId;
+    private Long openCourseId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StudentCourseId that = (StudentCourseId) o;
-        return Objects.equals(studentId, that.studentId) && Objects.equals(courseId, that.courseId);
+        return Objects.equals(studentId, that.studentId) && Objects.equals(openCourseId, that.openCourseId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(studentId, courseId);
+        return Objects.hash(studentId, openCourseId);
     }
 }

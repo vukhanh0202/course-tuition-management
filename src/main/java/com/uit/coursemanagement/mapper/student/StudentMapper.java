@@ -59,13 +59,13 @@ public abstract class StudentMapper implements MapperBase {
 
         studentDetailDto.setCourseExperiencedList(courseMapper.toCourseDtoList(courseList.stream()
                 .filter(studentCourse -> studentCourse.getStatus() == ECourseStudentStatus.COMPLETED)
-                .map(StudentCourse::getCourse).collect(Collectors.toList())));
+                .map(studentCourse -> studentCourse.getOpenCourse().getCourse()).collect(Collectors.toList())));
         studentDetailDto.setCoursePresentList(courseMapper.toCourseDtoList(courseList.stream()
                 .filter(studentCourse -> studentCourse.getStatus() == ECourseStudentStatus.PENDING)
-                .map(StudentCourse::getCourse).collect(Collectors.toList())));
+                .map(studentCourse -> studentCourse.getOpenCourse().getCourse()).collect(Collectors.toList())));
         studentDetailDto.setCourseDebtList(courseMapper.toCourseDtoList(courseList.stream()
                 .filter(studentCourse -> studentCourse.getStatus() == ECourseStudentStatus.DEBT)
-                .map(StudentCourse::getCourse).collect(Collectors.toList())));
+                .map(studentCourse -> studentCourse.getOpenCourse().getCourse()).collect(Collectors.toList())));
     }
 
     @BeanMapping(qualifiedByName = "toStudentDetailDto", ignoreByDefault = true,

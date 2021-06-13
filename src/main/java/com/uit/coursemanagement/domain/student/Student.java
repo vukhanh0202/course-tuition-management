@@ -47,6 +47,31 @@ public class Student extends SqlEntity {
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
 //    private List<CourseCalendarCreation> courseCalendarCreations = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student", cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<StudentCourse> studentCourses = new ArrayList<>();
+
+    //Constructors, getters and setters removed for brevity
+    public void addStudentCourse(StudentCourse studentCourse) {
+        if (studentCourses == null) {
+            studentCourses = new ArrayList<>();
+        }
+        studentCourses.add(studentCourse);
+        studentCourse.setStudent(this);
+    }
+    public void addStudentCourses(List<StudentCourse> studentCourses) {
+        if (studentCourses == null) {
+            studentCourses = new ArrayList<>();
+        }
+        studentCourses.forEach(this::addStudentCourse);
+    }
+
+    public void removeStudentCourse(StudentCourse studentCourse) {
+        studentCourses.remove(studentCourse);
+        studentCourse.setStudent(null);
+    }
+
+    public void removeStudentCourses(List<StudentCourse> studentCourses) {
+        studentCourses.forEach(this::removeStudentCourse);
+    }
 }

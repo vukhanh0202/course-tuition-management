@@ -38,7 +38,4 @@ public class Course extends SqlEntity {
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
 //    private List<CourseCalendarCreation> courseCalendarCreations;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
-    private List<StudentCourse> studentCourses;
 }

@@ -3,10 +3,8 @@ package com.uit.coursemanagement.service.course;
 
 import com.uit.coursemanagement.dto.course.CourseDto;
 import com.uit.coursemanagement.dto.course.OpenCourseDto;
-import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
-import com.uit.coursemanagement.payload.course.OpenCourseRequest;
-import com.uit.coursemanagement.payload.course.UpdateCourseRequest;
-import com.uit.coursemanagement.payload.course.UpdateOpenCourseRequest;
+import com.uit.coursemanagement.dto.course.OpenCourseRegisterDto;
+import com.uit.coursemanagement.payload.course.*;
 
 import java.util.List;
 
@@ -24,11 +22,15 @@ public interface ICourseService{
 
     IDeleteCourseService<Long, Boolean> getDeleteCourseService();
 
-    IFindAllOpenCourseCurrentService<String, List<OpenCourseDto>> getFindAllOpenCourseCurrentService();
+    IFindAllOpenCourseCurrentService<Long, List<OpenCourseRegisterDto>> getFindAllOpenCourseCurrentService();
 
     IAllCourseService<Void, List<CourseDto>> getAllCourseService();
 
     IUpdateOpenCourseService<UpdateOpenCourseRequest, Boolean> getUpdateOpenCourseService();
 
     IDeleteOpenCourseService<Long, Boolean> getDeleteOpenCourseService();
+
+    IRegisterOpenCourseService<RegisterOpenCourseRequest, Boolean> getRegisterOpenCourseService();
+
+    IDeleteRegisterOpenCourseService<RegisterOpenCourseRequest, Boolean> getDeleteRegisterOpenCourseService();
 }

@@ -6,6 +6,10 @@ public interface MessageCode {
         String INVALID = "message.user.Invalid";
         String NOT_FOUND = "message.user.NotFound";
     }
+    interface Student {
+        String FULL_COURSE_IN_SEMESTER = "message.student.fullCourse";
+        String EXIST_COURSE_REGISTERED = "message.student.Registered";
+    }
     interface Token {
         String INVALID_TOKEN = "message.token.InvalidToken";
     }
