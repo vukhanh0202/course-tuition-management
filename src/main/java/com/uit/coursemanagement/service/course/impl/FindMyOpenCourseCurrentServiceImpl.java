@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +54,8 @@ public class FindMyOpenCourseCurrentServiceImpl extends AbstractBaseService<Long
                 .collect(Collectors.toList()), userId));
         result.setTotalCredit(result.getList().stream().mapToLong(OpenCourseRegisterDto::getCreditQuantity)
                 .sum());
-        result.setTotalFee(500000L);
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        result.setTotalFee(formatter.format(5000000)+" VNĐ");
         return result;
     }
 

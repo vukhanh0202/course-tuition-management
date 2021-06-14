@@ -20,6 +20,6 @@ public class OpenCourseRegisterOfStudentDto {
     private Long totalCredit;
 
     @JsonProperty("total_fee")
-    private Long totalFee;
+    private String totalFee;
 
 }

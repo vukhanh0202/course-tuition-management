@@ -63,7 +63,7 @@ public class OpenCourseController {
                         .execute(deleteOpenCourseRequest)));
     }
 
-    @ApiOperation(value = "Open course current delete" , authorizations = { @Authorization(value="JWT") })
+    @ApiOperation(value = "My Open course current" , authorizations = { @Authorization(value="JWT") })
     @GetMapping(value = "/my-open-course/current/token")
     public ResponseEntity<?> myOpenCourseCurrent() {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

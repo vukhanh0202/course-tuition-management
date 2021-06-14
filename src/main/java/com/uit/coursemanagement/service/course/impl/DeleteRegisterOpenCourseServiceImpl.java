@@ -76,8 +76,8 @@ public class DeleteRegisterOpenCourseServiceImpl extends AbstractBaseService<Reg
     public Boolean doing(RegisterOpenCourseRequest deleteRegisterOpenCourseRequest) {
         User user = userRepository.findById(deleteRegisterOpenCourseRequest.getUserId()).get();
         List<StudentCourse> list = new ArrayList<>();
-        deleteRegisterOpenCourseRequest.getList().forEach(id -> list.add(new StudentCourse(user.getStudent(),
-                openCourseRepository.findById(id).get())));
+        deleteRegisterOpenCourseRequest.getList().forEach(id -> list.add(
+                userCourseRepository.findByStudentIdAndOpenCourseId(deleteRegisterOpenCourseRequest.getUserId(),id).get()));
         user.getStudent().removeStudentCourses(list);
         userRepository.save(user);
         return true;

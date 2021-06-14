@@ -13,6 +13,7 @@ import com.uit.coursemanagement.mapper.course.OpenCourseMapper;
 import com.uit.coursemanagement.payload.course.RegisterOpenCourseRequest;
 import com.uit.coursemanagement.repository.course.OpenCourseRepository;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
+import com.uit.coursemanagement.repository.user.UserCourseRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.course.IRegisterOpenCourseService;
@@ -42,6 +43,8 @@ public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterO
     @Autowired
     private SemesterRepository semesterRepository;
 
+    @Autowired
+    private UserCourseRepository userCourseRepository;
 
     @Override
     public void preExecute(RegisterOpenCourseRequest registerOpenCourseRequest) {
@@ -76,7 +79,16 @@ public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterO
             if (openCourses.contains(id)){
                 throw new InvalidException(messageHelper.getMessage(MessageCode.Student.EXIST_COURSE_REGISTERED));
             }
+            // Kiểm tra môn học đã full sinh viên đăng ký hay chưa
+            List<StudentCourse> studentCourseList = userCourseRepository.findAllByOpenCourseId(id);
+            if (studentCourseList.size() > 0){
+                StudentCourse item = studentCourseList.get(0);
+                if (studentCourseList.size() >= item.getOpenCourse().getMaxQuantityStudent()){
+                    throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.FULL_SIZE));
+                }
+            }
         });
+
     }
 
     @Override

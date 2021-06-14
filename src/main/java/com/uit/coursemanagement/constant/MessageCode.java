@@ -32,5 +32,6 @@ public interface MessageCode {
     }
     interface OpenCourse {
         String NOT_FOUND = "message.openCourse.NotFound";
+        String FULL_SIZE = "message.openCourse.FullSize";
     }
 }

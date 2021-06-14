@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface OpenCourseRepository extends JpaRepository<OpenCourse, Long> {
 
     List<OpenCourse> findBySemester(Semester semester);
+    Optional<OpenCourse> findBySemesterAndId(Semester semester, Long courseId);
     List<OpenCourse> findByLecturerUserFullNameContainingAndClassRoomNameContainingAndCourseNameContaining(String fullName,
                                                                                                            String className,
                                                                                                            String courseName);
