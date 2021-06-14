@@ -58,10 +58,12 @@ public class DeleteRegisterOpenCourseServiceImpl extends AbstractBaseService<Reg
         Date date = new Date();
         Semester semester = semesterRepository.findByDate(date)
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND)));
-        if (semester.getOpenCourses().stream()
-                .map(openCourse -> deleteRegisterOpenCourseRequest.getList().contains(openCourse.getId())).count() > 0) {
-            throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.NOT_FOUND));
-        }
+        List<Long> semesterCourseIdList = semester.getOpenCourses().stream().map(OpenCourse::getId).collect(Collectors.toList());
+        deleteRegisterOpenCourseRequest.getList().forEach(id ->{
+            if (!semesterCourseIdList.contains(id)){
+                throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.NOT_FOUND));
+            }
+        });
         // Kiểm tra user có đăng ký môn học đó hay không
         deleteRegisterOpenCourseRequest.getList().forEach(id ->{
             if (userCourseRepository.findByStudentIdAndOpenCourseId(user.getId(),id).isEmpty()){

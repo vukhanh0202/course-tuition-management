@@ -56,10 +56,13 @@ public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterO
         Date date = new Date();
         Semester semester = semesterRepository.findByDate(date)
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND)));
-        if (semester.getOpenCourses().stream()
-                .map(openCourse -> registerOpenCourseRequest.getList().contains(openCourse.getId())).count() > 0) {
-            throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.NOT_FOUND));
-        }
+        List<Long> semesterCourseIdList = semester.getOpenCourses().stream().map(OpenCourse::getId).collect(Collectors.toList());
+        registerOpenCourseRequest.getList().forEach(id ->{
+            if (!semesterCourseIdList.contains(id)){
+                throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.NOT_FOUND));
+            }
+        });
+
         // Kiểm tra student đã đủ tín chỉ trong học kì hiện tại hay chưa
         if (user.getStudent().getStudentCourses()
                 .stream().map(studentCourse -> studentCourse.getOpenCourse().getSemester().equals(semester))
