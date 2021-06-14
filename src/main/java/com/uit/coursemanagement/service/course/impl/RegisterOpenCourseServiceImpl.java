@@ -70,11 +70,13 @@ public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterO
             throw new InvalidException(messageHelper.getMessage(MessageCode.Student.FULL_COURSE_IN_SEMESTER));
         }
         // Kiểm tra student đã đăng ký môn này trước đó hay chưa
-        List<OpenCourse> openCourses = user.getStudent().getStudentCourses()
-                .stream().map(StudentCourse::getOpenCourse).collect(Collectors.toList());
-        if (openCourses.stream().map(openCourse -> registerOpenCourseRequest.getList().contains(openCourse.getId())).count() > 0) {
-            throw new InvalidException(messageHelper.getMessage(MessageCode.Student.EXIST_COURSE_REGISTERED));
-        }
+        List<Long> openCourses = user.getStudent().getStudentCourses()
+                .stream().map(studentCourse -> studentCourse.getOpenCourse().getCourse().getId()).collect(Collectors.toList());
+        registerOpenCourseRequest.getList().forEach(id ->{
+            if (openCourses.contains(id)){
+                throw new InvalidException(messageHelper.getMessage(MessageCode.Student.EXIST_COURSE_REGISTERED));
+            }
+        });
     }
 
     @Override
