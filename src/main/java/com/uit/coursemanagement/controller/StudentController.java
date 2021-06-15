@@ -2,6 +2,7 @@ package com.uit.coursemanagement.controller;
 
 import com.uit.coursemanagement.data.UserPrincipal;
 import com.uit.coursemanagement.dto.response.ApiResponse;
+import com.uit.coursemanagement.payload.tuition.PaymentFeeRequest;
 import com.uit.coursemanagement.service.student.IStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -46,4 +44,20 @@ public class StudentController {
                 .body(new ApiResponse(studentService.getFindAllFeeStudentService().execute(userPrincipal.getId())));
     }
 
+    @ApiOperation(value = "All Fee Tuition Student", authorizations = {@Authorization(value = "JWT")})
+    @GetMapping(value = "/student/all-fee/token")
+    public ResponseEntity<?> findAllFeeUserStudent() {
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(studentService.getFindAllFeeStudentService().execute(userPrincipal.getId())));
+    }
+
+    @ApiOperation(value = "Fee Tuition Student Detail", authorizations = {@Authorization(value = "JWT")})
+    @PostMapping(value = "/student/fee/payment/token")
+    public ResponseEntity<?> paymentFeeUserStudent(@RequestBody PaymentFeeRequest paymentFeeRequest) {
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        paymentFeeRequest.setStudentId(userPrincipal.getId());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(studentService.getPaymentFeeStudentService().execute(paymentFeeRequest)));
+    }
 }

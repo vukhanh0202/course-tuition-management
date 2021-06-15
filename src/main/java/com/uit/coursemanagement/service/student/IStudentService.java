@@ -1,10 +1,10 @@
 package com.uit.coursemanagement.service.student;
 
 
-import com.uit.coursemanagement.dto.response.PaginationResponse;
 import com.uit.coursemanagement.dto.student.StudentDetailDto;
 import com.uit.coursemanagement.dto.student.StudentDto;
 import com.uit.coursemanagement.dto.student.StudentFeeDto;
+import com.uit.coursemanagement.payload.tuition.PaymentFeeRequest;
 
 import java.util.List;
 
@@ -15,4 +15,6 @@ public interface IStudentService {
     IFindDetailStudentService<Long, StudentDetailDto> getFindDetailStudentService();
 
     IFindAllFeeStudentService<Long, List<StudentFeeDto>> getFindAllFeeStudentService();
+
+    IPaymentFeeStudentService<PaymentFeeRequest, Boolean> getPaymentFeeStudentService();
 }

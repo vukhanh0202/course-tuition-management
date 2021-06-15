@@ -1,9 +1,6 @@
 package com.uit.coursemanagement.service.student.impl;
 
-import com.uit.coursemanagement.service.student.IFindAllFeeStudentService;
-import com.uit.coursemanagement.service.student.IFindAllUserStudentService;
-import com.uit.coursemanagement.service.student.IFindDetailStudentService;
-import com.uit.coursemanagement.service.student.IStudentService;
+import com.uit.coursemanagement.service.student.*;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +17,12 @@ public class StudentServiceImpl implements IStudentService {
 
     private final IFindAllFeeStudentService findAllFeeStudentService;
 
-    public StudentServiceImpl(IFindAllUserStudentService findAllUserStudentService, IFindDetailStudentService findDetailStudentService, IFindAllFeeStudentService findAllFeeStudentService) {
+    private final IPaymentFeeStudentService paymentFeeStudentService;
+
+    public StudentServiceImpl(IFindAllUserStudentService findAllUserStudentService, IFindDetailStudentService findDetailStudentService, IFindAllFeeStudentService findAllFeeStudentService, IPaymentFeeStudentService paymentFeeStudentService) {
         this.findAllUserStudentService = findAllUserStudentService;
         this.findDetailStudentService = findDetailStudentService;
         this.findAllFeeStudentService = findAllFeeStudentService;
+        this.paymentFeeStudentService = paymentFeeStudentService;
     }
 }

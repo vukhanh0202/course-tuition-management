@@ -1,6 +1,7 @@
 package com.uit.coursemanagement.service.student.impl;
 
 import com.uit.coursemanagement.constant.MessageCode;
+import com.uit.coursemanagement.constant.enums.EStatus;
 import com.uit.coursemanagement.constant.enums.EUserType;
 import com.uit.coursemanagement.domain.semester.Semester;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
@@ -67,7 +68,7 @@ public class FindAllFeeStudentServiceImpl extends AbstractBaseService<Long, List
         for (Long key : set) {
             Semester semester = semesterRepository.findById(key).orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND)));
             List<StudentCourse> list = map.get(key);
-            List<TuitionFee> tuitionFees = tuitionFeeRepository.findAllByStudentIdAndSemesterId(id, semester.getId());
+            List<TuitionFee> tuitionFees = tuitionFeeRepository.findAllByStudentIdAndSemesterIdAndStatus(id, semester.getId(), EStatus.COMPLETED);
             // Sort by timeCompleted DESC
             tuitionFees.sort(new Comparator<TuitionFee>() {
                 @Override
