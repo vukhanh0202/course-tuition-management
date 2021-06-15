@@ -80,6 +80,8 @@ public class JwtTokenUtil implements Serializable {
         if (user.getUserType() == EUserType.STUDENT){
             claims.put("date_of_birth", user.getStudent().getDateOfBirth());
             claims.put("code", user.getStudent().getCode());
+            claims.put("faculty", user.getStudent().getFaculty());
+            claims.put("training_system", user.getStudent().getTrainingSystem());
         }
         return doGenerateToken(claims, userDetails.getUsername());
     }

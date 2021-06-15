@@ -34,6 +34,10 @@ public class Student extends SqlEntity {
 
     private String schoolYear;
 
+    private String faculty;
+
+    private String trainingSystem;
+
     private Long totalCreditQuantity;
 
     private Long creditQuantityExperienced;
