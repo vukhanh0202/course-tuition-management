@@ -33,8 +33,8 @@ public class UpdateCourseServiceImpl extends AbstractBaseService<UpdateCourseReq
     public void preExecute(UpdateCourseRequest updateCourseRequest) {
         Course course = courseRepository.findById(updateCourseRequest.getId())
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Course.NOT_FOUND)));
-        if (updateCourseRequest.getName() != null && !updateCourseRequest.getName().equals(course.getName())){
-            if (courseRepository.findByName(updateCourseRequest.getName()).isPresent()) {
+        if (updateCourseRequest.getName() != null && !updateCourseRequest.getName().equals(course.getName())) {
+            if (courseRepository.findByNameOrCode(updateCourseRequest.getName(), updateCourseRequest.getCode()).isPresent()) {
                 throw new InvalidException(messageHelper.getMessage(MessageCode.Course.EXIST, updateCourseRequest.getName()));
             }
         }

@@ -1,5 +1,6 @@
 package com.uit.coursemanagement.service.student.impl;
 
+import com.uit.coursemanagement.service.student.IFindAllFeeStudentService;
 import com.uit.coursemanagement.service.student.IFindAllUserStudentService;
 import com.uit.coursemanagement.service.student.IFindDetailStudentService;
 import com.uit.coursemanagement.service.student.IStudentService;
@@ -13,10 +14,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class StudentServiceImpl implements IStudentService {
 
-    @Autowired
-    private IFindAllUserStudentService findAllUserStudentService;
+    private final IFindAllUserStudentService findAllUserStudentService;
 
-    @Autowired
-    private IFindDetailStudentService findDetailStudentService;
+    private final IFindDetailStudentService findDetailStudentService;
 
+    private final IFindAllFeeStudentService findAllFeeStudentService;
+
+    public StudentServiceImpl(IFindAllUserStudentService findAllUserStudentService, IFindDetailStudentService findDetailStudentService, IFindAllFeeStudentService findAllFeeStudentService) {
+        this.findAllUserStudentService = findAllUserStudentService;
+        this.findDetailStudentService = findDetailStudentService;
+        this.findAllFeeStudentService = findAllFeeStudentService;
+    }
 }

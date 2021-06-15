@@ -2,7 +2,6 @@ package com.uit.coursemanagement.domain.course;
 
 import com.uit.coursemanagement.constant.enums.ETypeCourse;
 import com.uit.coursemanagement.domain.SqlEntity;
-import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +21,9 @@ public class Course extends SqlEntity {
 
     private String name;
 
+    @Column(unique = true)
+    private String code;
+
     private Long creditQuantity;
 
     @Enumerated(EnumType.STRING)
@@ -31,11 +33,9 @@ public class Course extends SqlEntity {
 
     private Double priceBasic;
 
-    private Double priceAdvanced;
+//    private Double priceAdvanced;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
     private List<OpenCourse> openCourses = new ArrayList<>();
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
-//    private List<CourseCalendarCreation> courseCalendarCreations;
 }

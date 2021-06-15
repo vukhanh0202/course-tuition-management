@@ -17,6 +17,8 @@ public class CourseDto {
 
     private String name;
 
+    private String code;
+
     @JsonProperty("credit_quantity")
     private Long creditQuantity;
 

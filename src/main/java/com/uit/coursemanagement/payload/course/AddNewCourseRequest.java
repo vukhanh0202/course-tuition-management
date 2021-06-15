@@ -12,6 +12,8 @@ public class AddNewCourseRequest {
 
     private String name;
 
+    private String code;
+
     @JsonProperty("credit_quantity")
     private Long creditQuantity;
 

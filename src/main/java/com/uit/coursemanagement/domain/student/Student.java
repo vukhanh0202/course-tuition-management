@@ -3,6 +3,7 @@ package com.uit.coursemanagement.domain.student;
 import com.uit.coursemanagement.constant.enums.EFeeStatus;
 import com.uit.coursemanagement.domain.SqlEntity;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
+import com.uit.coursemanagement.domain.tuition.TuitionFee;
 import com.uit.coursemanagement.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,15 +42,16 @@ public class Student extends SqlEntity {
 
     private Long creditQuantityDebt;
 
-    @Enumerated(EnumType.STRING)
-    private EFeeStatus feeStatus;
-//
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
-//    private List<CourseCalendarCreation> courseCalendarCreations = new ArrayList<>();
+    private Date startDate;
+
+    private Date endDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student", cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<StudentCourse> studentCourses = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    private List<TuitionFee> tuitionFees = new ArrayList<>();
 
     //Constructors, getters and setters removed for brevity
     public void addStudentCourse(StudentCourse studentCourse) {

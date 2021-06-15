@@ -29,11 +29,22 @@ public class StudentCourse extends SqlEntity {
     @JoinColumn(name = "open_course_id")
     private OpenCourse openCourse;
 
+    private Long creditQuantity;
+
+    private Double priceBasic;
+
     @Enumerated(EnumType.STRING)
     private ECourseStudentStatus status = ECourseStudentStatus.PENDING;
 
     public StudentCourse(Student student, OpenCourse openCourse) {
         this.student = student;
         this.openCourse = openCourse;
+    }
+
+    public StudentCourse(Student student, OpenCourse openCourse, Long creditQuantity, Double priceBasic) {
+        this.student = student;
+        this.openCourse = openCourse;
+        this.creditQuantity = creditQuantity;
+        this.priceBasic = priceBasic;
     }
 }

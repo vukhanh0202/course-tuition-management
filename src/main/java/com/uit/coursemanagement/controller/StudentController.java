@@ -1,5 +1,6 @@
 package com.uit.coursemanagement.controller;
 
+import com.uit.coursemanagement.data.UserPrincipal;
 import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.service.student.IStudentService;
 import io.swagger.annotations.Api;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,8 +33,17 @@ public class StudentController {
 
     @ApiOperation(value = "Student Detail", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/student/{id}")
-    public ResponseEntity<?> findAllUserStudent(@PathVariable("id") Long id) {
+    public ResponseEntity<?> findDetailUserStudent(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(studentService.getFindDetailStudentService().execute(id)));
     }
+
+    @ApiOperation(value = "Fee Tuition Student Detail", authorizations = {@Authorization(value = "JWT")})
+    @GetMapping(value = "/student/fee/token")
+    public ResponseEntity<?> findFeeUserStudent() {
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(studentService.getFindAllFeeStudentService().execute(userPrincipal.getId())));
+    }
+
 }

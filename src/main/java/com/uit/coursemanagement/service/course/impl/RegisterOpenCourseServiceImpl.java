@@ -60,8 +60,8 @@ public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterO
         Semester semester = semesterRepository.findByDate(date)
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND)));
         List<Long> semesterCourseIdList = semester.getOpenCourses().stream().map(OpenCourse::getId).collect(Collectors.toList());
-        registerOpenCourseRequest.getList().forEach(id ->{
-            if (!semesterCourseIdList.contains(id)){
+        registerOpenCourseRequest.getList().forEach(id -> {
+            if (!semesterCourseIdList.contains(id)) {
                 throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.NOT_FOUND));
             }
         });
@@ -75,15 +75,15 @@ public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterO
         // Kiểm tra student đã đăng ký môn này trước đó hay chưa
         List<Long> openCourses = user.getStudent().getStudentCourses()
                 .stream().map(studentCourse -> studentCourse.getOpenCourse().getCourse().getId()).collect(Collectors.toList());
-        registerOpenCourseRequest.getList().forEach(id ->{
-            if (openCourses.contains(id)){
+        registerOpenCourseRequest.getList().forEach(id -> {
+            if (openCourses.contains(id)) {
                 throw new InvalidException(messageHelper.getMessage(MessageCode.Student.EXIST_COURSE_REGISTERED));
             }
             // Kiểm tra môn học đã full sinh viên đăng ký hay chưa
             List<StudentCourse> studentCourseList = userCourseRepository.findAllByOpenCourseId(id);
-            if (studentCourseList.size() > 0){
+            if (studentCourseList.size() > 0) {
                 StudentCourse item = studentCourseList.get(0);
-                if (studentCourseList.size() >= item.getOpenCourse().getMaxQuantityStudent()){
+                if (studentCourseList.size() >= item.getOpenCourse().getMaxQuantityStudent()) {
                     throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.FULL_SIZE));
                 }
             }
@@ -95,8 +95,14 @@ public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterO
     public Boolean doing(RegisterOpenCourseRequest registerOpenCourseRequest) {
         User user = userRepository.findById(registerOpenCourseRequest.getUserId()).get();
         List<StudentCourse> list = new ArrayList<>();
-        registerOpenCourseRequest.getList().forEach(id -> list.add(new StudentCourse(user.getStudent(),
-                openCourseRepository.findById(id).get())));
+        registerOpenCourseRequest.getList().forEach(id -> {
+            OpenCourse openCourse = openCourseRepository.findById(id).get();
+            list.add(new StudentCourse(user.getStudent(),
+                    openCourse,
+                    openCourse.getCourse().getCreditQuantity(),
+                    openCourse.getCourse().getPriceBasic()
+            ));
+        });
         user.getStudent().addStudentCourses(list);
         userRepository.save(user);
         return true;

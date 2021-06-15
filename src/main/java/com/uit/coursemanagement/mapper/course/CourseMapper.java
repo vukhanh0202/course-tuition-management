@@ -1,10 +1,8 @@
 package com.uit.coursemanagement.mapper.course;
 
-import com.uit.coursemanagement.domain.classes.ClassRoom;
 import com.uit.coursemanagement.domain.course.Course;
 import com.uit.coursemanagement.dto.course.CourseDto;
 import com.uit.coursemanagement.mapper.MapperBase;
-import com.uit.coursemanagement.payload.classes.UpdateClassRequest;
 import com.uit.coursemanagement.payload.course.AddNewCourseRequest;
 import com.uit.coursemanagement.payload.course.UpdateCourseRequest;
 import org.mapstruct.*;
@@ -25,10 +23,11 @@ public abstract class CourseMapper implements MapperBase {
     @Named("toCourseDtoList")
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "creditQuantity", target = "creditQuantity")
     @Mapping(source = "typeCourse", target = "typeCourse")
     @Mapping(source = "priceBasic", target = "priceBasic")
-    @Mapping(source = "priceAdvanced", target = "priceAdvanced")
+//    @Mapping(source = "priceAdvanced", target = "priceAdvanced")
     @Mapping(source = "description", target = "description")
     public abstract CourseDto toCourseDto(Course course);
 
@@ -41,6 +40,7 @@ public abstract class CourseMapper implements MapperBase {
     @Named("toCourseBasicDtoList")
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
+    @Mapping(source = "code", target = "code")
     public abstract CourseDto toCourseBasicDto(Course course);
 
     @BeanMapping(ignoreByDefault = true)
@@ -53,20 +53,22 @@ public abstract class CourseMapper implements MapperBase {
 
     @BeanMapping(ignoreByDefault = true)
     @Mapping(source = "name", target = "name")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "creditQuantity", target = "creditQuantity")
     @Mapping(source = "typeCourse", target = "typeCourse")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "priceBasic", target = "priceBasic")
-    @Mapping(source = "priceAdvanced", target = "priceAdvanced")
+//    @Mapping(source = "priceAdvanced", target = "priceAdvanced")
     public abstract Course toCourse(AddNewCourseRequest addNewCourseRequest);
 
 
     @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "name", target = "name")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "creditQuantity", target = "creditQuantity")
     @Mapping(source = "typeCourse", target = "typeCourse")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "priceBasic", target = "priceBasic")
-    @Mapping(source = "priceAdvanced", target = "priceAdvanced")
+//    @Mapping(source = "priceAdvanced", target = "priceAdvanced")
     public abstract void updateCourse(UpdateCourseRequest dto, @MappingTarget Course entity);
 }

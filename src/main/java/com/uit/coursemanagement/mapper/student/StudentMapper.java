@@ -40,7 +40,6 @@ public abstract class StudentMapper implements MapperBase {
     @Mapping(source = "fullName", target = "fullName")
     @Mapping(source = "student.schoolYear", target = "schoolYear")
     @Mapping(source = "student.creditQuantityPresent", target = "creditQuantityPresent")
-    @Mapping(source = "student.feeStatus", target = "feeStatus")
     @Mapping(source = "email", target = "email")
     @Mapping(source = "student.dateOfBirth", target = "dateOfBirth")
     public abstract StudentDto toStudentDto(User user);
@@ -78,7 +77,6 @@ public abstract class StudentMapper implements MapperBase {
     @Mapping(source = "student.creditQuantityPresent", target = "creditQuantityPresent")
     @Mapping(source = "student.creditQuantityExperienced", target = "creditQuantityExperienced")
     @Mapping(source = "student.totalCreditQuantity", target = "totalCreditQuantity")
-    @Mapping(source = "student.feeStatus", target = "feeStatus")
     public abstract StudentDetailDto toStudentDetailDto(User user);
 
     @BeanMapping(ignoreByDefault = true)

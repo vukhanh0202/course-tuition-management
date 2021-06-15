@@ -29,7 +29,7 @@ public class AddNewCourseServiceImpl extends AbstractBaseService<AddNewCourseReq
 
     @Override
     public void preExecute(AddNewCourseRequest addNewCourseRequest) {
-        if (courseRepository.findByName(addNewCourseRequest.getName()).isPresent()){
+        if (courseRepository.findByNameOrCode(addNewCourseRequest.getName(), addNewCourseRequest.getCode()).isPresent()){
             throw new InvalidException(messageHelper.getMessage(MessageCode.Course.EXIST, addNewCourseRequest.getName()));
         }
     }
