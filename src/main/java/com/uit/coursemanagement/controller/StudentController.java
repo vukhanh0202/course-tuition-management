@@ -45,11 +45,11 @@ public class StudentController {
     }
 
     @ApiOperation(value = "All Fee Tuition Student", authorizations = {@Authorization(value = "JWT")})
-    @GetMapping(value = "/student/all-fee/token")
-    public ResponseEntity<?> findAllFeeUserStudent() {
+    @GetMapping(value = "/student/total-fee/token")
+    public ResponseEntity<?> findTotalFeeUserStudent() {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(studentService.getFindAllFeeStudentService().execute(userPrincipal.getId())));
+                .body(new ApiResponse(studentService.getFindTotalFeeStudentService().execute(userPrincipal.getId())));
     }
 
     @ApiOperation(value = "Fee Tuition Student Detail", authorizations = {@Authorization(value = "JWT")})

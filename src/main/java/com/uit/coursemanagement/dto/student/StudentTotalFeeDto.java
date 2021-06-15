@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class StudentAllFeeDto {
+public class StudentTotalFeeDto {
 
     @JsonProperty("credit_quantity")
     private Long creditQuantity;

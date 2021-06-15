@@ -19,10 +19,13 @@ public class StudentServiceImpl implements IStudentService {
 
     private final IPaymentFeeStudentService paymentFeeStudentService;
 
-    public StudentServiceImpl(IFindAllUserStudentService findAllUserStudentService, IFindDetailStudentService findDetailStudentService, IFindAllFeeStudentService findAllFeeStudentService, IPaymentFeeStudentService paymentFeeStudentService) {
+    private final IFindTotalFeeStudentService findTotalFeeStudentService;
+
+    public StudentServiceImpl(IFindAllUserStudentService findAllUserStudentService, IFindDetailStudentService findDetailStudentService, IFindAllFeeStudentService findAllFeeStudentService, IPaymentFeeStudentService paymentFeeStudentService, IFindTotalFeeStudentService findTotalFeeStudentService) {
         this.findAllUserStudentService = findAllUserStudentService;
         this.findDetailStudentService = findDetailStudentService;
         this.findAllFeeStudentService = findAllFeeStudentService;
         this.paymentFeeStudentService = paymentFeeStudentService;
+        this.findTotalFeeStudentService = findTotalFeeStudentService;
     }
 }

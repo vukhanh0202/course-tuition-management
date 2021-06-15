@@ -1,0 +1,68 @@
+package com.uit.coursemanagement.service.student.impl;
+
+import com.uit.coursemanagement.constant.MessageCode;
+import com.uit.coursemanagement.constant.enums.EStatus;
+import com.uit.coursemanagement.constant.enums.EUserType;
+import com.uit.coursemanagement.domain.semester.Semester;
+import com.uit.coursemanagement.domain.student.join.StudentCourse;
+import com.uit.coursemanagement.domain.tuition.TuitionFee;
+import com.uit.coursemanagement.domain.user.User;
+import com.uit.coursemanagement.dto.student.StudentFeeDto;
+import com.uit.coursemanagement.dto.student.StudentTotalFeeDto;
+import com.uit.coursemanagement.exception.InvalidException;
+import com.uit.coursemanagement.exception.NotFoundException;
+import com.uit.coursemanagement.repository.semester.SemesterRepository;
+import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
+import com.uit.coursemanagement.repository.user.UserCourseRepository;
+import com.uit.coursemanagement.repository.user.UserRepository;
+import com.uit.coursemanagement.service.AbstractBaseService;
+import com.uit.coursemanagement.service.student.IFindAllFeeStudentService;
+import com.uit.coursemanagement.service.student.IFindTotalFeeStudentService;
+import com.uit.coursemanagement.utils.ConvertDoubleToString;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.text.DecimalFormat;
+import java.util.*;
+
+@Service
+@Slf4j
+public class FindTotalFeeStudentServiceImpl extends AbstractBaseService<Long, StudentTotalFeeDto>
+        implements IFindTotalFeeStudentService<Long, StudentTotalFeeDto> {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserCourseRepository userCourseRepository;
+
+    @Autowired
+    private TuitionFeeRepository tuitionFeeRepository;
+
+    @Override
+    public void preExecute(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.User.NOT_FOUND)));
+        if (!user.getUserType().equals(EUserType.STUDENT)) {
+            throw new InvalidException(messageHelper.getMessage(MessageCode.User.INVALID));
+        }
+    }
+
+    @Override
+    public StudentTotalFeeDto doing(Long id) {
+        StudentTotalFeeDto result = new StudentTotalFeeDto();
+        List<StudentCourse> studentCourses = userCourseRepository.findAllByStudentId(id);
+        List<TuitionFee> tuitionFees = tuitionFeeRepository.findAllByStudentIdAndStatus(id, EStatus.COMPLETED);
+
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        Double totalFee = studentCourses.stream().mapToDouble(StudentCourse::getPriceBasic).sum();
+        Double completedFee = tuitionFees.stream().mapToDouble(TuitionFee::getTotalFee).sum();
+
+        result.setCreditQuantity(studentCourses.stream().mapToLong(StudentCourse::getCreditQuantity).sum());
+        result.setTotalFee(ConvertDoubleToString.convert(totalFee));
+        result.setFeeCompleted(ConvertDoubleToString.convert(completedFee));
+        result.setFeeDebt(ConvertDoubleToString.convert(totalFee - completedFee));
+        return result;
+    }
+
+}

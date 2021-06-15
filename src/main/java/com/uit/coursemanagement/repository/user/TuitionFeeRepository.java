@@ -10,4 +10,6 @@ public interface TuitionFeeRepository extends JpaRepository<TuitionFee, Long> {
 
     List<TuitionFee> findAllByStudentIdAndSemesterIdAndStatus(Long studentId, Long semesterId, EStatus status);
 
+    List<TuitionFee> findAllByStudentIdAndStatus(Long studentId, EStatus status);
+
 }

@@ -40,6 +40,9 @@ public class PaymentFeeStudentServiceImpl extends AbstractBaseService<PaymentFee
     @Autowired
     private TuitionFeeRepository tuitionFeeRepository;
 
+    @Autowired
+    private UserCourseRepository userCourseRepository;
+
     @Override
     public void preExecute(PaymentFeeRequest paymentFeeRequest) {
         User user = userRepository.findById(paymentFeeRequest.getStudentId()).orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.User.NOT_FOUND)));
@@ -55,10 +58,18 @@ public class PaymentFeeStudentServiceImpl extends AbstractBaseService<PaymentFee
         Student student = userRepository.findById(paymentFeeRequest.getStudentId()).get().getStudent();
         Semester semester = semesterRepository.findById(paymentFeeRequest.getSemesterId())
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND)));
+
+        List<StudentCourse> studentCourses = userCourseRepository.findAllByStudentIdAndOpenCourseSemesterId(paymentFeeRequest.getStudentId(), paymentFeeRequest.getSemesterId());
+        Double totalCourseToCompleted = studentCourses.stream().mapToDouble(StudentCourse::getPriceBasic).sum();
+
         TuitionFee tuitionFee = new TuitionFee();
         tuitionFee.setStudent(student);
         tuitionFee.setSemester(semester);
-        tuitionFee.setTotalFee(paymentFeeRequest.getTotalFee());
+        if (paymentFeeRequest.getTotalFee() >= totalCourseToCompleted) {
+            tuitionFee.setTotalFee(totalCourseToCompleted);
+        } else {
+            tuitionFee.setTotalFee(paymentFeeRequest.getTotalFee());
+        }
         tuitionFee.setTimeCompleted(new Date());
         tuitionFee.setStatus(EStatus.PENDING);
         tuitionFeeRepository.save(tuitionFee);
