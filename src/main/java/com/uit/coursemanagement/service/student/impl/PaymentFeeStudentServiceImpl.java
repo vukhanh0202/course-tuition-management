@@ -49,8 +49,17 @@ public class PaymentFeeStudentServiceImpl extends AbstractBaseService<PaymentFee
         if (!user.getUserType().equals(EUserType.STUDENT)) {
             throw new InvalidException(messageHelper.getMessage(MessageCode.User.INVALID));
         }
+        Semester semester = semesterRepository.findById(paymentFeeRequest.getSemesterId())
+                .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND)));
 
+        List<TuitionFee> tuitionFees = tuitionFeeRepository.findAllByStudentIdAndSemesterIdAndStatus(paymentFeeRequest.getStudentId(), semester.getId(), EStatus.COMPLETED);
+        List<StudentCourse> studentCourses = userCourseRepository.findAllByStudentIdAndOpenCourseSemesterId(paymentFeeRequest.getStudentId(), paymentFeeRequest.getSemesterId());
 
+        Double totalCourseToCompleted = studentCourses.stream().mapToDouble(StudentCourse::getPriceBasic).sum();
+        Double totalCourseToPayment = tuitionFees.stream().mapToDouble(TuitionFee::getTotalFee).sum();
+        if (totalCourseToPayment>=totalCourseToCompleted){
+            throw new InvalidException(messageHelper.getMessage(MessageCode.Student.PAYMENT_RESOLVED));
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ public interface MessageCode {
     interface Student {
         String FULL_COURSE_IN_SEMESTER = "message.student.fullCourse";
         String EXIST_COURSE_REGISTERED = "message.student.Registered";
+        String PAYMENT_RESOLVED = "message.student.Registered";
     }
     interface Token {
         String INVALID_TOKEN = "message.token.InvalidToken";

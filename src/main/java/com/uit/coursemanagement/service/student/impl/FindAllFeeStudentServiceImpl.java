@@ -84,6 +84,7 @@ public class FindAllFeeStudentServiceImpl extends AbstractBaseService<Long, List
             });
 
             StudentFeeDto item = new StudentFeeDto();
+            item.setSemesterId(semester.getId());
             item.setSemester(semester.getName());
             item.setFromDate(semester.getFromDate());
             item.setToDate(semester.getToDate());

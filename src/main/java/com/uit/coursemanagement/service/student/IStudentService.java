@@ -1,10 +1,8 @@
 package com.uit.coursemanagement.service.student;
 
 
-import com.uit.coursemanagement.dto.student.StudentDetailDto;
-import com.uit.coursemanagement.dto.student.StudentDto;
-import com.uit.coursemanagement.dto.student.StudentFeeDto;
-import com.uit.coursemanagement.dto.student.StudentTotalFeeDto;
+import com.uit.coursemanagement.dto.student.*;
+import com.uit.coursemanagement.payload.student.UpdateStudentRequest;
 import com.uit.coursemanagement.payload.tuition.PaymentFeeRequest;
 
 import java.util.List;
@@ -20,4 +18,8 @@ public interface IStudentService {
     IPaymentFeeStudentService<PaymentFeeRequest, Boolean> getPaymentFeeStudentService();
 
     IFindTotalFeeStudentService<Long, StudentTotalFeeDto> getFindTotalFeeStudentService();
+
+    IFindTimetableStudentService<Long, List<StudentTimetableDto>> getFindTimetableStudentService();
+
+    IUpdateStudentService<UpdateStudentRequest, Boolean> getUpdateStudentService();
 }

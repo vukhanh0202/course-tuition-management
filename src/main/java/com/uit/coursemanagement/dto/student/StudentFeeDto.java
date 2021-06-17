@@ -16,6 +16,9 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StudentFeeDto {
 
+    @JsonProperty("semester_id")
+    private Long semesterId;
+
     private String semester;
 
     @JsonProperty("from_date")

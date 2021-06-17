@@ -2,6 +2,7 @@ package com.uit.coursemanagement.controller;
 
 import com.uit.coursemanagement.data.UserPrincipal;
 import com.uit.coursemanagement.dto.response.ApiResponse;
+import com.uit.coursemanagement.payload.student.UpdateStudentRequest;
 import com.uit.coursemanagement.payload.tuition.PaymentFeeRequest;
 import com.uit.coursemanagement.service.student.IStudentService;
 import io.swagger.annotations.Api;
@@ -52,6 +53,14 @@ public class StudentController {
                 .body(new ApiResponse(studentService.getFindTotalFeeStudentService().execute(userPrincipal.getId())));
     }
 
+    @ApiOperation(value = "Timetable Student", authorizations = {@Authorization(value = "JWT")})
+    @GetMapping(value = "/student/timetable/token")
+    public ResponseEntity<?> findTimetableStudent() {
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(studentService.getFindTimetableStudentService().execute(userPrincipal.getId())));
+    }
+
     @ApiOperation(value = "Fee Tuition Student Detail", authorizations = {@Authorization(value = "JWT")})
     @PostMapping(value = "/student/fee/payment/token")
     public ResponseEntity<?> paymentFeeUserStudent(@RequestBody PaymentFeeRequest paymentFeeRequest) {
@@ -60,4 +69,14 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(studentService.getPaymentFeeStudentService().execute(paymentFeeRequest)));
     }
+
+    @ApiOperation(value = "Update information student", authorizations = {@Authorization(value = "JWT")})
+    @PutMapping(value = "/student/update")
+    public ResponseEntity<?> updateInformationStudent(@RequestBody UpdateStudentRequest updateStudentRequest) {
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        updateStudentRequest.setId(userPrincipal.getId());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(studentService.getUpdateStudentService().execute(updateStudentRequest)));
+    }
+
 }

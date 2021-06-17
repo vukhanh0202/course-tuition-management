@@ -2,12 +2,16 @@ package com.uit.coursemanagement.mapper.student;
 
 import com.uit.coursemanagement.constant.enums.ECourseStudentStatus;
 import com.uit.coursemanagement.domain.course.Course;
+import com.uit.coursemanagement.domain.semester.Semester;
+import com.uit.coursemanagement.domain.student.Student;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.dto.student.StudentDetailDto;
 import com.uit.coursemanagement.dto.student.StudentDto;
 import com.uit.coursemanagement.mapper.MapperBase;
 import com.uit.coursemanagement.mapper.course.CourseMapper;
+import com.uit.coursemanagement.payload.semester.UpdateSemesterRequest;
+import com.uit.coursemanagement.payload.student.UpdateStudentRequest;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -82,4 +86,11 @@ public abstract class StudentMapper implements MapperBase {
     @BeanMapping(ignoreByDefault = true)
     @IterableMapping(qualifiedByName = "toStudentDetailDtoList")
     public abstract List<StudentDetailDto> toStudentDetailDtoList(List<User> users);
+
+    @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "fullName", target = "fullName")
+    @Mapping(source = "dateOfBirth", target = "student.dateOfBirth")
+    @Mapping(source = "faculty", target = "student.faculty")
+    @Mapping(source = "trainingSystem", target = "student.trainingSystem")
+    public abstract void updateStudent(UpdateStudentRequest dto, @MappingTarget User entity);
 }
