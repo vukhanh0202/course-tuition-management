@@ -17,6 +17,7 @@ public interface OpenCourseRepository extends JpaRepository<OpenCourse, Long> {
     List<OpenCourse> findByLecturerUserFullNameContainingAndClassRoomNameContainingAndCourseNameContaining(String fullName,
                                                                                                            String className,
                                                                                                            String courseName);
+    List<OpenCourse> findAllByLecturerId(Long lecturerId);
 }
 
 

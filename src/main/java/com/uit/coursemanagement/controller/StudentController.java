@@ -4,6 +4,7 @@ import com.uit.coursemanagement.data.UserPrincipal;
 import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.payload.student.UpdateStudentRequest;
 import com.uit.coursemanagement.payload.tuition.PaymentFeeRequest;
+import com.uit.coursemanagement.service.student.IFindCourseRegisterStudentBySemesterService;
 import com.uit.coursemanagement.service.student.IStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +36,15 @@ public class StudentController {
     public ResponseEntity<?> findDetailUserStudent(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(studentService.getFindDetailStudentService().execute(id)));
+    }
+
+    @ApiOperation(value = "Student Course Register By Semester", authorizations = {@Authorization(value = "JWT")})
+    @GetMapping(value = "/student/course/{id}")
+    public ResponseEntity<?> findCourseRegisterByStudentAndSemester(@PathVariable("id") Long id,
+                                                                    @RequestParam(value = "semester_id") Long semesterId) {
+        IFindCourseRegisterStudentBySemesterService.Input input = new IFindCourseRegisterStudentBySemesterService.Input(id, semesterId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(studentService.getFindCourseRegisterStudentBySemesterService().execute(input)));
     }
 
     @ApiOperation(value = "Fee Tuition Student Detail", authorizations = {@Authorization(value = "JWT")})

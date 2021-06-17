@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.uit.coursemanagement.dto.course.CourseDto;
+import com.uit.coursemanagement.dto.student.join.CourseSemesterStudentDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,27 +34,22 @@ public class StudentDetailDto {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
 
-    @JsonProperty("credit_quantity_experienced")
-    private Long creditQuantityExperienced;
+    @JsonProperty("total_credit_quantity_experience")
+    private Long totalCreditQuantityExperience;
 
-    @JsonProperty("course_experienced_list")
-    private List<CourseDto> courseExperiencedList = new ArrayList<>();
+    private String faculty;
 
-    @JsonProperty("credit_quantity_present")
-    private Long creditQuantityPresent;
+    @JsonProperty("training_system")
+    private String trainingSystem;
 
-    @JsonProperty("course_present_list")
-    private List<CourseDto> coursePresentList = new ArrayList<>();
+    private List<CourseSemesterStudentDto> list;
 
-    @JsonProperty("credit_quantity_debt")
-    private Long creditQuantityDebt;
+    @JsonProperty("total_fee")
+    private String totalFee;
 
-    @JsonProperty("course_debt_list")
-    private List<CourseDto> courseDebtList = new ArrayList<>();
+    @JsonProperty("fee_completed")
+    private String totalFeeCompleted;
 
-    @JsonProperty("total_credit_quantity")
-    private Long totalCreditQuantity;
-
-    @JsonProperty("fee_status")
-    private String feeStatus;
+    @JsonProperty("fee_debt")
+    private String totalFeeDebt;
 }

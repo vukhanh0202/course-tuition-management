@@ -1,13 +1,11 @@
 package com.uit.coursemanagement.service.lecturer.impl;
 
 import com.uit.coursemanagement.service.lecturer.IAllUserLecturerService;
+import com.uit.coursemanagement.service.lecturer.IFindAllUserLecturerService;
+import com.uit.coursemanagement.service.lecturer.IFindDetailUserLecturerService;
 import com.uit.coursemanagement.service.lecturer.ILecturerService;
-import com.uit.coursemanagement.service.student.IFindAllUserStudentService;
-import com.uit.coursemanagement.service.student.IFindDetailStudentService;
-import com.uit.coursemanagement.service.student.IStudentService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,9 +13,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class LecturerServiceImpl implements ILecturerService {
 
-   private final IAllUserLecturerService allUserLecturerService;
+    private final IAllUserLecturerService allUserLecturerService;
 
-    public LecturerServiceImpl(IAllUserLecturerService allUserLecturerService) {
+    private final IFindAllUserLecturerService findAllUserLecturerService;
+
+    private final IFindDetailUserLecturerService findDetailUserLecturerService;
+
+    public LecturerServiceImpl(IAllUserLecturerService allUserLecturerService, IFindAllUserLecturerService findAllUserLecturerService, IFindDetailUserLecturerService findDetailUserLecturerService) {
         this.allUserLecturerService = allUserLecturerService;
+        this.findAllUserLecturerService = findAllUserLecturerService;
+        this.findDetailUserLecturerService = findDetailUserLecturerService;
     }
 }

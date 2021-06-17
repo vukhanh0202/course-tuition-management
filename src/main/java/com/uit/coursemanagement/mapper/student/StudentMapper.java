@@ -1,22 +1,35 @@
 package com.uit.coursemanagement.mapper.student;
 
+import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.constant.enums.ECourseStudentStatus;
+import com.uit.coursemanagement.constant.enums.EStatus;
 import com.uit.coursemanagement.domain.course.Course;
+import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.semester.Semester;
 import com.uit.coursemanagement.domain.student.Student;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
+import com.uit.coursemanagement.domain.tuition.TuitionFee;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.dto.student.StudentDetailDto;
 import com.uit.coursemanagement.dto.student.StudentDto;
+import com.uit.coursemanagement.dto.student.StudentTimetableDto;
+import com.uit.coursemanagement.dto.student.join.CourseSemesterStudentDto;
+import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.MapperBase;
 import com.uit.coursemanagement.mapper.course.CourseMapper;
+import com.uit.coursemanagement.mapper.course.OpenCourseMapper;
 import com.uit.coursemanagement.payload.semester.UpdateSemesterRequest;
 import com.uit.coursemanagement.payload.student.UpdateStudentRequest;
+import com.uit.coursemanagement.repository.course.OpenCourseRepository;
+import com.uit.coursemanagement.repository.semester.SemesterRepository;
+import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
+import com.uit.coursemanagement.repository.user.UserCourseRepository;
+import com.uit.coursemanagement.utils.ConvertDoubleToString;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -24,7 +37,16 @@ import java.util.stream.Collectors;
 public abstract class StudentMapper implements MapperBase {
 
     @Autowired
-    private CourseMapper courseMapper;
+    private TuitionFeeRepository tuitionFeeRepository;
+
+    @Autowired
+    private SemesterRepository semesterRepository;
+
+    @Autowired
+    private UserCourseRepository userCourseRepository;
+
+    @Autowired
+    private OpenCourseMapper openCourseMapper;
 
     //*************************************************
     //********** Mapper User To UserStudentDto (Search) **********
@@ -32,8 +54,12 @@ public abstract class StudentMapper implements MapperBase {
     @Named("toStudentDto")
     @BeforeMapping
     protected void toStudentDto(User user, @MappingTarget StudentDto studentDto) {
-        studentDto.setCreditQuantityExperienced(user.getStudent().getCreditQuantityExperienced()
+        studentDto.setCreditQuantityExperienced(user.getStudent().getStudentCourses().stream().mapToLong(StudentCourse::getCreditQuantity).sum()
                 + "/" + user.getStudent().getTotalCreditQuantity());
+        Date date = new Date();
+        Semester semester = semesterRepository.findByDate(date).get();
+        studentDto.setCreditQuantityPresent(userCourseRepository
+                .findAllByStudentIdAndOpenCourseSemesterId(user.getId(), semester.getId()).stream().mapToLong(StudentCourse::getCreditQuantity).sum());
     }
 
     @BeanMapping(qualifiedByName = "toStudentDto", ignoreByDefault = true,
@@ -43,7 +69,7 @@ public abstract class StudentMapper implements MapperBase {
     @Mapping(source = "student.code", target = "code")
     @Mapping(source = "fullName", target = "fullName")
     @Mapping(source = "student.schoolYear", target = "schoolYear")
-    @Mapping(source = "student.creditQuantityPresent", target = "creditQuantityPresent")
+//    @Mapping(source = "student.creditQuantityPresent", target = "creditQuantityPresent")
     @Mapping(source = "email", target = "email")
     @Mapping(source = "student.dateOfBirth", target = "dateOfBirth")
     public abstract StudentDto toStudentDto(User user);
@@ -58,17 +84,51 @@ public abstract class StudentMapper implements MapperBase {
     @Named("toStudentDetailDto")
     @BeforeMapping
     protected void toStudentDetailDto(User user, @MappingTarget StudentDetailDto studentDetailDto) {
-        List<StudentCourse> courseList = user.getStudent().getStudentCourses();
-
-        studentDetailDto.setCourseExperiencedList(courseMapper.toCourseDtoList(courseList.stream()
-                .filter(studentCourse -> studentCourse.getStatus() == ECourseStudentStatus.COMPLETED)
-                .map(studentCourse -> studentCourse.getOpenCourse().getCourse()).collect(Collectors.toList())));
-        studentDetailDto.setCoursePresentList(courseMapper.toCourseDtoList(courseList.stream()
-                .filter(studentCourse -> studentCourse.getStatus() == ECourseStudentStatus.PENDING)
-                .map(studentCourse -> studentCourse.getOpenCourse().getCourse()).collect(Collectors.toList())));
-        studentDetailDto.setCourseDebtList(courseMapper.toCourseDtoList(courseList.stream()
-                .filter(studentCourse -> studentCourse.getStatus() == ECourseStudentStatus.DEBT)
-                .map(studentCourse -> studentCourse.getOpenCourse().getCourse()).collect(Collectors.toList())));
+        List<StudentCourse> studentCourses = user.getStudent().getStudentCourses();
+        List<CourseSemesterStudentDto> result = new ArrayList<>();
+        Map<Long, List<OpenCourse>> map = new HashMap<>();
+        studentCourses.forEach(studentCourse -> {
+            Long semesterId = studentCourse.getOpenCourse().getSemester().getId();
+            if (map.containsKey(semesterId)) {
+                List<OpenCourse> courses = map.get(semesterId);
+                courses.add(studentCourse.getOpenCourse());
+            } else {
+                map.put(semesterId, List.of(studentCourse.getOpenCourse()));
+            }
+        });
+        List<TuitionFee> tuitionFees = tuitionFeeRepository
+                .findAllByStudentIdAndStatus(user.getId(), EStatus.COMPLETED);
+        // Sort by timeCompleted DESC
+        tuitionFees.sort(new Comparator<TuitionFee>() {
+            @Override
+            public int compare(TuitionFee o1, TuitionFee o2) {
+                // sort DESC
+                if (o2.getTimeCompleted().after(o1.getTimeCompleted())) {
+                    return 1;
+                } else if (o1.getTimeCompleted().after(o2.getTimeCompleted())) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
+        Double totalFee = studentCourses.stream().map(StudentCourse::getOpenCourse).mapToDouble(value -> value.getCourse().getPriceBasic()).sum();
+        Double totalCompleted = tuitionFees.stream().mapToDouble(TuitionFee::getTotalFee).sum();
+        Double totalDebt = totalFee - totalCompleted;
+        Set<Long> set = map.keySet();
+        for (Long key : set) {
+            Semester semester = semesterRepository.findById(key).get();
+            CourseSemesterStudentDto item = new CourseSemesterStudentDto();
+            item.setSemesterId(semester.getId());
+            item.setSemesterName(semester.getName());
+            item.setFromDate(semester.getFromDate());
+            item.setToDate(semester.getToDate());
+            result.add(item);
+        }
+        studentDetailDto.setList(result);
+        studentDetailDto.setTotalFee(ConvertDoubleToString.convert(totalFee));
+        studentDetailDto.setTotalFeeCompleted(ConvertDoubleToString.convert(totalCompleted));
+        studentDetailDto.setTotalFeeDebt(ConvertDoubleToString.convert(totalDebt));
+        studentDetailDto.setTotalCreditQuantityExperience(studentCourses.stream().mapToLong(StudentCourse::getCreditQuantity).sum());
     }
 
     @BeanMapping(qualifiedByName = "toStudentDetailDto", ignoreByDefault = true,
@@ -78,9 +138,9 @@ public abstract class StudentMapper implements MapperBase {
     @Mapping(source = "student.code", target = "code")
     @Mapping(source = "fullName", target = "fullName")
     @Mapping(source = "student.schoolYear", target = "schoolYear")
-    @Mapping(source = "student.creditQuantityPresent", target = "creditQuantityPresent")
-    @Mapping(source = "student.creditQuantityExperienced", target = "creditQuantityExperienced")
-    @Mapping(source = "student.totalCreditQuantity", target = "totalCreditQuantity")
+    @Mapping(source = "student.dateOfBirth", target = "dateOfBirth")
+    @Mapping(source = "student.faculty", target = "faculty")
+    @Mapping(source = "student.trainingSystem", target = "trainingSystem")
     public abstract StudentDetailDto toStudentDetailDto(User user);
 
     @BeanMapping(ignoreByDefault = true)
