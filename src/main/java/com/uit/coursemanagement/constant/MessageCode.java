@@ -35,4 +35,9 @@ public interface MessageCode {
         String NOT_FOUND = "message.openCourse.NotFound";
         String FULL_SIZE = "message.openCourse.FullSize";
     }
+
+    interface Tuition {
+        String NOT_FOUND = "message.tuition.NotFound";
+        String IS_COMPLETED = "message.tuition.IsCompleted";
+    }
 }
