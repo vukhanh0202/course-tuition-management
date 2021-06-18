@@ -1,7 +1,9 @@
 package com.uit.coursemanagement.controller;
 
 import com.uit.coursemanagement.dto.response.ApiResponse;
+import com.uit.coursemanagement.service.lecturer.IFindCourseRegisterLecturerBySemesterService;
 import com.uit.coursemanagement.service.lecturer.ILecturerService;
+import com.uit.coursemanagement.service.student.IFindCourseRegisterStudentBySemesterService;
 import com.uit.coursemanagement.service.student.IStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,5 +45,14 @@ public class LecturerController {
     public ResponseEntity<?> findDetailUserLecturer(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(lecturerService.getFindDetailUserLecturerService().execute(id)));
+    }
+
+    @ApiOperation(value = "Lecturer Course Register By Semester", authorizations = {@Authorization(value = "JWT")})
+    @GetMapping(value = "/lecturer/course/{id}")
+    public ResponseEntity<?> findCourseRegisterByLecturerAndSemester(@PathVariable("id") Long id,
+                                                                    @RequestParam(value = "semester_id") Long semesterId) {
+        IFindCourseRegisterLecturerBySemesterService.Input input = new IFindCourseRegisterLecturerBySemesterService.Input(id, semesterId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(lecturerService.getFindCourseRegisterLecturerBySemesterService().execute(input)));
     }
 }

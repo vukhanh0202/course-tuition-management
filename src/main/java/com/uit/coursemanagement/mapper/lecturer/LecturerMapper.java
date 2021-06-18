@@ -1,22 +1,15 @@
 package com.uit.coursemanagement.mapper.lecturer;
 
-import com.uit.coursemanagement.constant.enums.EStatus;
 import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.semester.Semester;
-import com.uit.coursemanagement.domain.student.join.StudentCourse;
-import com.uit.coursemanagement.domain.tuition.TuitionFee;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.dto.lecturer.LecturerDetailDto;
 import com.uit.coursemanagement.dto.lecturer.LecturerDto;
 import com.uit.coursemanagement.dto.lecturer.LecturerFullDto;
 import com.uit.coursemanagement.dto.lecturer.join.CourseSemesterLecturerDto;
-import com.uit.coursemanagement.dto.student.StudentDetailDto;
-import com.uit.coursemanagement.dto.student.join.CourseSemesterStudentDto;
 import com.uit.coursemanagement.mapper.MapperBase;
-import com.uit.coursemanagement.mapper.course.OpenCourseMapper;
 import com.uit.coursemanagement.repository.course.OpenCourseRepository;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
-import com.uit.coursemanagement.utils.ConvertDoubleToString;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,10 +22,6 @@ public abstract class LecturerMapper implements MapperBase {
 
     @Autowired
     private SemesterRepository semesterRepository;
-
-    @Autowired
-    private OpenCourseMapper openCourseMapper;
-
     @Autowired
     private OpenCourseRepository openCourseRepository;
 
@@ -87,15 +76,11 @@ public abstract class LecturerMapper implements MapperBase {
         Set<Long> set = map.keySet();
         for (Long key : set) {
             Semester semester = semesterRepository.findById(key).get();
-            List<OpenCourse> list = map.get(key);
-
             CourseSemesterLecturerDto item = new CourseSemesterLecturerDto();
             item.setSemesterId(semester.getId());
             item.setSemesterName(semester.getName());
             item.setFromDate(semester.getFromDate());
             item.setToDate(semester.getToDate());
-
-            item.setList(openCourseMapper.toOpenCourseRegisterDtoList(list, user.getId()));
             result.add(item);
         }
         lecturerDetailDto.setList(result);
