@@ -2,6 +2,7 @@ package com.uit.coursemanagement.controller;
 
 import com.uit.coursemanagement.data.UserPrincipal;
 import com.uit.coursemanagement.dto.response.ApiResponse;
+import com.uit.coursemanagement.payload.student.CreateStudentRequest;
 import com.uit.coursemanagement.payload.student.UpdateStudentRequest;
 import com.uit.coursemanagement.payload.tuition.PaymentFeeRequest;
 import com.uit.coursemanagement.service.student.IFindCourseRegisterStudentBySemesterService;
@@ -87,6 +88,13 @@ public class StudentController {
         updateStudentRequest.setId(userPrincipal.getId());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(studentService.getUpdateStudentService().execute(updateStudentRequest)));
+    }
+
+    @ApiOperation(value = "Create student", authorizations = {@Authorization(value = "JWT")})
+    @PutMapping(value = "/student/create")
+    public ResponseEntity<?> createUserStudent(@RequestBody CreateStudentRequest createStudentRequest) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(studentService.getCreateStudentService().execute(createStudentRequest)));
     }
 
 }

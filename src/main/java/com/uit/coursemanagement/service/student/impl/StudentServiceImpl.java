@@ -27,7 +27,9 @@ public class StudentServiceImpl implements IStudentService {
 
     private final IFindCourseRegisterStudentBySemesterService findCourseRegisterStudentBySemesterService;
 
-    public StudentServiceImpl(IFindAllUserStudentService findAllUserStudentService, IFindDetailStudentService findDetailStudentService, IFindAllFeeStudentService findAllFeeStudentService, IPaymentFeeStudentService paymentFeeStudentService, IFindTotalFeeStudentService findTotalFeeStudentService, IFindTimetableStudentService findTimetableStudentService, IUpdateStudentService updateStudentService, IFindCourseRegisterStudentBySemesterService findCourseRegisterStudentBySemesterService) {
+    private final ICreateStudentService createStudentService;
+
+    public StudentServiceImpl(IFindAllUserStudentService findAllUserStudentService, IFindDetailStudentService findDetailStudentService, IFindAllFeeStudentService findAllFeeStudentService, IPaymentFeeStudentService paymentFeeStudentService, IFindTotalFeeStudentService findTotalFeeStudentService, IFindTimetableStudentService findTimetableStudentService, IUpdateStudentService updateStudentService, IFindCourseRegisterStudentBySemesterService findCourseRegisterStudentBySemesterService, ICreateStudentService createStudentService) {
         this.findAllUserStudentService = findAllUserStudentService;
         this.findDetailStudentService = findDetailStudentService;
         this.findAllFeeStudentService = findAllFeeStudentService;
@@ -36,5 +38,6 @@ public class StudentServiceImpl implements IStudentService {
         this.findTimetableStudentService = findTimetableStudentService;
         this.updateStudentService = updateStudentService;
         this.findCourseRegisterStudentBySemesterService = findCourseRegisterStudentBySemesterService;
+        this.createStudentService = createStudentService;
     }
 }

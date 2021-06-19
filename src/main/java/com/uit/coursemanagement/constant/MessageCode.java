@@ -5,6 +5,7 @@ public interface MessageCode {
         String WRONG = "message.user.Wrong";
         String INVALID = "message.user.Invalid";
         String NOT_FOUND = "message.user.NotFound";
+        String EXIST = "message.user.Exist";
     }
     interface Student {
         String FULL_COURSE_IN_SEMESTER = "message.student.fullCourse";

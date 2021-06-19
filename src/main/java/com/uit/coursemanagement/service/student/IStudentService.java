@@ -3,6 +3,7 @@ package com.uit.coursemanagement.service.student;
 
 import com.uit.coursemanagement.dto.student.*;
 import com.uit.coursemanagement.dto.student.join.CourseSemesterStudentDto;
+import com.uit.coursemanagement.payload.student.CreateStudentRequest;
 import com.uit.coursemanagement.payload.student.UpdateStudentRequest;
 import com.uit.coursemanagement.payload.tuition.PaymentFeeRequest;
 
@@ -25,4 +26,6 @@ public interface IStudentService {
     IUpdateStudentService<UpdateStudentRequest, Boolean> getUpdateStudentService();
 
     IFindCourseRegisterStudentBySemesterService<IFindCourseRegisterStudentBySemesterService.Input, CourseSemesterStudentDto> getFindCourseRegisterStudentBySemesterService();
+
+    ICreateStudentService<CreateStudentRequest, Boolean> getCreateStudentService();
 }
