@@ -2,7 +2,7 @@ package com.uit.coursemanagement.service.tuition.impl;
 
 import com.uit.coursemanagement.constant.enums.EStatus;
 import com.uit.coursemanagement.domain.tuition.TuitionFee;
-import com.uit.coursemanagement.dto.tuition.TuitionPending;
+import com.uit.coursemanagement.dto.tuition.TuitionPendingDto;
 import com.uit.coursemanagement.mapper.tuition.TuitionMapper;
 import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
@@ -15,8 +15,8 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class FindAllTuitionPendingServiceImpl extends AbstractBaseService<IFindAllTuitionPendingStudentService.Input, List<TuitionPending>>
-        implements IFindAllTuitionPendingStudentService<IFindAllTuitionPendingStudentService.Input, List<TuitionPending>> {
+public class FindAllTuitionPendingServiceImpl extends AbstractBaseService<IFindAllTuitionPendingStudentService.Input, List<TuitionPendingDto>>
+        implements IFindAllTuitionPendingStudentService<IFindAllTuitionPendingStudentService.Input, List<TuitionPendingDto>> {
 
     @Autowired
     private TuitionFeeRepository tuitionFeeRepository;
@@ -25,7 +25,7 @@ public class FindAllTuitionPendingServiceImpl extends AbstractBaseService<IFindA
     private TuitionMapper tuitionMapper;
 
     @Override
-    public List<TuitionPending> doing(Input input) {
+    public List<TuitionPendingDto> doing(Input input) {
         List<TuitionFee> tuitionFees = tuitionFeeRepository.findAllByStudentUserFullNameContainingAndSemesterIdAndStatus(
                 input.getFullName(), input.getSemesterId(), EStatus.PENDING);
         return tuitionMapper.toTuitionPendingList(tuitionFees);

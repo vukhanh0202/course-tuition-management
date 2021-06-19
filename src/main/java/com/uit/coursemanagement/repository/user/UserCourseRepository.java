@@ -17,6 +17,8 @@ public interface UserCourseRepository extends JpaRepository<StudentCourse, Stude
 
     List<StudentCourse> findAllByStudentIdAndOpenCourseSemesterId(Long studentId, Long semesterId);
 
+    List<StudentCourse> findAllByStudentUserFullNameContainingAndOpenCourseSemesterId(String fullName, Long semesterId);
+
 }
 
 
