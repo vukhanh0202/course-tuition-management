@@ -11,9 +11,11 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    Optional<User> findByUsernameOrEmail(String username, String email);
+
     Optional<User> findByUsername(String username);
 
-    Optional<User> findByUsernameOrStudentCode(String username, String code);
+    Optional<User> findByUsernameOrStudentCodeOrEmail(String username, String code, String email);
 
 //    List<User> findAllByUserType(EUserType userType, Pageable pageable);
     Long countAllByUserType(EUserType userType);

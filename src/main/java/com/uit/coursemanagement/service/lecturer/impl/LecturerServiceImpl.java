@@ -19,10 +19,16 @@ public class LecturerServiceImpl implements ILecturerService {
 
     private final IFindCourseRegisterLecturerBySemesterService findCourseRegisterLecturerBySemesterService;
 
-    public LecturerServiceImpl(IAllUserLecturerService allUserLecturerService, IFindAllUserLecturerService findAllUserLecturerService, IFindDetailUserLecturerService findDetailUserLecturerService, IFindCourseRegisterLecturerBySemesterService findCourseRegisterLecturerBySemesterService) {
+    private final ICreateLecturerService createLecturerService;
+
+    private final IUpdateLecturerService updateLecturerService;
+
+    public LecturerServiceImpl(IAllUserLecturerService allUserLecturerService, IFindAllUserLecturerService findAllUserLecturerService, IFindDetailUserLecturerService findDetailUserLecturerService, IFindCourseRegisterLecturerBySemesterService findCourseRegisterLecturerBySemesterService, ICreateLecturerService createLecturerService, IUpdateLecturerService updateLecturerService) {
         this.allUserLecturerService = allUserLecturerService;
         this.findAllUserLecturerService = findAllUserLecturerService;
         this.findDetailUserLecturerService = findDetailUserLecturerService;
         this.findCourseRegisterLecturerBySemesterService = findCourseRegisterLecturerBySemesterService;
+        this.createLecturerService = createLecturerService;
+        this.updateLecturerService = updateLecturerService;
     }
 }

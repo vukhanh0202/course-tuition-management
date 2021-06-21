@@ -1,10 +1,10 @@
 package com.uit.coursemanagement.controller;
 
 import com.uit.coursemanagement.dto.response.ApiResponse;
+import com.uit.coursemanagement.payload.lecturer.CreateLecturerRequest;
+import com.uit.coursemanagement.payload.lecturer.UpdateLecturerRequest;
 import com.uit.coursemanagement.service.lecturer.IFindCourseRegisterLecturerBySemesterService;
 import com.uit.coursemanagement.service.lecturer.ILecturerService;
-import com.uit.coursemanagement.service.student.IFindCourseRegisterStudentBySemesterService;
-import com.uit.coursemanagement.service.student.IStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -12,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -54,5 +51,21 @@ public class LecturerController {
         IFindCourseRegisterLecturerBySemesterService.Input input = new IFindCourseRegisterLecturerBySemesterService.Input(id, semesterId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(lecturerService.getFindCourseRegisterLecturerBySemesterService().execute(input)));
+    }
+
+    @ApiOperation(value = "Create lecturer", authorizations = {@Authorization(value = "JWT")})
+    @PostMapping(value = "/lecturer/create")
+    public ResponseEntity<?> createUserStudent(@RequestBody CreateLecturerRequest createStudentRequest) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(lecturerService.getCreateLecturerService().execute(createStudentRequest)));
+    }
+
+    @ApiOperation(value = "Update lecturer", authorizations = {@Authorization(value = "JWT")})
+    @PutMapping(value = "/lecturer/update/{id}")
+    public ResponseEntity<?> createUserStudent(@PathVariable("id") Long id,
+                                               @RequestBody UpdateLecturerRequest updateLecturerRequest) {
+        updateLecturerRequest.setId(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(lecturerService.getUpdateLecturerService().execute(updateLecturerRequest)));
     }
 }

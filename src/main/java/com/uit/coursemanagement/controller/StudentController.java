@@ -91,7 +91,7 @@ public class StudentController {
     }
 
     @ApiOperation(value = "Create student", authorizations = {@Authorization(value = "JWT")})
-    @PutMapping(value = "/student/create")
+    @PostMapping(value = "/student/create")
     public ResponseEntity<?> createUserStudent(@RequestBody CreateStudentRequest createStudentRequest) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(studentService.getCreateStudentService().execute(createStudentRequest)));

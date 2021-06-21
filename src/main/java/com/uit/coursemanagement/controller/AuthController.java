@@ -3,13 +3,19 @@ package com.uit.coursemanagement.controller;
 import com.uit.coursemanagement.configuration.JwtTokenUtil;
 import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.dto.auth.UserLoginDto;
+import com.uit.coursemanagement.dto.auth.UserPasswordDto;
+import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.exception.ForbiddenException;
+import com.uit.coursemanagement.payload.lecturer.UpdateLecturerRequest;
+import com.uit.coursemanagement.service.auth.AuthService;
 import com.uit.coursemanagement.service.auth.JwtUserDetailsService;
 import com.uit.coursemanagement.utils.MessageHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,10 +23,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -36,11 +39,14 @@ public class AuthController {
 
     private final MessageHelper messageHelper;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, JwtUserDetailsService userDetailsService, MessageHelper messageHelper) {
+    private final AuthService authService;
+
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, JwtUserDetailsService userDetailsService, MessageHelper messageHelper, AuthService authService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
         this.messageHelper = messageHelper;
+        this.authService = authService;
     }
 
     @ApiOperation(value = "Login")
@@ -66,6 +72,13 @@ public class AuthController {
         } catch (DisabledException | BadCredentialsException e) {
             throw new ForbiddenException(messageHelper.getMessage(MessageCode.User.WRONG,username));
         }
+    }
+
+    @ApiOperation(value = "Update password", authorizations = {@Authorization(value = "JWT")})
+    @PutMapping(value = "/update-password")
+    public ResponseEntity<?> updatePasswordUserStudent(@RequestBody UserPasswordDto userPasswordDto) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse(authService.changePassword(userPasswordDto)));
     }
 }
 
