@@ -2,6 +2,7 @@ package com.uit.coursemanagement.controller;
 
 import com.uit.coursemanagement.configuration.JwtTokenUtil;
 import com.uit.coursemanagement.constant.MessageCode;
+import com.uit.coursemanagement.data.UserPrincipal;
 import com.uit.coursemanagement.dto.auth.UserLoginDto;
 import com.uit.coursemanagement.dto.auth.UserPasswordDto;
 import com.uit.coursemanagement.dto.response.ApiResponse;
@@ -22,6 +23,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,6 +79,8 @@ public class AuthController {
     @ApiOperation(value = "Update password", authorizations = {@Authorization(value = "JWT")})
     @PutMapping(value = "/update-password")
     public ResponseEntity<?> updatePasswordUserStudent(@RequestBody UserPasswordDto userPasswordDto) {
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userPasswordDto.setUserId(userPrincipal.getId());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(authService.changePassword(userPasswordDto)));
     }

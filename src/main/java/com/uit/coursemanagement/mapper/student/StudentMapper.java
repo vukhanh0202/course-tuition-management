@@ -1,26 +1,17 @@
 package com.uit.coursemanagement.mapper.student;
 
-import com.uit.coursemanagement.constant.MessageCode;
-import com.uit.coursemanagement.constant.enums.ECourseStudentStatus;
 import com.uit.coursemanagement.constant.enums.EStatus;
-import com.uit.coursemanagement.domain.course.Course;
 import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.semester.Semester;
-import com.uit.coursemanagement.domain.student.Student;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.tuition.TuitionFee;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.dto.student.StudentDetailDto;
 import com.uit.coursemanagement.dto.student.StudentDto;
-import com.uit.coursemanagement.dto.student.StudentTimetableDto;
 import com.uit.coursemanagement.dto.student.join.CourseSemesterStudentDto;
-import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.MapperBase;
-import com.uit.coursemanagement.mapper.course.CourseMapper;
 import com.uit.coursemanagement.mapper.course.OpenCourseMapper;
-import com.uit.coursemanagement.payload.semester.UpdateSemesterRequest;
 import com.uit.coursemanagement.payload.student.UpdateStudentRequest;
-import com.uit.coursemanagement.repository.course.OpenCourseRepository;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
 import com.uit.coursemanagement.repository.user.UserCourseRepository;
@@ -30,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 @Mapper(componentModel = "spring")
@@ -111,9 +102,12 @@ public abstract class StudentMapper implements MapperBase {
                 return 0;
             }
         });
-        Double totalFee = studentCourses.stream().map(StudentCourse::getOpenCourse).mapToDouble(value -> value.getCourse().getPriceBasic()).sum();
+        AtomicReference<Double> totalFee = new AtomicReference<>(0d);
+        studentCourses.forEach(item->{
+            totalFee.set(totalFee.get() + item.getPriceBasic() * item.getCreditQuantity());
+        });
         Double totalCompleted = tuitionFees.stream().mapToDouble(TuitionFee::getTotalFee).sum();
-        Double totalDebt = totalFee - totalCompleted;
+        Double totalDebt = totalFee.get() - totalCompleted;
         Set<Long> set = map.keySet();
         for (Long key : set) {
             Semester semester = semesterRepository.findById(key).get();
@@ -125,7 +119,7 @@ public abstract class StudentMapper implements MapperBase {
             result.add(item);
         }
         studentDetailDto.setList(result);
-        studentDetailDto.setTotalFee(ConvertDoubleToString.convert(totalFee));
+        studentDetailDto.setTotalFee(ConvertDoubleToString.convert(totalFee.get()));
         studentDetailDto.setTotalFeeCompleted(ConvertDoubleToString.convert(totalCompleted));
         studentDetailDto.setTotalFeeDebt(ConvertDoubleToString.convert(totalDebt));
         studentDetailDto.setTotalCreditQuantityExperience(studentCourses.stream().mapToLong(StudentCourse::getCreditQuantity).sum());

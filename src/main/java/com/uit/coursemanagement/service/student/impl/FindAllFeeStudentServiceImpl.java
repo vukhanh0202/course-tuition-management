@@ -16,11 +16,11 @@ import com.uit.coursemanagement.repository.user.UserCourseRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.student.IFindAllFeeStudentService;
+import com.uit.coursemanagement.utils.ConvertDoubleToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -70,17 +70,14 @@ public class FindAllFeeStudentServiceImpl extends AbstractBaseService<Long, List
             List<StudentCourse> list = map.get(key);
             List<TuitionFee> tuitionFees = tuitionFeeRepository.findAllByStudentIdAndSemesterIdAndStatus(id, semester.getId(), EStatus.COMPLETED);
             // Sort by timeCompleted DESC
-            tuitionFees.sort(new Comparator<TuitionFee>() {
-                @Override
-                public int compare(TuitionFee o1, TuitionFee o2) {
-                    // sort DESC
-                    if (o2.getTimeCompleted().after(o1.getTimeCompleted())) {
-                        return 1;
-                    } else if (o1.getTimeCompleted().after(o2.getTimeCompleted())) {
-                        return -1;
-                    }
-                    return 0;
+            tuitionFees.sort((o1, o2) -> {
+                // sort DESC
+                if (o2.getTimeCompleted().after(o1.getTimeCompleted())) {
+                    return 1;
+                } else if (o1.getTimeCompleted().after(o2.getTimeCompleted())) {
+                    return -1;
                 }
+                return 0;
             });
 
             StudentFeeDto item = new StudentFeeDto();
@@ -90,22 +87,24 @@ public class FindAllFeeStudentServiceImpl extends AbstractBaseService<Long, List
             item.setToDate(semester.getToDate());
 
             item.setCreditQuantity(list.stream().mapToLong(StudentCourse::getCreditQuantity).sum());
-            DecimalFormat formatter = new DecimalFormat("###,###,###");
-            Double totalFee = list.stream().mapToDouble(StudentCourse::getPriceBasic).sum();
+            AtomicReference<Double> totalFee = new AtomicReference<>(0d);
+            list.forEach(studentCourse -> {
+                totalFee.set(totalFee.get() + studentCourse.getPriceBasic() * studentCourse.getCreditQuantity());
+            });
             Double completedFee = tuitionFees.stream().mapToDouble(TuitionFee::getTotalFee).sum();
-            item.setTotalFee(formatter.format(totalFee) + " VNĐ");
-            item.setFeeCompleted(formatter.format(completedFee) + " VNĐ");
-            item.setFeeDebt(formatter.format(totalFee - completedFee) + " VNĐ");
+            item.setTotalFee(ConvertDoubleToString.convert(totalFee.get()));
+            item.setFeeCompleted(ConvertDoubleToString.convert(completedFee));
+            item.setFeeDebt(ConvertDoubleToString.convert(totalFee.get() - completedFee));
             if (tuitionFees.size() > 0) {
                 item.setTimeCompleted(tuitionFees.get(0).getTimeCompleted());
             }
-            item.setFeeStatus(totalFee.equals(completedFee) ? "Hoàn Thành" : "Chưa Hoàn Thành");
+            item.setFeeStatus(completedFee >= totalFee.get() ? "Hoàn Thành" : "Chưa Hoàn Thành");
             StringBuilder courseRegister = new StringBuilder("");
             list.forEach(studentCourse -> {
                 courseRegister.append(studentCourse.getOpenCourse().getCourse().getCode()).append("(").append(studentCourse.getCreditQuantity()).append("),");
             });
             String str = courseRegister.toString();
-            item.setCourseRegister(str.substring(0, str.length()-1));
+            item.setCourseRegister(str.substring(0, str.length() - 1));
             result.add(item);
         }
         return result;

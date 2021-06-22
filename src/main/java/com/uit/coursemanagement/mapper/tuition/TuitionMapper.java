@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 @Mapper(componentModel = "spring")
@@ -25,10 +26,14 @@ public abstract class TuitionMapper implements MapperBase {
     @BeforeMapping
     protected void toTuitionPending(TuitionFee tuitionFee, @MappingTarget TuitionPendingDto tuitionPendingDto) {
         List<StudentCourse> studentCourses = userCourseRepository
-                .findAllByStudentIdAndOpenCourseSemesterId(tuitionFee.getStudent().getId(),tuitionFee.getSemester().getId());
+                .findAllByStudentIdAndOpenCourseSemesterId(tuitionFee.getStudent().getId(), tuitionFee.getSemester().getId());
         tuitionPendingDto.setSemesterName(tuitionFee.getSemester().toString());
         tuitionPendingDto.setTotalFeePayment(ConvertDoubleToString.convert(tuitionFee.getTotalFee()));
-        tuitionPendingDto.setTotalFee(ConvertDoubleToString.convert(studentCourses.stream().map(StudentCourse::getOpenCourse).mapToDouble(value -> value.getCourse().getPriceBasic()).sum()));
+        AtomicReference<Double> totalFee = new AtomicReference<>(0d);
+        studentCourses.forEach(item -> {
+            totalFee.set(totalFee.get() + item.getPriceBasic() * item.getCreditQuantity());
+        });
+        tuitionPendingDto.setTotalFee(ConvertDoubleToString.convert(totalFee.get()));
     }
 
     @BeanMapping(qualifiedByName = "toTuitionPending", ignoreByDefault = true)

@@ -8,7 +8,6 @@ import com.uit.coursemanagement.domain.semester.Semester;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.tuition.TuitionFee;
 import com.uit.coursemanagement.domain.user.User;
-import com.uit.coursemanagement.dto.student.StudentDetailDto;
 import com.uit.coursemanagement.dto.student.join.CourseSemesterStudentDto;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.course.OpenCourseMapper;
@@ -19,13 +18,12 @@ import com.uit.coursemanagement.repository.user.UserCourseRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.student.IFindCourseRegisterStudentBySemesterService;
-import com.uit.coursemanagement.service.student.IFindDetailStudentService;
 import com.uit.coursemanagement.utils.ConvertDoubleToString;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,15 +92,18 @@ public class FindCourseRegisterStudentBySemesterServiceImpl extends AbstractBase
                 return 0;
             }
         });
-        Double totalFee = list.stream().mapToDouble(value -> value.getCourse().getPriceBasic()).sum();
+        AtomicReference<Double> totalFee = new AtomicReference<>(0d);
+        list.forEach(item->{
+            totalFee.set(totalFee.get() + item.getCourse().getPriceBasic() * item.getCourse().getCreditQuantity());
+        });
         Double completedFee = tuitionFees.stream().mapToDouble(TuitionFee::getTotalFee).sum();
-        result.setTotalFee(ConvertDoubleToString.convert(totalFee));
+        result.setTotalFee(ConvertDoubleToString.convert(totalFee.get()));
         result.setFeeCompleted(ConvertDoubleToString.convert(completedFee));
-        result.setFeeDebt(ConvertDoubleToString.convert(totalFee - completedFee));
+        result.setFeeDebt(ConvertDoubleToString.convert(totalFee.get() - completedFee));
         result.setList(openCourseMapper.toOpenCourseRegisterDtoList(list, input.getStudentId()));
-        result.setTotalFeeDouble(totalFee);
+        result.setTotalFeeDouble(totalFee.get());
         result.setFeeCompletedDouble(completedFee);
-        result.setFeeDebtDouble(totalFee - completedFee);
+        result.setFeeDebtDouble(totalFee.get() - completedFee);
 
         return result;
     }

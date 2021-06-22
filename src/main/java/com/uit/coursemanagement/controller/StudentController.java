@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class StudentController {
 
     @ApiOperation(value = "Search student", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/student/search")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findAllUserStudent(@RequestParam(value = "full_name", defaultValue = "") String fullName) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(studentService.getFindAllUserStudentService().execute(fullName));
@@ -34,6 +36,7 @@ public class StudentController {
 
     @ApiOperation(value = "Student Detail", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/student/{id}")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findDetailUserStudent(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(studentService.getFindDetailStudentService().execute(id)));
@@ -41,6 +44,7 @@ public class StudentController {
 
     @ApiOperation(value = "Student Course Register By Semester", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/student/course/{id}")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findCourseRegisterByStudentAndSemester(@PathVariable("id") Long id,
                                                                     @RequestParam(value = "semester_id") Long semesterId) {
         IFindCourseRegisterStudentBySemesterService.Input input = new IFindCourseRegisterStudentBySemesterService.Input(id, semesterId);
@@ -50,6 +54,7 @@ public class StudentController {
 
     @ApiOperation(value = "Fee Tuition Student Detail", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/student/fee/token")
+    @PreAuthorize("@securityService.hasRole('USER')")
     public ResponseEntity<?> findFeeUserStudent() {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK)
@@ -58,6 +63,7 @@ public class StudentController {
 
     @ApiOperation(value = "All Fee Tuition Student", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/student/total-fee/token")
+    @PreAuthorize("@securityService.hasRole('USER')")
     public ResponseEntity<?> findTotalFeeUserStudent() {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK)
@@ -66,6 +72,7 @@ public class StudentController {
 
     @ApiOperation(value = "Timetable Student", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/student/timetable/token")
+    @PreAuthorize("@securityService.hasRole('USER')")
     public ResponseEntity<?> findTimetableStudent() {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK)
@@ -74,6 +81,7 @@ public class StudentController {
 
     @ApiOperation(value = "Fee Tuition Student Detail", authorizations = {@Authorization(value = "JWT")})
     @PostMapping(value = "/student/fee/payment/token")
+    @PreAuthorize("@securityService.hasRole('USER')")
     public ResponseEntity<?> paymentFeeUserStudent(@RequestBody PaymentFeeRequest paymentFeeRequest) {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         paymentFeeRequest.setStudentId(userPrincipal.getId());
@@ -83,6 +91,7 @@ public class StudentController {
 
     @ApiOperation(value = "Update information student", authorizations = {@Authorization(value = "JWT")})
     @PutMapping(value = "/student/update")
+    @PreAuthorize("@securityService.hasRole('USER')")
     public ResponseEntity<?> updateInformationStudent(@RequestBody UpdateStudentRequest updateStudentRequest) {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         updateStudentRequest.setId(userPrincipal.getId());
@@ -92,6 +101,7 @@ public class StudentController {
 
     @ApiOperation(value = "Create student", authorizations = {@Authorization(value = "JWT")})
     @PostMapping(value = "/student/create")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> createUserStudent(@RequestBody CreateStudentRequest createStudentRequest) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(studentService.getCreateStudentService().execute(createStudentRequest)));

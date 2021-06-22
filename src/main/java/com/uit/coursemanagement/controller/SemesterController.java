@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -27,6 +28,7 @@ public class SemesterController {
 
     @ApiOperation(value = "Search semester", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/semester/search")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findAllSemester(@RequestParam(value = "search", defaultValue = "") String search,
                                              @RequestParam(value = "status") EStatus status) {
         return ResponseEntity.status(HttpStatus.OK)
@@ -35,6 +37,7 @@ public class SemesterController {
 
     @ApiOperation(value = "All semester", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/semester/all")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> allSemester() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(semesterService.getAllSemesterService().execute()));
@@ -42,6 +45,7 @@ public class SemesterController {
 
     @ApiOperation(value = "Add new semester", authorizations = {@Authorization(value = "JWT")})
     @PostMapping(value = "/semester/add-new-semester")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> addNewSemester(@RequestBody AddSemesterRequest addSemesterRequest) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(semesterService.getAddSemesterService()
@@ -50,6 +54,7 @@ public class SemesterController {
 
     @ApiOperation(value = "Update semester", authorizations = {@Authorization(value = "JWT")})
     @PutMapping(value = "/semester/update/{id}")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> updateSemester(@PathVariable("id") Long id,
                                             @RequestBody UpdateSemesterRequest updateSemesterRequest) {
         updateSemesterRequest.setId(id);
@@ -60,6 +65,7 @@ public class SemesterController {
 
     @ApiOperation(value = "Delete semester", authorizations = {@Authorization(value = "JWT")})
     @DeleteMapping(value = "/semester/delete/{id}")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> deleteSemester(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(semesterService.getDeleteSemesterService()

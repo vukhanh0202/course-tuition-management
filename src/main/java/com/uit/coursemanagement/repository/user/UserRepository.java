@@ -1,5 +1,6 @@
 package com.uit.coursemanagement.repository.user;
 
+import com.uit.coursemanagement.constant.enums.ERoleType;
 import com.uit.coursemanagement.constant.enums.EUserType;
 import com.uit.coursemanagement.domain.user.User;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByUserTypeAndFullNameContaining(EUserType userType, String fullName);
 
     List<User> findAllByUserType(EUserType userType);
+
+    Optional<User> findByIdAndRoleId(Long id, ERoleType roleType);
 
 }
 

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +33,7 @@ public class CalendarController {
 
     @ApiOperation(value = "Search calendar", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/calendar/search")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findAllCalendar(@ApiParam(value = "Example", defaultValue = "2021-10-02T00:00:00.00Z")
                                              @RequestParam(value = "fromDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date fromDate,
                                              @ApiParam(value = "Example", defaultValue = "2021-10-30T00:00:00.00Z")
@@ -45,6 +47,7 @@ public class CalendarController {
 
     @ApiOperation(value = "Detail calendar", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/calendar/{id}")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findDetailCalendar(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(calendarService.getFindDetailCalendarService().execute(id)));
@@ -52,6 +55,7 @@ public class CalendarController {
 
     @ApiOperation(value = "Get detail shift", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/calendar/shift")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> getDetailShift(@ApiParam(value = "Example", defaultValue = "2021-10-02T00:00:00.00Z")
                                             @RequestParam(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date date,
                                             @RequestParam(value = "shift") ECalendarShift shift) {

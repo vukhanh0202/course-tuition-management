@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,13 +26,15 @@ public class LecturerController {
 
     @ApiOperation(value = "All Lecturer", authorizations = { @Authorization(value="JWT") })
     @GetMapping(value = "/lecturer/all")
-    public ResponseEntity<?> allCourse() {
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
+    public ResponseEntity<?> allLecturer() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(lecturerService.getAllUserLecturerService().execute()));
     }
 
     @ApiOperation(value = "Search lecturer", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/lecturer/search")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findAllUserLecturer(@RequestParam(value = "full_name", defaultValue = "") String fullName) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(lecturerService.getFindAllUserLecturerService().execute(fullName)));
@@ -39,6 +42,7 @@ public class LecturerController {
 
     @ApiOperation(value = "Detail lecturer", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/lecturer/{id}")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findDetailUserLecturer(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(lecturerService.getFindDetailUserLecturerService().execute(id)));
@@ -46,6 +50,7 @@ public class LecturerController {
 
     @ApiOperation(value = "Lecturer Course Register By Semester", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/lecturer/course/{id}")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findCourseRegisterByLecturerAndSemester(@PathVariable("id") Long id,
                                                                     @RequestParam(value = "semester_id") Long semesterId) {
         IFindCourseRegisterLecturerBySemesterService.Input input = new IFindCourseRegisterLecturerBySemesterService.Input(id, semesterId);
@@ -55,6 +60,7 @@ public class LecturerController {
 
     @ApiOperation(value = "Create lecturer", authorizations = {@Authorization(value = "JWT")})
     @PostMapping(value = "/lecturer/create")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> createUserStudent(@RequestBody CreateLecturerRequest createStudentRequest) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(lecturerService.getCreateLecturerService().execute(createStudentRequest)));
@@ -62,6 +68,7 @@ public class LecturerController {
 
     @ApiOperation(value = "Update lecturer", authorizations = {@Authorization(value = "JWT")})
     @PutMapping(value = "/lecturer/update/{id}")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> createUserStudent(@PathVariable("id") Long id,
                                                @RequestBody UpdateLecturerRequest updateLecturerRequest) {
         updateLecturerRequest.setId(id);

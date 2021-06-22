@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
@@ -62,12 +63,15 @@ public class FindAllTuitionInSemesterServiceImpl extends AbstractBaseService<IFi
             item.setStudentId(studentId);
             item.setFullName(userRepository.findById(studentId).get().getFullName());
             item.setTotalCreditInSemester(openCourses.stream().mapToLong(value -> value.getCourse().getCreditQuantity()).sum());
-            Double totalFee = openCourses.stream().mapToDouble(value -> value.getCourse().getPriceBasic()).sum();
+            AtomicReference<Double> totalFee = new AtomicReference<>(0d);
+            openCourses.forEach(course->{
+                totalFee.set(totalFee.get() + course.getCourse().getPriceBasic() * course.getCourse().getCreditQuantity());
+            });
             Double totalCompleted = tuitionFees.stream().mapToDouble(TuitionFee::getTotalFee).sum();
-            item.setTotalFeeInSemester(ConvertDoubleToString.convert(totalFee));
+            item.setTotalFeeInSemester(ConvertDoubleToString.convert(totalFee.get()));
             item.setTotalFeePayment(ConvertDoubleToString.convert(totalCompleted));
-            item.setTotalFeeDebt(ConvertDoubleToString.convert(totalFee - totalCompleted));
-            if (totalCompleted >= totalFee){
+            item.setTotalFeeDebt(ConvertDoubleToString.convert(totalFee.get() - totalCompleted));
+            if (totalCompleted >= totalFee.get()){
                 item.setIsCompleted(true);
             }else{
                 item.setIsCompleted(false);

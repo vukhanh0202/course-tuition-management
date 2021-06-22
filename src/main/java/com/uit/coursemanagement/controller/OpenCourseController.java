@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class OpenCourseController {
 
     @ApiOperation(value = "Open course search" , authorizations = { @Authorization(value="JWT") })
     @GetMapping(value = "/open-course/search")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> openCourseSearch(@RequestParam(value = "search", defaultValue = "") String search) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(courseService.getFindAllOpenCourseService()
@@ -36,6 +38,7 @@ public class OpenCourseController {
 
     @ApiOperation(value = "Open course current search" , authorizations = { @Authorization(value="JWT") })
     @GetMapping(value = "/open-course/current/search")
+    @PreAuthorize("@securityService.hasRole('USER')")
     public ResponseEntity<?> openCourseCurrentSearch(/*@RequestParam(value = "search", defaultValue = "") String search*/) {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK)
@@ -45,6 +48,7 @@ public class OpenCourseController {
 
     @ApiOperation(value = "Open course current register" , authorizations = { @Authorization(value="JWT") })
     @PostMapping(value = "/open-course/current/register")
+    @PreAuthorize("@securityService.hasRole('USER')")
     public ResponseEntity<?> registerOpenCourseCurrentSearch(@RequestBody RegisterOpenCourseRequest registerOpenCourseRequest) {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         registerOpenCourseRequest.setUserId(userPrincipal.getId());
@@ -55,6 +59,7 @@ public class OpenCourseController {
 
     @ApiOperation(value = "Open course current delete" , authorizations = { @Authorization(value="JWT") })
     @DeleteMapping(value = "/open-course/current/delete")
+    @PreAuthorize("@securityService.hasRole('USER')")
     public ResponseEntity<?> deleteOpenCourseCurrentSearch(@RequestBody RegisterOpenCourseRequest deleteOpenCourseRequest) {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         deleteOpenCourseRequest.setUserId(userPrincipal.getId());
@@ -65,6 +70,7 @@ public class OpenCourseController {
 
     @ApiOperation(value = "My Open course current" , authorizations = { @Authorization(value="JWT") })
     @GetMapping(value = "/my-open-course/current/token")
+    @PreAuthorize("@securityService.hasRole('USER')")
     public ResponseEntity<?> myOpenCourseCurrent() {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK)
@@ -74,6 +80,7 @@ public class OpenCourseController {
 
     @ApiOperation(value = "Open course" , authorizations = { @Authorization(value="JWT") })
     @PostMapping(value = "/open-course")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> openCourse(@RequestBody OpenCourseRequest openCourseRequest) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(courseService.getOpenCourseService()
@@ -82,6 +89,7 @@ public class OpenCourseController {
 
     @ApiOperation(value = "Update Open course" , authorizations = { @Authorization(value="JWT") })
     @PutMapping(value = "/open-course/update/{id}")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> updateOpenCourse(@PathVariable("id") Long id,
                                               @RequestBody UpdateOpenCourseRequest updateOpenCourseRequest) {
         updateOpenCourseRequest.setId(id);
@@ -92,6 +100,7 @@ public class OpenCourseController {
 
     @ApiOperation(value = "Delete Open course" , authorizations = { @Authorization(value="JWT") })
     @DeleteMapping(value = "/open-course/delete/{id}")
+    @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> deleteOpenCourse(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse(courseService.getDeleteOpenCourseService()

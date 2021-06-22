@@ -12,15 +12,13 @@ import com.uit.coursemanagement.repository.course.OpenCourseRepository;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
-import com.uit.coursemanagement.service.course.IFindAllOpenCourseCurrentService;
 import com.uit.coursemanagement.service.course.IFindMyOpenCourseCurrentService;
+import com.uit.coursemanagement.utils.ConvertDoubleToString;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,10 +32,13 @@ public class FindMyOpenCourseCurrentServiceImpl extends AbstractBaseService<Long
 
     private final UserRepository userRepository;
 
-    public FindMyOpenCourseCurrentServiceImpl(OpenCourseMapper openCourseMapper, SemesterRepository semesterRepository, UserRepository userRepository) {
+    private final OpenCourseRepository openCourseRepository;
+
+    public FindMyOpenCourseCurrentServiceImpl(OpenCourseMapper openCourseMapper, SemesterRepository semesterRepository, UserRepository userRepository, OpenCourseRepository openCourseRepository) {
         this.openCourseMapper = openCourseMapper;
         this.semesterRepository = semesterRepository;
         this.userRepository = userRepository;
+        this.openCourseRepository = openCourseRepository;
     }
 
     @Override
@@ -54,8 +55,12 @@ public class FindMyOpenCourseCurrentServiceImpl extends AbstractBaseService<Long
                 .collect(Collectors.toList()), userId));
         result.setTotalCredit(result.getList().stream().mapToLong(OpenCourseRegisterDto::getCreditQuantity)
                 .sum());
-        DecimalFormat formatter = new DecimalFormat("###,###,###");
-        result.setTotalFee(formatter.format(5000000)+" VNĐ");
+        AtomicReference<Double> totalFee = new AtomicReference<>(0d);
+        result.getList().forEach(item ->{
+            Double price = openCourseRepository.findById(item.getId()).get().getCourse().getPriceBasic();
+            totalFee.set(totalFee.get() + item.getCreditQuantity() * price);
+        });
+        result.setTotalFee(ConvertDoubleToString.convert(totalFee.get()));
         return result;
     }
 

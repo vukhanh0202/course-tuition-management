@@ -2,6 +2,8 @@ package com.uit.coursemanagement.service.lecturer.impl;
 
 import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.constant.enums.ERoleType;
+import com.uit.coursemanagement.constant.enums.EUserType;
+import com.uit.coursemanagement.domain.lecturer.Lecturer;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.mapper.user.UserMapper;
@@ -45,6 +47,8 @@ public class CreateLecturerServiceImpl extends AbstractBaseService<CreateLecture
         createLecturerRequest.setPassword(pwdBcrypt);
         User user = userMapper.toLecturerUser(createLecturerRequest);
         user.setRole(roleRepository.findById(ERoleType.ADMIN).get());
+        user.setUserType(EUserType.LECTURER);
+        user.setLecturer(new Lecturer());
         userRepository.save(user);
         return true;
     }
