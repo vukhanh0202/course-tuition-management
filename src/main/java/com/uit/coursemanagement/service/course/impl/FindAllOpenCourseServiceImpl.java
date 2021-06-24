@@ -27,7 +27,7 @@ public class FindAllOpenCourseServiceImpl extends AbstractBaseService<String, Li
     @Override
     public List<OpenCourseDto> doing(String search) {
         return openCourseMapper.toOpenCourseDtoList(openCourseRepository
-                .findByLecturerUserFullNameContainingAndClassRoomNameContainingAndCourseNameContaining(search, search, search));
+                .findByLecturerUserFullNameContainingOrClassRoomNameContainingOrCourseNameContaining(search, search, search));
     }
 
 }

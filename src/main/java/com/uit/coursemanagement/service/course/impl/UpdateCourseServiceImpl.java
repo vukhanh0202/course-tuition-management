@@ -3,6 +3,7 @@ package com.uit.coursemanagement.service.course.impl;
 import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.domain.classes.ClassRoom;
 import com.uit.coursemanagement.domain.course.Course;
+import com.uit.coursemanagement.exception.BadRequestException;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.classes.ClassMapper;
@@ -34,9 +35,12 @@ public class UpdateCourseServiceImpl extends AbstractBaseService<UpdateCourseReq
         Course course = courseRepository.findById(updateCourseRequest.getId())
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Course.NOT_FOUND)));
         if (updateCourseRequest.getName() != null && !updateCourseRequest.getName().equals(course.getName())) {
-            if (courseRepository.findByNameOrCode(updateCourseRequest.getName(), updateCourseRequest.getCode()).isPresent()) {
+            if (courseRepository.findByName(updateCourseRequest.getName()).isPresent()) {
                 throw new InvalidException(messageHelper.getMessage(MessageCode.Course.EXIST, updateCourseRequest.getName()));
             }
+        }
+        if(courseRepository.findByCode(updateCourseRequest.getCode()).isPresent() && !course.getCode().equals(updateCourseRequest.getCode())){
+            throw new BadRequestException(messageHelper.getMessage(MessageCode.Course.EXIST));
         }
     }
 

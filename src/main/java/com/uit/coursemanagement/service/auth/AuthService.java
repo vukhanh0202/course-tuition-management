@@ -35,7 +35,7 @@ public class AuthService {
                 .orElseThrow(()-> new NotFoundException(messageHelper.getMessage(MessageCode.User.NOT_FOUND)));
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();
         if (!b.matches(userPasswordDto.getOldPassword(), user.getPassword())){
-            throw new InvalidException(messageHelper.getMessage(MessageCode.User.WRONG));
+            throw new InvalidException(messageHelper.getMessage(MessageCode.User.WRONG_PASS));
         }
         String pwdBcrypt = BCrypt.hashpw(userPasswordDto.getNewPassword(), BCrypt.gensalt(10));
         user.setPassword(pwdBcrypt);

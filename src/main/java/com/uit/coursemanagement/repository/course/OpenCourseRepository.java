@@ -14,12 +14,19 @@ public interface OpenCourseRepository extends JpaRepository<OpenCourse, Long> {
 
     List<OpenCourse> findBySemester(Semester semester);
     Optional<OpenCourse> findBySemesterAndId(Semester semester, Long courseId);
-    List<OpenCourse> findByLecturerUserFullNameContainingAndClassRoomNameContainingAndCourseNameContaining(String fullName,
+    List<OpenCourse> findByLecturerUserFullNameContainingOrClassRoomNameContainingOrCourseNameContaining(String fullName,
                                                                                                            String className,
                                                                                                            String courseName);
     List<OpenCourse> findAllByLecturerId(Long lecturerId);
 
     List<OpenCourse> findAllByLecturerIdAndSemesterId(Long lecturerId, Long semesterId);
+
+    List<OpenCourse> findAllBySemesterIdAndDayOfWeekAndClassRoomId(Long semesterId,
+                                                                              EDayOfWeek dayOfWeek, Long classId);
+
+    List<OpenCourse> findAllByLecturerIdAndSemesterIdAndDayOfWeek(Long lectureId,Long semesterId,
+                                                                   EDayOfWeek dayOfWeek);
+
 }
 
 

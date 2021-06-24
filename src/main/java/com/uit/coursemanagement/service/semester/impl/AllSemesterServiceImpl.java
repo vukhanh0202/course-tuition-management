@@ -26,7 +26,7 @@ public class AllSemesterServiceImpl extends AbstractBaseService<Void, List<Semes
 
     @Override
     public List<SemesterDto> doing(Void unused) {
-        return semesterMapper.toSemesterBasicDtoList(semesterRepository.findAllByStatusAndAndNameContaining(EStatus.OPEN,""));
+        return semesterMapper.toSemesterBasicDtoList(semesterRepository.findAllByStatusAndAndNameContainingOrderByFromDateDesc(EStatus.OPEN,""));
     }
 
 }

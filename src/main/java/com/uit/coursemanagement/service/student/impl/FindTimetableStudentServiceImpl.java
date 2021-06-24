@@ -62,7 +62,9 @@ public class FindTimetableStudentServiceImpl extends AbstractBaseService<Long, L
             Long semesterId = studentCourse.getOpenCourse().getSemester().getId();
             if (map.containsKey(semesterId)) {
                 List<OpenCourse> courses = map.get(semesterId);
-                courses.add(studentCourse.getOpenCourse());
+                List<OpenCourse> list = new ArrayList<>(Arrays.asList(studentCourse.getOpenCourse()));
+                list.addAll(courses);
+                map.put(semesterId, list);
             } else {
                 map.put(semesterId, List.of(studentCourse.getOpenCourse()));
             }

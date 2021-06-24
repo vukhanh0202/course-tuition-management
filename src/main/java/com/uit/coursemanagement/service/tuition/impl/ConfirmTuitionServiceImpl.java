@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
@@ -45,9 +46,12 @@ public class ConfirmTuitionServiceImpl extends AbstractBaseService<IConfirmTuiti
 
         List<TuitionFee> tuitionFees = tuitionFeeRepository
                 .findAllByStudentIdAndSemesterIdAndStatus(tuitionFee.getStudent().getId(), tuitionFee.getSemester().getId(),EStatus.COMPLETED);
-        Double totalFee = studentCourses.stream().map(StudentCourse::getOpenCourse).mapToDouble(value -> value.getCourse().getPriceBasic()).sum();
+        AtomicReference<Double> totalFee = new AtomicReference<>(0d);
+        studentCourses.forEach(item->{
+            totalFee.set(totalFee.get() + item.getPriceBasic() * item.getCreditQuantity());
+        });
         Double totalFeeCompleted = tuitionFees.stream().mapToDouble(TuitionFee::getTotalFee).sum();
-        if (totalFeeCompleted >= totalFee){
+        if (totalFeeCompleted >= totalFee.get()){
             tuitionFee.setStatus(EStatus.CLOSED);
         }else{
             tuitionFee.setStatus(EStatus.COMPLETED);

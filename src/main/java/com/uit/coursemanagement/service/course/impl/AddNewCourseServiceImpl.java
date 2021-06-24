@@ -3,6 +3,7 @@ package com.uit.coursemanagement.service.course.impl;
 import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.constant.enums.EUserType;
 import com.uit.coursemanagement.domain.user.User;
+import com.uit.coursemanagement.exception.BadRequestException;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.course.CourseMapper;
@@ -29,8 +30,11 @@ public class AddNewCourseServiceImpl extends AbstractBaseService<AddNewCourseReq
 
     @Override
     public void preExecute(AddNewCourseRequest addNewCourseRequest) {
-        if (courseRepository.findByNameOrCode(addNewCourseRequest.getName(), addNewCourseRequest.getCode()).isPresent()){
+        if (courseRepository.findByName(addNewCourseRequest.getName()).isPresent()){
             throw new InvalidException(messageHelper.getMessage(MessageCode.Course.EXIST, addNewCourseRequest.getName()));
+        }
+        if(courseRepository.findByCode(addNewCourseRequest.getCode()).isPresent()){
+            throw new BadRequestException(messageHelper.getMessage(MessageCode.Course.EXIST));
         }
     }
 

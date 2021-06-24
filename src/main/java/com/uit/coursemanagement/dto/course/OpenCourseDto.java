@@ -34,6 +34,7 @@ public class OpenCourseDto {
     private String className;
 
     List<String> shifts;
+    List<String> shiftIds;
 
     @JsonProperty("max_quantity_student")
     private Long maxQuantityStudent;

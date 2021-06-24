@@ -23,7 +23,7 @@ public class CourseDto {
     private Long creditQuantity;
 
     @JsonProperty("type_course")
-    private ETypeCourse typeCourse;
+    private String typeCourse;
 
     @JsonProperty("price_basic")
     private Double priceBasic;

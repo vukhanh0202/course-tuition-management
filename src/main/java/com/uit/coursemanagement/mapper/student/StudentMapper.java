@@ -48,9 +48,11 @@ public abstract class StudentMapper implements MapperBase {
         studentDto.setCreditQuantityExperienced(user.getStudent().getStudentCourses().stream().mapToLong(StudentCourse::getCreditQuantity).sum()
                 + "/" + user.getStudent().getTotalCreditQuantity());
         Date date = new Date();
-        Semester semester = semesterRepository.findByDate(date).get();
-        studentDto.setCreditQuantityPresent(userCourseRepository
-                .findAllByStudentIdAndOpenCourseSemesterId(user.getId(), semester.getId()).stream().mapToLong(StudentCourse::getCreditQuantity).sum());
+        Semester semester = semesterRepository.findByDate(date).orElse(null);
+        if (semester!=null){
+            studentDto.setCreditQuantityPresent(userCourseRepository
+                    .findAllByStudentIdAndOpenCourseSemesterId(user.getId(), semester.getId()).stream().mapToLong(StudentCourse::getCreditQuantity).sum());
+        };
     }
 
     @BeanMapping(qualifiedByName = "toStudentDto", ignoreByDefault = true,
@@ -82,7 +84,9 @@ public abstract class StudentMapper implements MapperBase {
             Long semesterId = studentCourse.getOpenCourse().getSemester().getId();
             if (map.containsKey(semesterId)) {
                 List<OpenCourse> courses = map.get(semesterId);
-                courses.add(studentCourse.getOpenCourse());
+                List<OpenCourse> list = new ArrayList<>(Arrays.asList(studentCourse.getOpenCourse()));
+                list.addAll(courses);
+                map.put(semesterId, list);
             } else {
                 map.put(semesterId, List.of(studentCourse.getOpenCourse()));
             }

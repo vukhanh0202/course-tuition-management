@@ -26,8 +26,7 @@ public class Course extends SqlEntity {
 
     private Long creditQuantity;
 
-    @Enumerated(EnumType.STRING)
-    private ETypeCourse typeCourse;
+    private String typeCourse;
 
     private String description;
 

@@ -75,6 +75,7 @@ public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterO
         // Kiểm tra student đã đăng ký môn này trước đó hay chưa
         List<Long> openCourses = user.getStudent().getStudentCourses()
                 .stream().map(studentCourse -> studentCourse.getOpenCourse().getCourse().getId()).collect(Collectors.toList());
+
         registerOpenCourseRequest.getList().forEach(id -> {
             if (openCourses.contains(id)) {
                 throw new InvalidException(messageHelper.getMessage(MessageCode.Student.EXIST_COURSE_REGISTERED));
@@ -88,6 +89,8 @@ public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterO
                 }
             }
         });
+
+
 
     }
 

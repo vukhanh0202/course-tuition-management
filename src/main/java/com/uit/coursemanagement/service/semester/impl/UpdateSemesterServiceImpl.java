@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.NonTransientDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class UpdateSemesterServiceImpl extends AbstractBaseService<UpdateSemesterRequest, Boolean>
@@ -28,9 +30,26 @@ public class UpdateSemesterServiceImpl extends AbstractBaseService<UpdateSemeste
     private SemesterRepository semesterRepository;
 
     @Override
+    public void preExecute(UpdateSemesterRequest updateSemesterRequest) {
+        if (updateSemesterRequest.getFromDate().after(updateSemesterRequest.getToDate())){
+            throw new InvalidException(messageHelper.getMessage(MessageCode.Semester.DATE_INVALID));
+        }
+        if (semesterRepository.findAllByFromDateAndToDate(updateSemesterRequest.getFromDate(),
+                updateSemesterRequest.getToDate()).size() > 0){
+            throw new InvalidException(messageHelper.getMessage(MessageCode.Semester.EXIST_TIME, updateSemesterRequest.getName()));
+        }
+    }
+
+    @Override
     public Boolean doing(UpdateSemesterRequest updateSemesterRequest) {
         Semester semester = semesterRepository.findById(updateSemesterRequest.getId())
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND)));
+        List<Semester> list = semesterRepository.findAllByFromDateAndToDate(updateSemesterRequest.getFromDate(),
+                updateSemesterRequest.getToDate());
+        if (!list.isEmpty()) {
+            if (list.size() == 1 && !list.get(0).getId().equals(updateSemesterRequest.getId()))
+                throw new InvalidException(messageHelper.getMessage(MessageCode.Semester.EXIST_TIME, updateSemesterRequest.getName()));
+        }
         semesterMapper.updateSemester(updateSemesterRequest, semester);
         semesterRepository.save(semester);
         return true;

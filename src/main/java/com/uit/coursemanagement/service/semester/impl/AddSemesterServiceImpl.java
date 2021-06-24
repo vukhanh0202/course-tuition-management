@@ -25,7 +25,7 @@ public class AddSemesterServiceImpl extends AbstractBaseService<AddSemesterReque
     @Override
     public void preExecute(AddSemesterRequest addSemesterRequest) {
         if (addSemesterRequest.getFromDate().after(addSemesterRequest.getToDate())){
-            throw new InvalidException(messageHelper.getMessage(MessageCode.Semester.INVALID));
+            throw new InvalidException(messageHelper.getMessage(MessageCode.Semester.DATE_INVALID));
         }
         if (semesterRepository.findAllByFromDateAndToDate(addSemesterRequest.getFromDate(),
                 addSemesterRequest.getToDate()).size() > 0){

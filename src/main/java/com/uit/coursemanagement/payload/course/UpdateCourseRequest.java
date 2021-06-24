@@ -22,8 +22,7 @@ public class UpdateCourseRequest {
     private Long creditQuantity;
 
     @JsonProperty("type_course")
-    @Enumerated(EnumType.STRING)
-    private ETypeCourse typeCourse;
+    private String typeCourse;
 
     private String description;
 

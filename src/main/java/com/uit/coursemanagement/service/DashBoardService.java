@@ -37,9 +37,18 @@ public class DashBoardService {
         Integer totalClassWeek = 0;
         AtomicReference<Integer> totalStudentWeek = new AtomicReference<>(0);
 
-        Calendar cal = Calendar.getInstance();
+        Calendar cal1 = Calendar.getInstance();
+        cal1.set(Calendar.MILLISECOND, 0);
+        cal1.set(Calendar.SECOND, 0);
+        cal1.set(Calendar.MINUTE, 0);
+        cal1.set(Calendar.HOUR, 0);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.set(Calendar.MILLISECOND, 0);
+        cal2.set(Calendar.SECOND, 59);
+        cal2.set(Calendar.MINUTE, 59);
+        cal2.set(Calendar.HOUR, 23);
         IFindAllCalendarService.Input input = new IFindAllCalendarService
-                .Input(cal.getTime(), cal.getTime(),null,null);
+                .Input(cal1.getTime(), cal2.getTime(),null,null);
         List<CalendarDto> dto = findAllCalendarService.execute(input);
         totalClassDay = dto.stream().map(CalendarDto::getId).collect(Collectors.toSet()).size();
         dto.forEach(item->{

@@ -3,6 +3,7 @@ package com.uit.coursemanagement.service.student.impl;
 import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.constant.enums.EStatus;
 import com.uit.coursemanagement.constant.enums.EUserType;
+import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.semester.Semester;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.tuition.TuitionFee;
@@ -58,7 +59,9 @@ public class FindAllFeeStudentServiceImpl extends AbstractBaseService<Long, List
             Long semesterId = studentCourse.getOpenCourse().getSemester().getId();
             if (map.containsKey(semesterId)) {
                 List<StudentCourse> courses = map.get(semesterId);
-                courses.add(studentCourse);
+                List<StudentCourse> list = new ArrayList<>(Arrays.asList(studentCourse));
+                list.addAll(courses);
+                map.put(semesterId, list);
             } else {
                 map.put(semesterId, List.of(studentCourse));
             }

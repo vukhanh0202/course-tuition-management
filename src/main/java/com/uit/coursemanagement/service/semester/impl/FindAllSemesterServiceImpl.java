@@ -34,7 +34,7 @@ public class FindAllSemesterServiceImpl extends AbstractBaseService<IFindAllSeme
 
     @Override
     public List<SemesterDto> doing(Input input) {
-        return semesterMapper.toSemesterDtoList(semesterRepository.findAllByStatusAndAndNameContaining(input.getStatus(), input.getSearch()));
+        return semesterMapper.toSemesterDtoList(semesterRepository.findAllByStatusAndAndNameContainingOrderByFromDateDesc(input.getStatus(), input.getSearch()));
     }
 
 }

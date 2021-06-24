@@ -8,7 +8,6 @@ import com.uit.coursemanagement.domain.student.Student;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.tuition.TuitionFee;
 import com.uit.coursemanagement.domain.user.User;
-import com.uit.coursemanagement.dto.student.StudentFeeDto;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.payload.tuition.PaymentFeeRequest;
@@ -17,14 +16,13 @@ import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
 import com.uit.coursemanagement.repository.user.UserCourseRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
-import com.uit.coursemanagement.service.student.IFindAllFeeStudentService;
 import com.uit.coursemanagement.service.student.IPaymentFeeStudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
@@ -55,9 +53,12 @@ public class PaymentFeeStudentServiceImpl extends AbstractBaseService<PaymentFee
         List<TuitionFee> tuitionFees = tuitionFeeRepository.findAllByStudentIdAndSemesterIdAndStatus(paymentFeeRequest.getStudentId(), semester.getId(), EStatus.COMPLETED);
         List<StudentCourse> studentCourses = userCourseRepository.findAllByStudentIdAndOpenCourseSemesterId(paymentFeeRequest.getStudentId(), paymentFeeRequest.getSemesterId());
 
-        Double totalCourseToCompleted = studentCourses.stream().mapToDouble(StudentCourse::getPriceBasic).sum();
+        AtomicReference<Double> totalCourseToCompleted = new AtomicReference<>(0d);
+        studentCourses.stream().forEach(item->{
+            totalCourseToCompleted.set(totalCourseToCompleted.get() + item.getCreditQuantity() * item.getPriceBasic());
+        });
         Double totalCourseToPayment = tuitionFees.stream().mapToDouble(TuitionFee::getTotalFee).sum();
-        if (totalCourseToPayment>=totalCourseToCompleted){
+        if (totalCourseToPayment>= totalCourseToCompleted.get()){
             throw new InvalidException(messageHelper.getMessage(MessageCode.Student.PAYMENT_RESOLVED));
         }
     }

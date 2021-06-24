@@ -1,7 +1,9 @@
 package com.uit.coursemanagement.service.course.impl;
 
 import com.uit.coursemanagement.constant.MessageCode;
+import com.uit.coursemanagement.constant.enums.ECalendarShift;
 import com.uit.coursemanagement.constant.enums.EUserType;
+import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.semester.Semester;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.exception.InvalidException;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -57,8 +60,33 @@ public class OpenCourseServiceImpl extends AbstractBaseService<OpenCourseRequest
         if (semester == null){
             throw new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND));
         }
-        if (semester.getToDate().before(new Date(System.currentTimeMillis()))){
-            throw new NotFoundException(messageHelper.getMessage(MessageCode.Semester.INVALID));
+//        if (semester.getToDate().before(new Date(System.currentTimeMillis()))){
+//            throw new NotFoundException(messageHelper.getMessage(MessageCode.Semester.INVALID));
+//        }
+        List<OpenCourse> openCourses = openCourseRepository
+                .findAllBySemesterIdAndDayOfWeekAndClassRoomId(openCourseRequest.getSemesterId(),openCourseRequest.getDayOfWeek(),openCourseRequest.getClassId());
+        if (!openCourses.isEmpty()){
+            openCourses.forEach(item ->{
+                List<ECalendarShift> shifts = item.getCalendarShifts();
+                shifts.forEach(shift ->{
+                    if (openCourseRequest.getShifts().contains(shift)){
+                        throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.WAS_REGISTERED));
+                    }
+                });
+            });
+        }
+
+        List<OpenCourse> openCourses2 = openCourseRepository
+                .findAllByLecturerIdAndSemesterIdAndDayOfWeek(openCourseRequest.getLecturerId(),openCourseRequest.getSemesterId(),openCourseRequest.getDayOfWeek());
+        if (!openCourses2.isEmpty()){
+            openCourses2.forEach(item ->{
+                List<ECalendarShift> shifts = item.getCalendarShifts();
+                shifts.forEach(shift ->{
+                    if (openCourseRequest.getShifts().contains(shift)){
+                        throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.WAS_REGISTERED_IN_ANOTHER_IN_CLASS));
+                    }
+                });
+            });
         }
     }
 

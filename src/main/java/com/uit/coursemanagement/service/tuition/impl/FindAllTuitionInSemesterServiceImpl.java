@@ -49,7 +49,9 @@ public class FindAllTuitionInSemesterServiceImpl extends AbstractBaseService<IFi
             Long studentId = studentCourse.getStudent().getId();
             if (map.containsKey(studentId)) {
                 List<OpenCourse> courses = map.get(studentId);
-                courses.add(studentCourse.getOpenCourse());
+                List<OpenCourse> list = new ArrayList<>(Arrays.asList(studentCourse.getOpenCourse()));
+                list.addAll(courses);
+                map.put(studentId, list);
             } else {
                 map.put(studentId, List.of(studentCourse.getOpenCourse()));
             }

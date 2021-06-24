@@ -56,6 +56,8 @@ public abstract class SemesterMapper implements MapperBase {
 
     @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "name", target = "name")
+    @Mapping(source = "fromDate", target = "fromDate")
+    @Mapping(source = "toDate", target = "toDate")
     public abstract void updateSemester(UpdateSemesterRequest dto, @MappingTarget Semester entity);
 
 

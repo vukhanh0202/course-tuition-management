@@ -1,6 +1,7 @@
 package com.uit.coursemanagement.service.course.impl;
 
 import com.uit.coursemanagement.constant.MessageCode;
+import com.uit.coursemanagement.constant.enums.ECalendarShift;
 import com.uit.coursemanagement.constant.enums.EUserType;
 import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.semester.Semester;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -49,7 +51,7 @@ public class UpdateOpenCourseServiceImpl extends AbstractBaseService<UpdateOpenC
 
     @Override
     public void preExecute(UpdateOpenCourseRequest updateOpenCourseRequest) {
-          if (updateOpenCourseRequest.getLecturerId() != null) {
+        if (updateOpenCourseRequest.getLecturerId() != null) {
             User user = userRepository.findById(updateOpenCourseRequest.getLecturerId()).orElse(null);
             if (user == null) {
                 throw new NotFoundException(messageHelper.getMessage(MessageCode.User.NOT_FOUND));
@@ -72,13 +74,42 @@ public class UpdateOpenCourseServiceImpl extends AbstractBaseService<UpdateOpenC
                 throw new NotFoundException(messageHelper.getMessage(MessageCode.Semester.INVALID));
             }
         }
+        List<OpenCourse> openCourses = openCourseRepository
+                .findAllBySemesterIdAndDayOfWeekAndClassRoomId(updateOpenCourseRequest.getSemesterId(), updateOpenCourseRequest.getDayOfWeek(), updateOpenCourseRequest.getClassId());
+        if (!openCourses.isEmpty()) {
+            openCourses.forEach(item -> {
+                if (!item.getId().equals(updateOpenCourseRequest.getId())) {
+                    List<ECalendarShift> shifts = item.getCalendarShifts();
+                    shifts.forEach(shift -> {
+                        if (updateOpenCourseRequest.getShifts().contains(shift)) {
+                            throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.WAS_REGISTERED));
+                        }
+                    });
+                }
+            });
+        }
+        List<OpenCourse> openCourses2 = openCourseRepository
+                .findAllByLecturerIdAndSemesterIdAndDayOfWeek(updateOpenCourseRequest.getLecturerId(), updateOpenCourseRequest.getSemesterId(), updateOpenCourseRequest.getDayOfWeek());
+        if (!openCourses2.isEmpty()) {
+            openCourses2.forEach(item -> {
+                if (!item.getId().equals(updateOpenCourseRequest.getId())) {
+                    List<ECalendarShift> shifts = item.getCalendarShifts();
+                    shifts.forEach(shift -> {
+                        if (updateOpenCourseRequest.getShifts().contains(shift)) {
+                            throw new InvalidException(messageHelper.getMessage(MessageCode.OpenCourse.WAS_REGISTERED_IN_ANOTHER_IN_CLASS));
+                        }
+                    });
+                }
+            });
+        }
+
     }
 
     @Override
     public Boolean doing(UpdateOpenCourseRequest updateOpenCourseRequest) {
         OpenCourse openCourse = openCourseRepository.findById(updateOpenCourseRequest.getId())
                 .orElseThrow(() -> new NotFoundException(messageHelper.getMessage(MessageCode.OpenCourse.NOT_FOUND)));
-        openCourseMapper.updateOpenCourse(updateOpenCourseRequest,openCourse);
+        openCourseMapper.updateOpenCourse(updateOpenCourseRequest, openCourse);
         openCourseRepository.save(openCourse);
         return true;
     }
