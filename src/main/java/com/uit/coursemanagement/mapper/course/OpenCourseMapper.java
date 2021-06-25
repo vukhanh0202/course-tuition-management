@@ -112,7 +112,7 @@ public abstract class OpenCourseMapper implements MapperBase {
                 ", " + lessons + ", " + openCourse.getClassRoom().getName());
         openCourseRegisterDto.setCurrentQuantityStudent((long) openCourse.getStudentCourses().size());
         if (userId != null) {
-            if (openCourse.getStudentCourses().stream().map(studentCourse -> studentCourse.getStudent().getId().equals(userId)).count() > 0) {
+            if (openCourse.getStudentCourses().stream().filter(studentCourse -> studentCourse.getStudent().getId().equals(userId)).count() > 0) {
                 openCourseRegisterDto.setIsDisable(true);
             } else {
                 openCourseRegisterDto.setIsDisable(false);

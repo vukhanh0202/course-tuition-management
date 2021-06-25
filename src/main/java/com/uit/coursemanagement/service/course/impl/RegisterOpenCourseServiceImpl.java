@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,17 +68,23 @@ public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterO
         });
 
         // Kiểm tra student đã đủ tín chỉ trong học kì hiện tại hay chưa
+        AtomicReference<Long> totalCredit = new AtomicReference<>(0L);
+        registerOpenCourseRequest.getList().forEach(id -> {
+            OpenCourse openCourse = openCourseRepository.findById(id).get();
+            totalCredit.set(totalCredit.get() + openCourse.getCourse().getCreditQuantity());
+        });
         if (user.getStudent().getStudentCourses()
-                .stream().map(studentCourse -> studentCourse.getOpenCourse().getSemester().equals(semester))
-                .count() > StudentConstant.MAX_SIZE_REGISTER_COURSE) {
+                .stream().filter(studentCourse -> studentCourse.getOpenCourse().getSemester().equals(semester))
+                .mapToLong(StudentCourse::getCreditQuantity).sum() + totalCredit.get() > StudentConstant.MAX_SIZE_REGISTER_COURSE) {
             throw new InvalidException(messageHelper.getMessage(MessageCode.Student.FULL_COURSE_IN_SEMESTER));
         }
         // Kiểm tra student đã đăng ký môn này trước đó hay chưa
-        List<Long> openCourses = user.getStudent().getStudentCourses()
-                .stream().map(studentCourse -> studentCourse.getOpenCourse().getCourse().getId()).collect(Collectors.toList());
+        List<String> openCourses = user.getStudent().getStudentCourses()
+                .stream().map(studentCourse -> studentCourse.getOpenCourse().getCourse().getCode()).collect(Collectors.toList());
 
         registerOpenCourseRequest.getList().forEach(id -> {
-            if (openCourses.contains(id)) {
+            OpenCourse openCourse = openCourseRepository.findById(id).get();
+            if (openCourses.contains(openCourse.getCourse().getCode())) {
                 throw new InvalidException(messageHelper.getMessage(MessageCode.Student.EXIST_COURSE_REGISTERED));
             }
             // Kiểm tra môn học đã full sinh viên đăng ký hay chưa

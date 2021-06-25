@@ -83,6 +83,15 @@ public class FindTimetableStudentServiceImpl extends AbstractBaseService<Long, L
             item.setTimetable(openCourseMapper.toOpenCourseRegisterDtoList(list, id));
             result.add(item);
         }
+        result.sort((o1, o2) -> {
+            // sort DESC
+            if (o1.getFromDate().after(o2.getFromDate())) {
+                return 1;
+            } else if (o2.getFromDate().after(o1.getFromDate())) {
+                return -1;
+            }
+            return 0;
+        });
         return result;
     }
 }

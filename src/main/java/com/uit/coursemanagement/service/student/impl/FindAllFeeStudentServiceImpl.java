@@ -110,6 +110,15 @@ public class FindAllFeeStudentServiceImpl extends AbstractBaseService<Long, List
             item.setCourseRegister(str.substring(0, str.length() - 1));
             result.add(item);
         }
+        result.sort((o1, o2) -> {
+            // sort DESC
+            if (o1.getFromDate().after(o2.getFromDate())) {
+                return 1;
+            } else if (o2.getFromDate().after(o1.getFromDate())) {
+                return -1;
+            }
+            return 0;
+        });
         return result;
     }
 
