@@ -1,8 +1,11 @@
 package com.uit.coursemanagement.service.student;
 
 
+import com.uit.coursemanagement.dto.student.StudentFeeDto;
 import com.uit.coursemanagement.service.IService;
 
-public interface IFindAllFeeStudentService<Input, Output> extends IService<Input, Output> {
+import java.util.List;
+
+public interface IFindAllFeeStudentService extends IService<Long, List<StudentFeeDto>> {
 
 }

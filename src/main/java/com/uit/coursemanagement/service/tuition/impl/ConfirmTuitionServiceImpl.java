@@ -9,8 +9,8 @@ import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
 import com.uit.coursemanagement.repository.user.UserCourseRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.tuition.IConfirmTuitionService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,14 +18,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ConfirmTuitionServiceImpl extends AbstractBaseService<IConfirmTuitionService.Input, Boolean>
-        implements IConfirmTuitionService<IConfirmTuitionService.Input, Boolean> {
+        implements IConfirmTuitionService{
 
-    @Autowired
-    private TuitionFeeRepository tuitionFeeRepository;
+    private final TuitionFeeRepository tuitionFeeRepository;
 
-    @Autowired
-    private UserCourseRepository userCourseRepository;
+    private final UserCourseRepository userCourseRepository;
 
     @Override
     public void preExecute(Input input) {

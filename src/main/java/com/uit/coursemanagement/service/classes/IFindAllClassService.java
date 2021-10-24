@@ -1,8 +1,11 @@
 package com.uit.coursemanagement.service.classes;
 
 
+import com.uit.coursemanagement.dto.classes.ClassDto;
 import com.uit.coursemanagement.service.IService;
 
-public interface IFindAllClassService<Input, Output> extends IService<Input, Output> {
+import java.util.List;
+
+public interface IFindAllClassService extends IService<String, List<ClassDto>> {
 
 }

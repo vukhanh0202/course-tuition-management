@@ -1,8 +1,11 @@
 package com.uit.coursemanagement.service.semester;
 
 
+import com.uit.coursemanagement.dto.semester.SemesterDto;
 import com.uit.coursemanagement.service.IService;
 
-public interface IAllSemesterService<Input, Output> extends IService<Input, Output> {
+import java.util.List;
+
+public interface IAllSemesterService extends IService<Void, List<SemesterDto>> {
 
 }

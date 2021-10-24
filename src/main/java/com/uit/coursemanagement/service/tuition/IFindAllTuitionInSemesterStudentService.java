@@ -1,10 +1,13 @@
 package com.uit.coursemanagement.service.tuition;
 
 
+import com.uit.coursemanagement.dto.tuition.TuitionDto;
 import com.uit.coursemanagement.service.IService;
 import lombok.Data;
 
-public interface IFindAllTuitionInSemesterStudentService<Input, Output> extends IService<Input, Output> {
+import java.util.List;
+
+public interface IFindAllTuitionInSemesterStudentService extends IService<IFindAllTuitionInSemesterStudentService.Input, List<TuitionDto>> {
 
     @Data
     class Input{

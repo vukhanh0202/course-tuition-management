@@ -14,6 +14,7 @@ import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.course.IFindMyOpenCourseCurrentService;
 import com.uit.coursemanagement.utils.ConvertDoubleToString;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,9 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindMyOpenCourseCurrentServiceImpl extends AbstractBaseService<Long, OpenCourseRegisterOfStudentDto>
-        implements IFindMyOpenCourseCurrentService<Long, OpenCourseRegisterOfStudentDto> {
+        implements IFindMyOpenCourseCurrentService {
 
     private final OpenCourseMapper openCourseMapper;
 
@@ -33,13 +35,6 @@ public class FindMyOpenCourseCurrentServiceImpl extends AbstractBaseService<Long
     private final UserRepository userRepository;
 
     private final OpenCourseRepository openCourseRepository;
-
-    public FindMyOpenCourseCurrentServiceImpl(OpenCourseMapper openCourseMapper, SemesterRepository semesterRepository, UserRepository userRepository, OpenCourseRepository openCourseRepository) {
-        this.openCourseMapper = openCourseMapper;
-        this.semesterRepository = semesterRepository;
-        this.userRepository = userRepository;
-        this.openCourseRepository = openCourseRepository;
-    }
 
     @Override
     public OpenCourseRegisterOfStudentDto doing(Long userId) {

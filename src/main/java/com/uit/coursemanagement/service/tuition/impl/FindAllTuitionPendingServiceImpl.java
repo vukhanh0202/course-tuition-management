@@ -7,22 +7,21 @@ import com.uit.coursemanagement.mapper.tuition.TuitionMapper;
 import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.tuition.IFindAllTuitionPendingStudentService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindAllTuitionPendingServiceImpl extends AbstractBaseService<IFindAllTuitionPendingStudentService.Input, List<TuitionPendingDto>>
-        implements IFindAllTuitionPendingStudentService<IFindAllTuitionPendingStudentService.Input, List<TuitionPendingDto>> {
+        implements IFindAllTuitionPendingStudentService {
 
-    @Autowired
-    private TuitionFeeRepository tuitionFeeRepository;
+    private final TuitionFeeRepository tuitionFeeRepository;
 
-    @Autowired
-    private TuitionMapper tuitionMapper;
+    private final TuitionMapper tuitionMapper;
 
     @Override
     public List<TuitionPendingDto> doing(Input input) {

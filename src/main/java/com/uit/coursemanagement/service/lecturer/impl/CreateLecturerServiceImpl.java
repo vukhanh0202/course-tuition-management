@@ -8,30 +8,26 @@ import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.mapper.user.UserMapper;
 import com.uit.coursemanagement.payload.lecturer.CreateLecturerRequest;
-import com.uit.coursemanagement.payload.student.CreateStudentRequest;
 import com.uit.coursemanagement.repository.user.RoleRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.lecturer.ICreateLecturerService;
-import com.uit.coursemanagement.service.student.ICreateStudentService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CreateLecturerServiceImpl extends AbstractBaseService<CreateLecturerRequest, Boolean>
-        implements ICreateLecturerService<CreateLecturerRequest, Boolean> {
+        implements ICreateLecturerService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public void preExecute(CreateLecturerRequest createLecturerRequest) {

@@ -7,20 +7,19 @@ import com.uit.coursemanagement.payload.semester.AddSemesterRequest;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.semester.IAddSemesterService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AddSemesterServiceImpl extends AbstractBaseService<AddSemesterRequest, Boolean>
-        implements IAddSemesterService<AddSemesterRequest, Boolean> {
+        implements IAddSemesterService {
 
-    @Autowired
-    private SemesterMapper semesterMapper;
+    private final SemesterMapper semesterMapper;
 
-    @Autowired
-    private SemesterRepository semesterRepository;
+    private final SemesterRepository semesterRepository;
 
     @Override
     public void preExecute(AddSemesterRequest addSemesterRequest) {

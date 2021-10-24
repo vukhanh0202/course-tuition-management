@@ -5,26 +5,23 @@ import com.uit.coursemanagement.domain.classes.ClassRoom;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.classes.ClassMapper;
-import com.uit.coursemanagement.payload.classes.AddClassRequest;
 import com.uit.coursemanagement.payload.classes.UpdateClassRequest;
 import com.uit.coursemanagement.repository.classes.ClassRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
-import com.uit.coursemanagement.service.classes.IAddClassService;
 import com.uit.coursemanagement.service.classes.IUpdateClassService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UpdateClassServiceImpl extends AbstractBaseService<UpdateClassRequest, Boolean>
-        implements IUpdateClassService<UpdateClassRequest, Boolean> {
+        implements IUpdateClassService {
 
-    @Autowired
-    private ClassMapper classMapper;
+    private final ClassMapper classMapper;
 
-    @Autowired
-    private ClassRepository classRepository;
+    private final ClassRepository classRepository;
 
     @Override
     public void preExecute(UpdateClassRequest updateClassRequest) {

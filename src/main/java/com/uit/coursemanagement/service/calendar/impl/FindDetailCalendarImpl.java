@@ -7,20 +7,19 @@ import com.uit.coursemanagement.mapper.calendar.CalendarMapper;
 import com.uit.coursemanagement.repository.course.OpenCourseRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.calendar.IFindDetailCalendarService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindDetailCalendarImpl extends AbstractBaseService<Long, CalendarDetailDto>
-        implements IFindDetailCalendarService<Long, CalendarDetailDto> {
+        implements IFindDetailCalendarService {
 
-    @Autowired
-    private CalendarMapper calendarMapper;
+    private final CalendarMapper calendarMapper;
 
-    @Autowired
-    private OpenCourseRepository openCourseRepository;
+    private final OpenCourseRepository openCourseRepository;
 
     @Override
     public void preExecute(Long id) {

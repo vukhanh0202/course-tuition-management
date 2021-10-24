@@ -4,26 +4,20 @@ import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.domain.semester.Semester;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
-import com.uit.coursemanagement.mapper.semester.SemesterMapper;
-import com.uit.coursemanagement.payload.semester.UpdateSemesterRequest;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.semester.IDeleteSemesterService;
-import com.uit.coursemanagement.service.semester.IUpdateSemesterService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DeleteSemesterServiceImpl extends AbstractBaseService<Long, Boolean>
-        implements IDeleteSemesterService<Long, Boolean> {
+        implements IDeleteSemesterService {
 
-    @Autowired
-    private SemesterMapper semesterMapper;
-
-    @Autowired
-    private SemesterRepository semesterRepository;
+    private final SemesterRepository semesterRepository;
 
     @Override
     public void preExecute(Long id) {

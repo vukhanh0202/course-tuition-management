@@ -15,26 +15,24 @@ import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.student.IFindTotalFeeStudentService;
 import com.uit.coursemanagement.utils.ConvertDoubleToString;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindTotalFeeStudentServiceImpl extends AbstractBaseService<Long, StudentTotalFeeDto>
-        implements IFindTotalFeeStudentService<Long, StudentTotalFeeDto> {
+        implements IFindTotalFeeStudentService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserCourseRepository userCourseRepository;
+    private final UserCourseRepository userCourseRepository;
 
-    @Autowired
-    private TuitionFeeRepository tuitionFeeRepository;
+    private final TuitionFeeRepository tuitionFeeRepository;
 
     @Override
     public void preExecute(Long id) {

@@ -1,12 +1,14 @@
 package com.uit.coursemanagement.service.calendar;
 
 
+import com.uit.coursemanagement.dto.calendar.CalendarDto;
 import com.uit.coursemanagement.service.IService;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
-public interface IFindAllCalendarService<Input, Output> extends IService<Input, Output> {
+public interface IFindAllCalendarService extends IService<IFindAllCalendarService.Input, List<CalendarDto>> {
 
     @Data
     class Input{

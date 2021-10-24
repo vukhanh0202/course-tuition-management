@@ -1,8 +1,9 @@
 package com.uit.coursemanagement.service.student;
 
 
+import com.uit.coursemanagement.payload.student.CreateStudentRequest;
 import com.uit.coursemanagement.service.IService;
 
-public interface ICreateStudentService<Input, Output> extends IService<Input, Output> {
+public interface ICreateStudentService extends IService<CreateStudentRequest, Boolean> {
 
 }

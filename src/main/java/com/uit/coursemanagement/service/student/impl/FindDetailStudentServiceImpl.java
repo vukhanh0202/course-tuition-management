@@ -9,20 +9,19 @@ import com.uit.coursemanagement.mapper.student.StudentMapper;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.student.IFindDetailStudentService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindDetailStudentServiceImpl extends AbstractBaseService<Long, StudentDetailDto>
-        implements IFindDetailStudentService<Long, StudentDetailDto> {
+        implements IFindDetailStudentService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private StudentMapper studentMapper;
+    private final StudentMapper studentMapper;
 
     @Override
     public void preExecute(Long studentId) {

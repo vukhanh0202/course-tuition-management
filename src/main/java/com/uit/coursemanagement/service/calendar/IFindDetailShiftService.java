@@ -2,12 +2,13 @@ package com.uit.coursemanagement.service.calendar;
 
 
 import com.uit.coursemanagement.constant.enums.ECalendarShift;
+import com.uit.coursemanagement.dto.calendar.ShiftDetailDto;
 import com.uit.coursemanagement.service.IService;
 import lombok.Data;
 
 import java.util.Date;
 
-public interface IFindDetailShiftService<Input, Output> extends IService<Input, Output> {
+public interface IFindDetailShiftService extends IService<IFindDetailShiftService.Input, ShiftDetailDto> {
 
     @Data
     class Input {

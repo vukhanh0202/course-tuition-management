@@ -6,25 +6,23 @@ import com.uit.coursemanagement.dto.calendar.CalendarDto;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.calendar.IFindAllCalendarService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindAllCalendarServiceImpl extends AbstractBaseService<IFindAllCalendarService.Input, List<CalendarDto>>
-        implements IFindAllCalendarService<IFindAllCalendarService.Input, List<CalendarDto>> {
+        implements IFindAllCalendarService {
 
-    @Autowired
-    private SemesterRepository semesterRepository;
-
+    private final SemesterRepository semesterRepository;
 
     @Override
     public List<CalendarDto> doing(Input input) {

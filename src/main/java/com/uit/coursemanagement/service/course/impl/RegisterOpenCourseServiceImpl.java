@@ -9,7 +9,6 @@ import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
-import com.uit.coursemanagement.mapper.course.OpenCourseMapper;
 import com.uit.coursemanagement.payload.course.RegisterOpenCourseRequest;
 import com.uit.coursemanagement.repository.course.OpenCourseRepository;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
@@ -17,8 +16,8 @@ import com.uit.coursemanagement.repository.user.UserCourseRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.course.IRegisterOpenCourseService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,23 +28,17 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class RegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterOpenCourseRequest, Boolean>
-        implements IRegisterOpenCourseService<RegisterOpenCourseRequest, Boolean> {
+        implements IRegisterOpenCourseService {
 
-    @Autowired
-    private OpenCourseMapper openCourseMapper;
+    private final OpenCourseRepository openCourseRepository;
 
-    @Autowired
-    private OpenCourseRepository openCourseRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final SemesterRepository semesterRepository;
 
-    @Autowired
-    private SemesterRepository semesterRepository;
-
-    @Autowired
-    private UserCourseRepository userCourseRepository;
+    private final UserCourseRepository userCourseRepository;
 
     @Override
     public void preExecute(RegisterOpenCourseRequest registerOpenCourseRequest) {

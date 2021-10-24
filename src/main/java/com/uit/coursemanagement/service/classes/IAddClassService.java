@@ -1,8 +1,9 @@
 package com.uit.coursemanagement.service.classes;
 
 
+import com.uit.coursemanagement.payload.classes.AddClassRequest;
 import com.uit.coursemanagement.service.IService;
 
-public interface IAddClassService<Input, Output> extends IService<Input, Output> {
+public interface IAddClassService extends IService<AddClassRequest, Boolean> {
 
 }

@@ -10,20 +10,19 @@ import com.uit.coursemanagement.payload.lecturer.UpdateLecturerRequest;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.lecturer.IUpdateLecturerService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UpdateLecturerServiceImpl extends AbstractBaseService<UpdateLecturerRequest, Boolean>
-        implements IUpdateLecturerService<UpdateLecturerRequest, Boolean> {
+        implements IUpdateLecturerService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     @Override
     public void preExecute(UpdateLecturerRequest updateStudentRequest) {

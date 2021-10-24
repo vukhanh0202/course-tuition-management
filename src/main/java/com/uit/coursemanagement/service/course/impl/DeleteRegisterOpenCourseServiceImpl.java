@@ -1,7 +1,6 @@
 package com.uit.coursemanagement.service.course.impl;
 
 import com.uit.coursemanagement.constant.MessageCode;
-import com.uit.coursemanagement.constant.StudentConstant;
 import com.uit.coursemanagement.constant.enums.EUserType;
 import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.semester.Semester;
@@ -9,17 +8,14 @@ import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
-import com.uit.coursemanagement.mapper.course.OpenCourseMapper;
 import com.uit.coursemanagement.payload.course.RegisterOpenCourseRequest;
-import com.uit.coursemanagement.repository.course.OpenCourseRepository;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.repository.user.UserCourseRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.course.IDeleteRegisterOpenCourseService;
-import com.uit.coursemanagement.service.course.IRegisterOpenCourseService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,20 +25,15 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DeleteRegisterOpenCourseServiceImpl extends AbstractBaseService<RegisterOpenCourseRequest, Boolean>
-        implements IDeleteRegisterOpenCourseService<RegisterOpenCourseRequest, Boolean> {
+        implements IDeleteRegisterOpenCourseService {
 
-    @Autowired
-    private UserCourseRepository userCourseRepository;
+    private final UserCourseRepository userCourseRepository;
 
-    @Autowired
-    private OpenCourseRepository openCourseRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private SemesterRepository semesterRepository;
+    private final SemesterRepository semesterRepository;
 
 
     @Override

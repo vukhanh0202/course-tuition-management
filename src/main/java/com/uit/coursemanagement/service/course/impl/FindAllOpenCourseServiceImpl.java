@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class FindAllOpenCourseServiceImpl extends AbstractBaseService<String, List<OpenCourseDto>>
-        implements IFindAllOpenCourseService<String, List<OpenCourseDto>> {
+        implements IFindAllOpenCourseService {
 
     private final OpenCourseMapper openCourseMapper;
 

@@ -13,29 +13,27 @@ import com.uit.coursemanagement.repository.user.UserCourseRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.tuition.IConfirmStudentTuitionInSemesterStudentService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ConfirmTuitionInSemesterServiceImpl extends AbstractBaseService<IConfirmStudentTuitionInSemesterStudentService.Input, Boolean>
-        implements IConfirmStudentTuitionInSemesterStudentService<IConfirmStudentTuitionInSemesterStudentService.Input, Boolean> {
+        implements IConfirmStudentTuitionInSemesterStudentService {
 
-    @Autowired
-    private TuitionFeeRepository tuitionFeeRepository;
+    private final TuitionFeeRepository tuitionFeeRepository;
 
-    @Autowired
-    private UserCourseRepository userCourseRepository;
+    private final UserCourseRepository userCourseRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private SemesterRepository semesterRepository;
+    private final SemesterRepository semesterRepository;
 
     @Override
     public Boolean doing(Input input) {

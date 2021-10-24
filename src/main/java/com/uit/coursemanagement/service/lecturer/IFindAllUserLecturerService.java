@@ -1,8 +1,11 @@
 package com.uit.coursemanagement.service.lecturer;
 
 
+import com.uit.coursemanagement.dto.lecturer.LecturerFullDto;
 import com.uit.coursemanagement.service.IService;
 
-public interface IFindAllUserLecturerService<Input, Output> extends IService<Input, Output> {
+import java.util.List;
+
+public interface IFindAllUserLecturerService extends IService<String, List<LecturerFullDto>> {
 
 }

@@ -16,16 +16,17 @@ import com.uit.coursemanagement.repository.user.UserCourseRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.lecturer.IFindCourseRegisterLecturerBySemesterService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindCourseRegisterLecturerBySemesterServiceImpl extends AbstractBaseService<IFindCourseRegisterLecturerBySemesterService.Input, CourseSemesterLecturerDto>
-        implements IFindCourseRegisterLecturerBySemesterService<IFindCourseRegisterLecturerBySemesterService.Input, CourseSemesterLecturerDto> {
+        implements IFindCourseRegisterLecturerBySemesterService {
 
     private final UserRepository userRepository;
 
@@ -39,17 +40,7 @@ public class FindCourseRegisterLecturerBySemesterServiceImpl extends AbstractBas
 
     private final OpenCourseMapper openCourseMapper;
 
-    @Autowired
-    private OpenCourseRepository openCourseRepository;
-
-    public FindCourseRegisterLecturerBySemesterServiceImpl(StudentMapper studentMapper, UserCourseRepository userCourseRepository, SemesterRepository semesterRepository, TuitionFeeRepository tuitionFeeRepository, UserRepository userRepository, OpenCourseMapper openCourseMapper) {
-        this.studentMapper = studentMapper;
-        this.userCourseRepository = userCourseRepository;
-        this.semesterRepository = semesterRepository;
-        this.tuitionFeeRepository = tuitionFeeRepository;
-        this.userRepository = userRepository;
-        this.openCourseMapper = openCourseMapper;
-    }
+    private final OpenCourseRepository openCourseRepository;
 
     @Override
     public void preExecute(Input input) {

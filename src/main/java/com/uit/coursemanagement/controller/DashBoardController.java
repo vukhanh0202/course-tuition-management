@@ -5,8 +5,8 @@ import com.uit.coursemanagement.service.DashBoardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @Api(value = "DashBoard APIs")
+@RequiredArgsConstructor
 public class DashBoardController {
 
-    @Autowired
-    private DashBoardService dashBoardService;
+    private final DashBoardService dashBoardService;
 
     @ApiOperation(value = "Get info dashboard", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/dashboard")

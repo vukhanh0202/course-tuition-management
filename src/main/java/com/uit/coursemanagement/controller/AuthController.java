@@ -7,16 +7,15 @@ import com.uit.coursemanagement.dto.auth.UserLoginDto;
 import com.uit.coursemanagement.dto.auth.UserPasswordDto;
 import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.exception.ForbiddenException;
-import com.uit.coursemanagement.payload.lecturer.UpdateLecturerRequest;
 import com.uit.coursemanagement.service.auth.AuthService;
 import com.uit.coursemanagement.service.auth.JwtUserDetailsService;
 import com.uit.coursemanagement.utils.MessageHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequestMapping("/auth")
 @Api(value = "Auth APIs")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -42,14 +42,6 @@ public class AuthController {
     private final MessageHelper messageHelper;
 
     private final AuthService authService;
-
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, JwtUserDetailsService userDetailsService, MessageHelper messageHelper, AuthService authService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.userDetailsService = userDetailsService;
-        this.messageHelper = messageHelper;
-        this.authService = authService;
-    }
 
     @ApiOperation(value = "Login")
     @RequestMapping(value = "/login", method = RequestMethod.POST)

@@ -5,13 +5,12 @@ import com.uit.coursemanagement.dto.response.ApiResponse;
 import com.uit.coursemanagement.payload.student.CreateStudentRequest;
 import com.uit.coursemanagement.payload.student.UpdateStudentRequest;
 import com.uit.coursemanagement.payload.tuition.PaymentFeeRequest;
-import com.uit.coursemanagement.service.student.IFindCourseRegisterStudentBySemesterService;
-import com.uit.coursemanagement.service.student.IStudentService;
+import com.uit.coursemanagement.service.student.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,17 +20,33 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @Api(value = "Student APIs")
+@RequiredArgsConstructor
 public class StudentController {
 
-    @Autowired
-    private IStudentService studentService;
+    private final IFindAllUserStudentService findAllUserStudentService;
+
+    private final IFindDetailStudentService findDetailStudentService;
+
+    private final IFindCourseRegisterStudentBySemesterService findCourseRegisterStudentBySemesterService;
+
+    private final IFindAllFeeStudentService findAllFeeStudentService;
+
+    private final IFindTotalFeeStudentService findTotalFeeStudentService;
+
+    private final IFindTimetableStudentService findTimetableStudentService;
+
+    private final IPaymentFeeStudentService paymentFeeStudentService;
+
+    private final IUpdateStudentService updateStudentService;
+
+    private final ICreateStudentService createStudentService;
 
     @ApiOperation(value = "Search student", authorizations = {@Authorization(value = "JWT")})
     @GetMapping(value = "/student/search")
     @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findAllUserStudent(@RequestParam(value = "full_name", defaultValue = "") String fullName) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(studentService.getFindAllUserStudentService().execute(fullName));
+                .body(findAllUserStudentService.execute(fullName));
     }
 
     @ApiOperation(value = "Student Detail", authorizations = {@Authorization(value = "JWT")})
@@ -39,7 +54,7 @@ public class StudentController {
     @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> findDetailUserStudent(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(studentService.getFindDetailStudentService().execute(id)));
+                .body(new ApiResponse(findDetailStudentService.execute(id)));
     }
 
     @ApiOperation(value = "Student Course Register By Semester", authorizations = {@Authorization(value = "JWT")})
@@ -49,7 +64,7 @@ public class StudentController {
                                                                     @RequestParam(value = "semester_id") Long semesterId) {
         IFindCourseRegisterStudentBySemesterService.Input input = new IFindCourseRegisterStudentBySemesterService.Input(id, semesterId);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(studentService.getFindCourseRegisterStudentBySemesterService().execute(input)));
+                .body(new ApiResponse(findCourseRegisterStudentBySemesterService.execute(input)));
     }
 
     @ApiOperation(value = "Fee Tuition Student Detail", authorizations = {@Authorization(value = "JWT")})
@@ -58,7 +73,7 @@ public class StudentController {
     public ResponseEntity<?> findFeeUserStudent() {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(studentService.getFindAllFeeStudentService().execute(userPrincipal.getId())));
+                .body(new ApiResponse(findAllFeeStudentService.execute(userPrincipal.getId())));
     }
 
     @ApiOperation(value = "All Fee Tuition Student", authorizations = {@Authorization(value = "JWT")})
@@ -67,7 +82,7 @@ public class StudentController {
     public ResponseEntity<?> findTotalFeeUserStudent() {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(studentService.getFindTotalFeeStudentService().execute(userPrincipal.getId())));
+                .body(new ApiResponse(findTotalFeeStudentService.execute(userPrincipal.getId())));
     }
 
     @ApiOperation(value = "Timetable Student", authorizations = {@Authorization(value = "JWT")})
@@ -76,7 +91,7 @@ public class StudentController {
     public ResponseEntity<?> findTimetableStudent() {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(studentService.getFindTimetableStudentService().execute(userPrincipal.getId())));
+                .body(new ApiResponse(findTimetableStudentService.execute(userPrincipal.getId())));
     }
 
     @ApiOperation(value = "Fee Tuition Student Detail", authorizations = {@Authorization(value = "JWT")})
@@ -86,7 +101,7 @@ public class StudentController {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         paymentFeeRequest.setStudentId(userPrincipal.getId());
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(studentService.getPaymentFeeStudentService().execute(paymentFeeRequest)));
+                .body(new ApiResponse(paymentFeeStudentService.execute(paymentFeeRequest)));
     }
 
     @ApiOperation(value = "Update information student", authorizations = {@Authorization(value = "JWT")})
@@ -96,7 +111,7 @@ public class StudentController {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         updateStudentRequest.setId(userPrincipal.getId());
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(studentService.getUpdateStudentService().execute(updateStudentRequest)));
+                .body(new ApiResponse(updateStudentService.execute(updateStudentRequest)));
     }
 
     @ApiOperation(value = "Create student", authorizations = {@Authorization(value = "JWT")})
@@ -104,7 +119,7 @@ public class StudentController {
     @PreAuthorize("@securityService.hasRole('ADMIN')")
     public ResponseEntity<?> createUserStudent(@RequestBody CreateStudentRequest createStudentRequest) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse(studentService.getCreateStudentService().execute(createStudentRequest)));
+                .body(new ApiResponse(createStudentService.execute(createStudentRequest)));
     }
 
 }

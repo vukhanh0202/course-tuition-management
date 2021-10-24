@@ -11,7 +11,6 @@ import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.dto.student.join.CourseSemesterStudentDto;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.course.OpenCourseMapper;
-import com.uit.coursemanagement.mapper.student.StudentMapper;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
 import com.uit.coursemanagement.repository.user.UserCourseRepository;
@@ -19,21 +18,22 @@ import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.student.IFindCourseRegisterStudentBySemesterService;
 import com.uit.coursemanagement.utils.ConvertDoubleToString;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindCourseRegisterStudentBySemesterServiceImpl extends AbstractBaseService<IFindCourseRegisterStudentBySemesterService.Input, CourseSemesterStudentDto>
-        implements IFindCourseRegisterStudentBySemesterService<IFindCourseRegisterStudentBySemesterService.Input, CourseSemesterStudentDto> {
+        implements IFindCourseRegisterStudentBySemesterService{
 
     private final UserRepository userRepository;
-
-    private final StudentMapper studentMapper;
 
     private final UserCourseRepository userCourseRepository;
 
@@ -42,15 +42,6 @@ public class FindCourseRegisterStudentBySemesterServiceImpl extends AbstractBase
     private final TuitionFeeRepository tuitionFeeRepository;
 
     private final OpenCourseMapper openCourseMapper;
-
-    public FindCourseRegisterStudentBySemesterServiceImpl(StudentMapper studentMapper, UserCourseRepository userCourseRepository, SemesterRepository semesterRepository, TuitionFeeRepository tuitionFeeRepository, UserRepository userRepository, OpenCourseMapper openCourseMapper) {
-        this.studentMapper = studentMapper;
-        this.userCourseRepository = userCourseRepository;
-        this.semesterRepository = semesterRepository;
-        this.tuitionFeeRepository = tuitionFeeRepository;
-        this.userRepository = userRepository;
-        this.openCourseMapper = openCourseMapper;
-    }
 
     @Override
     public void preExecute(Input input) {

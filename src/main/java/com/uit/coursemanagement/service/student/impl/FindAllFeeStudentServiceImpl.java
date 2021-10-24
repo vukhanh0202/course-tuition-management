@@ -3,7 +3,6 @@ package com.uit.coursemanagement.service.student.impl;
 import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.constant.enums.EStatus;
 import com.uit.coursemanagement.constant.enums.EUserType;
-import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.domain.semester.Semester;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.tuition.TuitionFee;
@@ -18,8 +17,8 @@ import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.student.IFindAllFeeStudentService;
 import com.uit.coursemanagement.utils.ConvertDoubleToString;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,20 +26,17 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindAllFeeStudentServiceImpl extends AbstractBaseService<Long, List<StudentFeeDto>>
-        implements IFindAllFeeStudentService<Long, List<StudentFeeDto>> {
+        implements IFindAllFeeStudentService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserCourseRepository userCourseRepository;
+    private final UserCourseRepository userCourseRepository;
 
-    @Autowired
-    private SemesterRepository semesterRepository;
+    private final SemesterRepository semesterRepository;
 
-    @Autowired
-    private TuitionFeeRepository tuitionFeeRepository;
+    private final TuitionFeeRepository tuitionFeeRepository;
 
     @Override
     public void preExecute(Long id) {

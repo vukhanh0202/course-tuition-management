@@ -1,8 +1,11 @@
 package com.uit.coursemanagement.service.student;
 
 
+import com.uit.coursemanagement.dto.student.StudentTimetableDto;
 import com.uit.coursemanagement.service.IService;
 
-public interface IFindTimetableStudentService<Input, Output> extends IService<Input, Output> {
+import java.util.List;
+
+public interface IFindTimetableStudentService extends IService<Long, List<StudentTimetableDto>> {
 
 }

@@ -2,22 +2,17 @@ package com.uit.coursemanagement.service.tuition.impl;
 
 import com.uit.coursemanagement.constant.enums.EStatus;
 import com.uit.coursemanagement.domain.course.OpenCourse;
-import com.uit.coursemanagement.domain.semester.Semester;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.tuition.TuitionFee;
-import com.uit.coursemanagement.dto.student.join.CourseSemesterStudentDto;
 import com.uit.coursemanagement.dto.tuition.TuitionDto;
-import com.uit.coursemanagement.dto.tuition.TuitionPendingDto;
-import com.uit.coursemanagement.mapper.tuition.TuitionMapper;
 import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
 import com.uit.coursemanagement.repository.user.UserCourseRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.tuition.IFindAllTuitionInSemesterStudentService;
-import com.uit.coursemanagement.service.tuition.IFindAllTuitionPendingStudentService;
 import com.uit.coursemanagement.utils.ConvertDoubleToString;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,17 +20,15 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindAllTuitionInSemesterServiceImpl extends AbstractBaseService<IFindAllTuitionInSemesterStudentService.Input, List<TuitionDto>>
-        implements IFindAllTuitionInSemesterStudentService<IFindAllTuitionInSemesterStudentService.Input, List<TuitionDto>> {
+        implements IFindAllTuitionInSemesterStudentService {
 
-    @Autowired
-    private TuitionFeeRepository tuitionFeeRepository;
+    private final TuitionFeeRepository tuitionFeeRepository;
 
-    @Autowired
-    private UserCourseRepository userCourseRepository;
+    private final UserCourseRepository userCourseRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<TuitionDto> doing(Input input) {

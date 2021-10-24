@@ -2,10 +2,13 @@ package com.uit.coursemanagement.service.semester;
 
 
 import com.uit.coursemanagement.constant.enums.EStatus;
+import com.uit.coursemanagement.dto.semester.SemesterDto;
 import com.uit.coursemanagement.service.IService;
 import lombok.Data;
 
-public interface IFindAllSemesterService<Input, Output> extends IService<Input, Output> {
+import java.util.List;
+
+public interface IFindAllSemesterService extends IService<IFindAllSemesterService.Input, List<SemesterDto>> {
 
     @Data
     class Input{

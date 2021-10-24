@@ -3,28 +3,23 @@ package com.uit.coursemanagement.service.classes.impl;
 import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.mapper.classes.ClassMapper;
-import com.uit.coursemanagement.mapper.semester.SemesterMapper;
 import com.uit.coursemanagement.payload.classes.AddClassRequest;
-import com.uit.coursemanagement.payload.semester.AddSemesterRequest;
 import com.uit.coursemanagement.repository.classes.ClassRepository;
-import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.classes.IAddClassService;
-import com.uit.coursemanagement.service.semester.IAddSemesterService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AddClassServiceImpl extends AbstractBaseService<AddClassRequest, Boolean>
-        implements IAddClassService<AddClassRequest, Boolean> {
+        implements IAddClassService {
 
-    @Autowired
-    private ClassMapper classMapper;
+    private final ClassMapper classMapper;
 
-    @Autowired
-    private ClassRepository classRepository;
+    private final ClassRepository classRepository;
 
     @Override
     public void preExecute(AddClassRequest addClassRequest) {

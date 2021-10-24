@@ -1,10 +1,11 @@
 package com.uit.coursemanagement.service.student;
 
 
+import com.uit.coursemanagement.dto.student.join.CourseSemesterStudentDto;
 import com.uit.coursemanagement.service.IService;
 import lombok.Data;
 
-public interface IFindCourseRegisterStudentBySemesterService<Input, Output> extends IService<Input, Output> {
+public interface IFindCourseRegisterStudentBySemesterService extends IService<IFindCourseRegisterStudentBySemesterService.Input, CourseSemesterStudentDto> {
 
     @Data
     class Input{

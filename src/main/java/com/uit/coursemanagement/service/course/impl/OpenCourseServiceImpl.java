@@ -16,33 +16,27 @@ import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
 import com.uit.coursemanagement.service.course.IOpenCourseService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class OpenCourseServiceImpl extends AbstractBaseService<OpenCourseRequest, Boolean>
-        implements IOpenCourseService<OpenCourseRequest, Boolean> {
+        implements IOpenCourseService {
 
-    @Autowired
-    private OpenCourseMapper openCourseMapper;
+    private final OpenCourseMapper openCourseMapper;
 
-    @Autowired
-    private OpenCourseRepository openCourseRepository;
+    private final OpenCourseRepository openCourseRepository;
 
-    @Autowired
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private SemesterRepository semesterRepository;
-
+    private final SemesterRepository semesterRepository;
 
     @Override
     public void preExecute(OpenCourseRequest openCourseRequest) {

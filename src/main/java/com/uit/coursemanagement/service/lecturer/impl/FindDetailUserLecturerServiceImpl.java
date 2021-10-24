@@ -4,29 +4,24 @@ import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.constant.enums.EUserType;
 import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.dto.lecturer.LecturerDetailDto;
-import com.uit.coursemanagement.dto.lecturer.LecturerDto;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.lecturer.LecturerMapper;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
-import com.uit.coursemanagement.service.lecturer.IAllUserLecturerService;
 import com.uit.coursemanagement.service.lecturer.IFindDetailUserLecturerService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FindDetailUserLecturerServiceImpl extends AbstractBaseService<Long, LecturerDetailDto>
-        implements IFindDetailUserLecturerService<Long, LecturerDetailDto> {
+        implements IFindDetailUserLecturerService {
 
-    @Autowired
-    private LecturerMapper lecturerMapper;
+    private final LecturerMapper lecturerMapper;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void preExecute(Long id) {

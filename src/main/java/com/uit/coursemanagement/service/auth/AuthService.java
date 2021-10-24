@@ -5,30 +5,22 @@ import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.dto.auth.UserPasswordDto;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
-import com.uit.coursemanagement.mapper.user.UserMapper;
-import com.uit.coursemanagement.payload.student.CreateStudentRequest;
 import com.uit.coursemanagement.repository.user.UserRepository;
-import com.uit.coursemanagement.service.AbstractBaseService;
-import com.uit.coursemanagement.service.student.ICreateStudentService;
 import com.uit.coursemanagement.utils.MessageHelper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AuthService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private MessageHelper messageHelper;
+    private final MessageHelper messageHelper;
 
     public Boolean changePassword(UserPasswordDto userPasswordDto) {
         User user = userRepository.findById(userPasswordDto.getUserId())

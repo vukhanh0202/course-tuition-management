@@ -9,17 +9,15 @@ import com.uit.coursemanagement.domain.user.User;
 import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.mapper.course.OpenCourseMapper;
-import com.uit.coursemanagement.payload.course.OpenCourseRequest;
 import com.uit.coursemanagement.payload.course.UpdateOpenCourseRequest;
 import com.uit.coursemanagement.repository.course.CourseRepository;
 import com.uit.coursemanagement.repository.course.OpenCourseRepository;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.AbstractBaseService;
-import com.uit.coursemanagement.service.course.IOpenCourseService;
 import com.uit.coursemanagement.service.course.IUpdateOpenCourseService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -27,8 +25,9 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UpdateOpenCourseServiceImpl extends AbstractBaseService<UpdateOpenCourseRequest, Boolean>
-        implements IUpdateOpenCourseService<UpdateOpenCourseRequest, Boolean> {
+        implements IUpdateOpenCourseService {
 
     private final OpenCourseMapper openCourseMapper;
 
@@ -39,15 +38,6 @@ public class UpdateOpenCourseServiceImpl extends AbstractBaseService<UpdateOpenC
     private final UserRepository userRepository;
 
     private final SemesterRepository semesterRepository;
-
-    public UpdateOpenCourseServiceImpl(OpenCourseMapper openCourseMapper, OpenCourseRepository openCourseRepository, CourseRepository courseRepository, UserRepository userRepository, SemesterRepository semesterRepository) {
-        this.openCourseMapper = openCourseMapper;
-        this.openCourseRepository = openCourseRepository;
-        this.courseRepository = courseRepository;
-        this.userRepository = userRepository;
-        this.semesterRepository = semesterRepository;
-    }
-
 
     @Override
     public void preExecute(UpdateOpenCourseRequest updateOpenCourseRequest) {

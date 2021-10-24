@@ -4,7 +4,7 @@ package com.uit.coursemanagement.service.tuition;
 import com.uit.coursemanagement.service.IService;
 import lombok.Data;
 
-public interface IConfirmTuitionService<Input, Output> extends IService<Input, Output> {
+public interface IConfirmTuitionService extends IService<IConfirmTuitionService.Input, Boolean> {
 
     @Data
     class Input{

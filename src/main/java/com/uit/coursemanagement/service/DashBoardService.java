@@ -3,13 +3,11 @@ package com.uit.coursemanagement.service;
 import com.uit.coursemanagement.domain.course.OpenCourse;
 import com.uit.coursemanagement.dto.calendar.CalendarDto;
 import com.uit.coursemanagement.dto.dashboard.DashboardDto;
-import com.uit.coursemanagement.mapper.user.UserMapper;
 import com.uit.coursemanagement.repository.course.OpenCourseRepository;
-import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.service.calendar.IFindAllCalendarService;
 import com.uit.coursemanagement.service.calendar.impl.FindAllCalendarServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,13 +18,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DashBoardService {
 
-    @Autowired
-    private FindAllCalendarServiceImpl findAllCalendarService;
+    private final FindAllCalendarServiceImpl findAllCalendarService;
 
-    @Autowired
-    private OpenCourseRepository openCourseRepository;
+    private final OpenCourseRepository openCourseRepository;
 
     @Transactional
     public DashboardDto getInfoDashboard() {
