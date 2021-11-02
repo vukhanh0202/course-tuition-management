@@ -4,6 +4,7 @@ import com.uit.coursemanagement.constant.MessageCode;
 import com.uit.coursemanagement.constant.enums.EStatus;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.tuition.TuitionFee;
+import com.uit.coursemanagement.exception.InvalidException;
 import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
 import com.uit.coursemanagement.repository.user.UserCourseRepository;
@@ -33,7 +34,7 @@ public class ConfirmTuitionServiceImpl extends AbstractBaseService<IConfirmTuiti
             throw new NotFoundException(messageHelper.getMessage(MessageCode.Tuition.NOT_FOUND));
         }
         if (!tuitionFee.getStatus().equals(EStatus.PENDING)){
-            throw new NotFoundException(messageHelper.getMessage(MessageCode.Tuition.IS_COMPLETED));
+            throw new InvalidException(messageHelper.getMessage(MessageCode.Tuition.IS_COMPLETED));
         }
     }
 
