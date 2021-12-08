@@ -1,11 +1,14 @@
 package com.uit.coursemanagement.setup.builder;
 
+import com.uit.coursemanagement.repository.user.UserRepository;
 import com.uit.coursemanagement.setup.mock.SemesterMockRepository;
 import com.uit.coursemanagement.setup.mock.TuitionFeeMockRepository;
 import com.uit.coursemanagement.setup.mock.UserCourseMockRepository;
+import com.uit.coursemanagement.setup.mock.UserMockRepository;
 import com.uit.coursemanagement.setup.wrapper.SemesterWrapper;
 import com.uit.coursemanagement.setup.wrapper.TuitionFeeWrapper;
 import com.uit.coursemanagement.setup.wrapper.UserCourseWrapper;
+import com.uit.coursemanagement.setup.wrapper.UserWrapper;
 import lombok.Data;
 
 /**
@@ -19,6 +22,7 @@ public class MockBuilder {
     private SemesterWrapper semesterWrapper;
     private TuitionFeeWrapper tuitionFeeWrapper;
     private UserCourseWrapper userCourseWrapper;
+    private UserWrapper userWrapper;
 
     public MockBuilder semester(SemesterWrapper semesterWrapper) {
         this.semesterWrapper = semesterWrapper;
@@ -35,6 +39,11 @@ public class MockBuilder {
         return this;
     }
 
+    public MockBuilder user(UserWrapper userWrapper) {
+        this.userWrapper = userWrapper;
+        return this;
+    }
+
     public void build() {
         if (semesterWrapper != null) {
             var semesterMockRepository = new SemesterMockRepository();
@@ -47,6 +56,10 @@ public class MockBuilder {
         if (userCourseWrapper != null) {
             var userCourseMockRepository = new UserCourseMockRepository();
             userCourseMockRepository.setUpMock(userCourseWrapper);
+        }
+        if (userWrapper != null) {
+            var userMockRepository = new UserMockRepository();
+            userMockRepository.setUpMock(userWrapper);
         }
     }
 }

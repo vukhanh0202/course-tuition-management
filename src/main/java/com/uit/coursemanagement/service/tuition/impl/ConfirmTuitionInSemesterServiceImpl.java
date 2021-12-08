@@ -7,6 +7,7 @@ import com.uit.coursemanagement.domain.student.Student;
 import com.uit.coursemanagement.domain.student.join.StudentCourse;
 import com.uit.coursemanagement.domain.tuition.TuitionFee;
 import com.uit.coursemanagement.exception.InvalidException;
+import com.uit.coursemanagement.exception.NotFoundException;
 import com.uit.coursemanagement.repository.semester.SemesterRepository;
 import com.uit.coursemanagement.repository.user.TuitionFeeRepository;
 import com.uit.coursemanagement.repository.user.UserCourseRepository;
@@ -34,6 +35,16 @@ public class ConfirmTuitionInSemesterServiceImpl extends AbstractBaseService<ICo
     private final UserRepository userRepository;
 
     private final SemesterRepository semesterRepository;
+
+    @Override
+    public void preExecute(Input input) {
+        if (input.getSemesterId() == null || semesterRepository.findById(input.getSemesterId()).isEmpty()){
+            throw new NotFoundException(messageHelper.getMessage(MessageCode.Semester.NOT_FOUND));
+        }
+        if (input.getStudentId() == null || userRepository.findById(input.getStudentId()).isEmpty()){
+            throw new NotFoundException(messageHelper.getMessage(MessageCode.User.NOT_FOUND));
+        }
+    }
 
     @Override
     public Boolean doing(Input input) {
